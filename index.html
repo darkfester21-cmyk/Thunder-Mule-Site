@@ -13,7 +13,7 @@
     body {
       font-family: 'Montserrat', system-ui, sans-serif;
       background: #0a0a0a;
-      color: #c50c9d;
+      color: #a855f7;
       line-height: 1.7;
     }
     header {
@@ -44,18 +44,57 @@
       font-weight: 500;
       max-width: 800px;
       margin: 0 auto 40px;
-      color: #e611d8;
+      color: #e0e0e0;
       text-shadow: 0 0 20px rgba(168,85,247,0.5);
+    }
+    .top-nav {
+      text-align: center;
+      padding: 20px 0;
+      background: #000;
+    }
+    .top-nav a {
+      color: #a855f7;
+      text-decoration: none;
+      margin: 0 25px;
+      font-weight: 500;
+      font-size: 1.1rem;
+    }
+    .top-nav a:hover {
+      color: #d8b4fe;
     }
     .top-cta {
       text-align: center;
-      margin: -60px auto 80px;
-      position: relative;
-      z-index: 10;
+      margin: 40px auto 80px;
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
     }
-    .top-cta a, .top-cta form input[type="submit"] {
+    .top-cta a, .top-cta form {
+      flex: 1 1 300px;
+      max-width: 400px;
+    }
+    .top-cta form input[type="submit"] {
+      width: 100%;
       background: linear-gradient(135deg, #a855f7, #7e22ce);
-      color: lab(44.28% 74.89 -47.32);
+      color: white;
+      padding: 18px 40px;
+      font-size: 1.6rem;
+      font-weight: 700;
+      border-radius: 60px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 15px 50px rgba(168,85,247,0.6);
+      transition: all 0.3s ease;
+    }
+    .top-cta form input[type="submit"]:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 70px rgba(168,85,247,0.8);
+    }
+    .top-cta a {
+      background: linear-gradient(135deg, #a855f7, #7e22ce);
+      color: white;
       padding: 18px 80px;
       font-size: 1.6rem;
       font-weight: 700;
@@ -64,41 +103,47 @@
       display: inline-block;
       box-shadow: 0 15px 50px rgba(168,85,247,0.6);
       transition: all 0.3s ease;
-      border: none;
-      cursor: pointer;
     }
-    .top-cta a:hover, .top-cta form input[type="submit"]:hover {
+    .top-cta a:hover {
       transform: translateY(-8px);
       box-shadow: 0 30px 70px rgba(168,85,247,0.8);
+    }
+    .warning {
+      text-align: center;
+      margin: 20px auto 40px;
+      max-width: 800px;
+      padding: 20px;
+      background: rgba(168,85,247,0.1);
+      border: 1px solid rgba(168,85,247,0.3);
+      border-radius: 12px;
+      color: #d1d5db;
+      font-size: 1.1rem;
     }
     section {
       padding: 100px 20px;
       max-width: 1100px;
       margin: 0 auto;
     }
-    .about, .product, .blog {
-      background: #111111 url('https://iili.io/fZqvKoQ.jpg') center/contain no-repeat;
-  background-blend-mode: multiply;           /* Makes the image darken and blend into black */
-  background-color: rgba(10,10,10,0.92);     /* Strong dark overlay to match site black */
-  background-size: cover;                    /* Stretch to fill nicely */
-  margin: 60px auto;
-  padding: 70px;
-  border-radius: 20px;
-  border: 1px solid rgba(168,85,247,0.12);   /* Very faint purple border */
-  box-shadow: 0 25px 70px rgba(0,0,0,0.9), inset 0 0 40px rgba(168,85,247,0.04);
-  opacity: 1;                                /* Full opacity for container, image blends inside */
-}
+    .about, .product, .blog, .order {
+      background: #111111 url('https://iili.io/fZnRRHX.png') center/contain no-repeat;
+      background-blend-mode: overlay;
+      background-color: rgba(17,17,17,0.88);
+      margin: 60px auto;
+      padding: 70px;
+      border-radius: 20px;
+      border: 1px solid rgba(168,85,247,0.18);
+      box-shadow: 0 25px 70px rgba(0,0,0,0.8), inset 0 0 40px rgba(168,85,247,0.06);
     }
     h2 {
       color: #a855f7;
       font-weight: 700;
-      font-size: 3rem;
+      font-size: 3.5rem;
       margin-bottom: 2rem;
-      text-shadow: 0 0 25px rgba(168,85,247,0.6);
+      text-shadow: 0 0 40px #a855f7, 0 0 80px #a855f7;
     }
     p {
       font-size: 1.18rem;
-      color: #d6109e;
+      color: #a855f7;
       margin-bottom: 1.6rem;
     }
     .product img {
@@ -108,44 +153,41 @@
       box-shadow: 0 20px 50px rgba(0,0,0,0.7), 0 0 40px rgba(168,85,247,0.25);
       border: 1px solid rgba(168,85,247,0.25);
     }
-    .blog article {
-      margin: 50px 0;
-      padding: 40px;
-      background: rgba(17,17,17,0.92);
-      border-left: 5px solid #a855f7;
-      border-radius: 12px;
+    .order form {
+      max-width: 600px;
+      margin: 0 auto;
     }
-    .blog h3 {
-      color: #a855f7;
-      font-weight: 700;
-      margin-bottom: 0.8rem;
+    .order label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: 600;
+      color: #d1d5db;
     }
-    .blog .date {
-      font-size: 0.95rem;
-      color: #a0a0a0;
-      margin-bottom: 1.2rem;
+    .order input, .order textarea {
+      width: 100%;
+      padding: 12px;
+      background: #000;
+      border: 1px solid rgba(168,85,247,0.3);
+      color: #fff;
+      border-radius: 8px;
+      font-size: 1rem;
     }
-    .cta {
-      text-align: center;
-      margin: 70px 0;
-    }
-    .cta a, .cta form input[type="submit"] {
+    .order input[type="submit"] {
       background: linear-gradient(135deg, #a855f7, #7e22ce);
       color: white;
-      padding: 20px 70px;
-      font-size: 1.5rem;
+      padding: 16px 40px;
+      font-size: 1.3rem;
       font-weight: 700;
-      border-radius: 60px;
-      text-decoration: none;
-      display: inline-block;
-      box-shadow: 0 15px 40px rgba(168,85,247,0.5);
-      transition: all 0.3s ease;
       border: none;
+      border-radius: 50px;
       cursor: pointer;
+      margin-top: 30px;
+      box-shadow: 0 10px 30px rgba(168,85,247,0.5);
+      transition: all 0.3s;
     }
-    .cta a:hover, .cta form input[type="submit"]:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 25px 60px rgba(168,85,247,0.7);
+    .order input[type="submit"]:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 50px rgba(168,85,247,0.7);
     }
     .links {
       text-align: center;
@@ -174,8 +216,9 @@
       header h1 { font-size: 3.2rem; }
       header p.tagline { font-size: 1.5rem; }
       section { padding: 70px 15px; }
-      h2 { font-size: 2.4rem; }
-      .top-cta a, .cta a, .cta form input[type="submit"] { padding: 16px 50px; font-size: 1.3rem; }
+      h2 { font-size: 2.8rem; }
+      .top-cta { flex-direction: column; gap: 15px; }
+      .top-cta a, .top-cta form input[type="submit"] { padding: 16px 50px; font-size: 1.3rem; }
     }
   </style>
 </head>
@@ -186,14 +229,21 @@
     <p class="tagline">Horsepower in a Cup – Unleashed from Chiang Mai</p>
   </header>
 
+  <div class="top-nav">
+    <a href="https://www.instagram.com/hua_thong_brand/" target="_blank">Instagram</a>
+    <a href="https://www.facebook.com/Thunder.Mule.Coffee/" target="_blank">Facebook</a>
+    <a href="https://www.etsy.com/uk/listing/4443077541/high-caffeine-vienna-dark-roast-coffee" target="_blank">Etsy</a>
+    <a href="https://s.lazada.co.th/s.ZbV3Z6" target="_blank">Lazada</a>
+  </div>
+
+  <div class="warning">
+    <p><strong>Important:</strong> Direct PayPal orders are for Thailand only (free postage). Worldwide buyers: please use the contact form below for a shipping quote or order via Lazada.</p>
+  </div>
+
   <div class="top-cta">
-    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-      <input type="hidden" name="cmd" value="_xclick">
-      <input type="hidden" name="business" value="darkfester@aol.com">
-      <input type="hidden" name="item_name" value="Thunder Mule Coffee 250g">
-      <input type="hidden" name="amount" value="300.00">
-      <input type="hidden" name="currency_code" value="THB">
-      <input type="submit" value="Order Now via PayPal">
+    <form action="https://formspree.io/f/xpzeepdl" method="POST">
+      <input type="hidden" name="_subject" value="New Order from Website">
+      <input type="submit" value="Order Direct">
     </form>
     <a href="https://s.lazada.co.th/s.ZbV3Z6" target="_blank">Order on Lazada</a>
   </div>
@@ -211,13 +261,30 @@
     <img src="https://iili.io/fZfL51j.jpg" alt="Beans scoop close-up">
     <img src="https://iili.io/fZfLRqb.jpg" alt="Coffee in scoop">
     <img src="https://iili.io/fZfL0mP.jpg" alt="Additional beans detail">
+  </section>
 
-    <div class="links">
-      <p>Connect with me:</p>
-      <a href="https://www.instagram.com/hua_thong_brand/" target="_blank">Instagram</a>
-      <a href="https://www.facebook.com/Thunder.Mule.Coffee/" target="_blank">Facebook</a>
-      <a href="https://www.etsy.com/uk/listing/4443077541/high-caffeine-vienna-dark-roast-coffee" target="_blank">Etsy</a>
-    </div>
+  <section class="order" id="order">
+    <h2>Order Direct</h2>
+    <p>Fill in the form below and I'll get back to you with payment details (bank transfer or PayPal). Free postage in Thailand, worldwide available.</p>
+
+    <form action="https://formspree.io/f/xpzeepdl" method="POST">
+      <label>Your Name</label>
+      <input type="text" name="name" required>
+
+      <label>Email</label>
+      <input type="email" name="email" required>
+
+      <label>Number of Packs (250g each)</label>
+      <input type="number" name="packs" min="1" required>
+
+      <label>Delivery Address</label>
+      <textarea name="address" rows="4" required></textarea>
+
+      <label>Any Message or Questions</label>
+      <textarea name="message" rows="3"></textarea>
+
+      <input type="submit" value="Send Order">
+    </form>
   </section>
 
   <section class="blog">
@@ -232,6 +299,13 @@
   </section>
 
   <footer>
+    <div class="links">
+      <p>Connect with me:</p>
+      <a href="https://www.instagram.com/hua_thong_brand/" target="_blank">Instagram</a>
+      <a href="https://www.facebook.com/Thunder.Mule.Coffee/" target="_blank">Facebook</a>
+      <a href="https://www.etsy.com/uk/listing/4443077541/high-caffeine-vienna-dark-roast-coffee" target="_blank">Etsy</a>
+      <a href="https://s.lazada.co.th/s.ZbV3Z6" target="_blank">Lazada</a>
+    </div>
     <p>Roasted in Chiang Mai, Thailand • Jarrad from Hua Thong Brand • © 2026</p>
   </footer>
 
