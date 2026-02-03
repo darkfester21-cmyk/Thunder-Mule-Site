@@ -13,7 +13,7 @@
     body {
       font-family: 'Montserrat', system-ui, sans-serif;
       background: #0a0a0a;
-      color: #a855f7;
+      color: #ffffff; /* Body text now white */
       line-height: 1.7;
     }
     header {
@@ -62,6 +62,17 @@
     .top-nav a:hover {
       color: #d8b4fe;
     }
+    .warning {
+      text-align: center;
+      margin: 20px auto 40px;
+      max-width: 900px;
+      padding: 25px;
+      background: rgba(168,85,247,0.1);
+      border: 1px solid rgba(168,85,247,0.3);
+      border-radius: 16px;
+      color: #ffffff; /* White for readability */
+      font-size: 1.15rem;
+    }
     .top-cta {
       text-align: center;
       margin: 40px auto 80px;
@@ -69,17 +80,17 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 20px;
+      gap: 30px;
     }
-    .top-cta a, .top-cta form {
-      flex: 1 1 300px;
-      max-width: 400px;
+    .top-cta form, .top-cta a {
+      flex: 1 1 350px;
+      max-width: 450px;
     }
-    .top-cta form input[type="submit"] {
+    .top-cta form input[type="submit"], .top-cta a {
       width: 100%;
       background: linear-gradient(135deg, #a855f7, #7e22ce);
       color: white;
-      padding: 18px 40px;
+      padding: 20px 40px;
       font-size: 1.6rem;
       font-weight: 700;
       border-radius: 60px;
@@ -88,36 +99,9 @@
       box-shadow: 0 15px 50px rgba(168,85,247,0.6);
       transition: all 0.3s ease;
     }
-    .top-cta form input[type="submit"]:hover {
+    .top-cta form input[type="submit"]:hover, .top-cta a:hover {
       transform: translateY(-8px);
       box-shadow: 0 30px 70px rgba(168,85,247,0.8);
-    }
-    .top-cta a {
-      background: linear-gradient(135deg, #a855f7, #7e22ce);
-      color: white;
-      padding: 18px 80px;
-      font-size: 1.6rem;
-      font-weight: 700;
-      border-radius: 60px;
-      text-decoration: none;
-      display: inline-block;
-      box-shadow: 0 15px 50px rgba(168,85,247,0.6);
-      transition: all 0.3s ease;
-    }
-    .top-cta a:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 30px 70px rgba(168,85,247,0.8);
-    }
-    .warning {
-      text-align: center;
-      margin: 20px auto 40px;
-      max-width: 800px;
-      padding: 20px;
-      background: rgba(168,85,247,0.1);
-      border: 1px solid rgba(168,85,247,0.3);
-      border-radius: 12px;
-      color: #d1d5db;
-      font-size: 1.1rem;
     }
     section {
       padding: 100px 20px;
@@ -143,7 +127,7 @@
     }
     p {
       font-size: 1.18rem;
-      color: #a855f7;
+      color: #ffffff; /* White body text */
       margin-bottom: 1.6rem;
     }
     .product img {
@@ -217,7 +201,7 @@
       header p.tagline { font-size: 1.5rem; }
       section { padding: 70px 15px; }
       h2 { font-size: 2.8rem; }
-      .top-cta { flex-direction: column; gap: 15px; }
+      .top-cta { flex-direction: column; gap: 20px; }
       .top-cta a, .top-cta form input[type="submit"] { padding: 16px 50px; font-size: 1.3rem; }
     }
   </style>
@@ -241,9 +225,13 @@
   </div>
 
   <div class="top-cta">
-    <form action="https://formspree.io/f/mnjzwvdl" method="POST">
-      <input type="hidden" name="_subject" value="New Order from Website">
-      <input type="submit" value="Order Direct">
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+      <input type="hidden" name="cmd" value="_xclick">
+      <input type="hidden" name="business" value="darkfester@aol.com">
+      <input type="hidden" name="item_name" value="Thunder Mule Coffee 250g Pack">
+      <input type="hidden" name="amount" value="300.00">
+      <input type="hidden" name="currency_code" value="THB">
+      <input type="submit" value="Order Direct (Thailand Only)">
     </form>
     <a href="https://s.lazada.co.th/s.ZbV3Z6" target="_blank">Order on Lazada</a>
   </div>
@@ -264,10 +252,10 @@
   </section>
 
   <section class="order" id="order">
-    <h2>Order Direct</h2>
-    <p>Fill in the form below and I'll get back to you with payment details (bank transfer or PayPal). Free postage in Thailand, worldwide available.</p>
+    <h2>Order Direct (Worldwide Quote)</h2>
+    <p>For Thailand orders (free postage) use PayPal above. For worldwide, fill this form and I'll reply with shipping cost + payment details.</p>
 
-    <form action="https://formspree.io/f/xpzeepdl" method="POST">
+    <form action="https://formspree.io/f/mnjzwvdl" method="POST">
       <label>Your Name</label>
       <input type="text" name="name" required>
 
