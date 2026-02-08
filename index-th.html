@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Thunder Mule Coffee – กาแฟคั่วเข้ม Vienna dark roast คาเฟอีนสูงพิเศษ จากเมล็ดอาราบิก้าสูงชันเชียงใหม่ รสชาติเข้มข้นช็อกโกแลตดำ คาราเมล และเฮเซลนัท พลังม้าแท้ในแก้วเดียว" />
+  <meta name="keywords" content="กาแฟคาเฟอีนสูง, Vienna dark roast, กาแฟเชียงใหม่, อาราบิก้าไทยสูงชัน, กาแฟคั่วเข้มไทย, กาแฟสูงชัน, กาแฟพรีเมียมไทย, เมล็ดกาแฟเข้มข้น" />
+  <title>Thunder Mule Coffee – พลังม้าในแก้ว</title>
+
+  <!-- Montserrat Google Font + Thai fallback -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CRPF0RVKLS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-CRPF0RVKLS');
+  </script>
+
+  <!-- hreflang tags for SEO (replace with your actual domain) -->
+  <link rel="alternate" hreflang="en" href="https://yourdomain.com/index.html" />
+  <link rel="alternate" hreflang="th" href="https://yourdomain.com/index-th.html" />
+  <link rel="alternate" hreflang="x-default" href="https://yourdomain.com/index.html" />
+
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Sarabun', 'Montserrat', system-ui, sans-serif; /* Clear Thai text + fallback */
+      background: #0a0a0a;
+      color: #a855f7;
+      line-height: 1.7;
+    }
+    header {
+      position: relative;
+      background: linear-gradient(rgba(10,10,10,0.85), rgba(10,10,10,0.85)),
+                  url('https://iili.io/fZKDRbS.png') center/cover no-repeat;
+      color: white;
+      text-align: center;
+      padding: 180px 20px 120px;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 30%, rgba(168,85,247,0.18), transparent 70%);
+      pointer-events: none;
+    }
+    header h1 {
+      font-size: 4.5rem;
+      font-weight: 700;
+      text-shadow: 0 0 40px #a855f7, 0 0 80px #a855f7;
+      margin-bottom: 0.8rem;
+      letter-spacing: 3px;
+    }
+    header p.tagline {
+      font-size: 1.9rem;
+      font-weight: 500;
+      max-width: 800px;
+      margin: 0 auto 40px;
+      color: #e0e0e0;
+      text-shadow: 0 0 20px rgba(168,85,247,0.5);
+    }
+    .top-nav {
+      text-align: center;
+      padding: 20px 0;
+      background: #000;
+    }
+    .top-nav a {
+      color: #a855f7;
+      text-decoration: none;
+      margin: 0 25px;
+      font-weight: 500;
+      font-size: 1.1rem;
+    }
+    .top-nav a:hover {
+      color: #d8b4fe;
+    }
+    .top-cta {
+      text-align: center;
+      margin: 40px auto 80px;
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+    }
+    .top-cta button, .top-cta a {
+      flex: 1 1 350px;
+      max-width: 450px;
+      min-width: 300px;
+      background: linear-gradient(135deg, #a855f7, #7e22ce);
+      color: white;
+      padding: 22px 40px;
+      font-size: 1.6rem;
+      font-weight: 700;
+      border-radius: 60px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 15px 50px rgba(168,85,247,0.6);
+      transition: all 0.3s ease;
+      text-align: center;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .top-cta button:hover, .top-cta a:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 70px rgba(168,85,247,0.8);
+    }
+    .warning {
+      text-align: center;
+      margin: 20px auto 40px;
+      max-width: 800px;
+      padding: 20px;
+      background: rgba(168,85,247,0.1);
+      border: 1px solid rgba(168,85,247,0.3);
+      border-radius: 12px;
+      color: #d1d5db;
+      font-size: 1.1rem;
+    }
+    section {
+      padding: 100px 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .about, .product, .blog, .order {
+      background: #111111 url('https://iili.io/fZnRRHX.png') center/contain no-repeat;
+      background-blend-mode: overlay;
+      background-color: rgba(17,17,17,0.88);
+      margin: 60px auto;
+      padding: 70px;
+      border-radius: 20px;
+      border: 1px solid rgba(168,85,247,0.18);
+      box-shadow: 0 25px 70px rgba(0,0,0,0.8), inset 0 0 40px rgba(168,85,247,0.06);
+    }
+    h2 {
+      color: #a855f7;
+      font-weight: 700;
+      font-size: 3.5rem;
+      margin-bottom: 2rem;
+      text-shadow: 0 0 40px #a855f7, 0 0 80px #a855f7;
+    }
+    h3 {
+      color: #d8b4fe;
+      font-size: 2.2rem;
+      margin: 2rem 0 1rem;
+    }
+    p {
+      font-size: 1.2rem; /* Slightly larger for Thai readability */
+      color: #a855f7;
+      margin-bottom: 1.6rem;
+    }
+    .date {
+      color: #888;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+    .product img, .product video, .product iframe {
+      max-width: 100%;
+      border-radius: 16px;
+      margin: 40px 0;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.7), 0 0 40px rgba(168,85,247,0.25);
+      border: 1px solid rgba(168,85,247,0.25);
+    }
+    .order form {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .order label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: 600;
+      color: #d1d5db;
+    }
+    .order input, .order textarea {
+      width: 100%;
+      padding: 12px;
+      background: #000;
+      border: 1px solid rgba(168,85,247,0.3);
+      color: #fff;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    .order input[type="submit"] {
+      background: linear-gradient(135deg, #a855f7, #7e22ce);
+      color: white;
+      padding: 16px 40px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      margin-top: 30px;
+      box-shadow: 0 10px 30px rgba(168,85,247,0.5);
+      transition: all 0.3s;
+    }
+    .order input[type="submit"]:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 50px rgba(168,85,247,0.7);
+    }
+    .bundle-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .bundle-option {
+      cursor: pointer;
+      padding: 20px;
+      background: rgba(168,85,247,0.15);
+      border: 1px solid rgba(168,85,247,0.4);
+      border-radius: 12px;
+      text-align: center;
+      transition: all 0.3s;
+    }
+    .bundle-option:hover {
+      background: rgba(168,85,247,0.25);
+      transform: translateY(-5px);
+    }
+    .total-display {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #d8b4fe;
+      margin: 30px 0;
+      text-align: center;
+    }
+    .form-message {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      text-align: center;
+      min-height: 1.5em;
+    }
+    .form-message.success { color: #34d399; }
+    .form-message.error { color: #ff6b6b; }
+    .links {
+      text-align: center;
+      margin: 60px 0;
+      font-size: 1.2rem;
+    }
+    .links a {
+      color: #a855f7;
+      text-decoration: none;
+      margin: 0 25px;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    .links a:hover {
+      color: #d8b4fe;
+    }
+    footer {
+      text-align: center;
+      padding: 70px 20px;
+      background: #000;
+      font-size: 1rem;
+      color: #888;
+      border-top: 1px solid rgba(168,85,247,0.12);
+    }
+    .language-switcher {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      gap: 15px;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    .language-switcher a {
+      color: #a855f7;
+      text-decoration: none;
+    }
+    .language-switcher a:hover {
+      color: #d8b4fe;
+    }
+    .current-lang {
+      color: #d8b4fe;
+    }
+    @media (max-width: 768px) {
+      header h1 { font-size: 3.2rem; }
+      header p.tagline { font-size: 1.5rem; }
+      section { padding: 70px 15px; }
+      h2 { font-size: 2.8rem; }
+      .top-cta { flex-direction: column; gap: 20px; }
+      .top-cta button, .top-cta a { width: 100%; max-width: none; }
+      .bundle-options { grid-template-columns: 1fr; }
+      .language-switcher { position: static; justify-content: center; margin: 10px 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Language Switcher (top-right corner) -->
+  <div class="language-switcher">
+    <a href="index.html" title="English">🇬🇧 EN</a>
+    <span class="current-lang">🇹🇭 TH</span>
+  </div>
+
+  <!-- Rest of the site in Thai (translated content) -->
+  <header>
+    <h1>Thunder Mule Coffee</h1>
+    <p class="tagline">พลังม้าในแก้ว – ปลดปล่อยจากเชียงใหม่</p>
+  </header>
+
+  <div class="top-nav">
+    <a href="https://www.instagram.com/hua_thong_brand/" target="_blank">Instagram</a>
+    <a href="https://www.facebook.com/Thunder.Mule.Coffee/" target="_blank">Facebook</a>
+    <a href="https://www.etsy.com/uk/listing/4443077541/high-caffeine-vienna-dark-roast-coffee" target="_blank">Etsy</a>
+    <a href="https://s.lazada.co.th/s.ZbV3Z6" target="_blank">Lazada</a>
+  </div>
+
+  <div class="warning">
+    <p><strong>สำคัญ:</strong> การสั่งซื้อตรงผ่าน PayPal เฉพาะในประเทศไทยเท่านั้น (ส่งฟรี) ลูกค้าต่างประเทศกรุณาใช้แบบฟอร์มด้านล่างเพื่อขอใบเสนอราคาการจัดส่ง หรือสั่งผ่าน Lazada</p>
+  </div>
+
+  <div class="top-cta">
+    <button onclick="document.getElementById('order').scrollIntoView({behavior: 'smooth'});">
+      สั่งซื้อตรง (เลื่อนไปฟอร์ม)
+    </button>
+    <a href="https://s.lazada.co.th/s.ZbV3Z6" target="_blank">สั่งซื้อบน Lazada</a>
+  </div>
+
+  <section class="about">
+    <h2>จากพายุสู่แก้วของคุณ</h2>
+    <p>Thunder Mule เกิดในหัวใจอันเต็มเปี่ยมพลังของที่สูงเชียงใหม่ — ที่หมอกปกคลุมยอดเขาและฟ้าผ่าแหวกฟ้า ผมคัดสรรเฉพาะจากภูเขาหมอกปกเหล่านี้ เพราะความสูง อากาศเย็น และดินภูเขาไฟอุดมสมบูรณ์ บังคับให้เมล็ดพัฒนาช้า เข้มข้น และมีเอกลักษณ์ไร้เทียมทาน</p>
+    <p>ความลับอยู่ที่การผสมอันเป็นสูตรลับเฉพาะ: Peaberry หายาก Red Bourbon อาราบิก้าอันสง่างาม และ Robusta เข้มข้นพอดีเพื่อปลดปล่อยพลังคาเฟอีนอันทรงพลัง — สัดส่วนที่รู้เฉพาะผม ปรับแต่งเพื่อความสมดุลและพลังที่ไม่หยุดยั้ง</p>
+    <p>เฉพาะเมล็ดพรีเมียมเท่านั้นที่ผ่านการคัดเลือก: คัดมือและ筛อย่างพิถีพิถันขนาด screen 18 เพื่อความสม่ำเสมอ การสกัดรสชาติสูงสุด และความมันวาวเงางามที่เห็นในทุกการคั่ว</p>
+    <p>ทุกการคั่วคือการโจมตีด้วยพลัง: เมล็ดเงาวาวมันเยิ้ม ให้ครีม่าลายเสือหนา และรสชาติเข้มข้นยาวนานของช็อกโกแลตดำ คาราเมล และเฮเซลนัท คาเฟอีนกระแทกหนักแต่สะอาด — ไม่สั่น ไม่คราช แค่พลังบริสุทธิ์ที่หยุดไม่อยู่</p>
+  </section>
+
+  <section class="product">
+    <h2>เดอะธันเดอร์</h2>
+    <p>โปรไฟล์รส: ช็อกโกแลตดำเข้ม คาราเมลนุ่ม เฮเซลนัทหอม ระดับการคั่ว: Vienna dark เพื่อเนื้อสัมผัสมันวาวเงา ขนาดเมล็ด: พรีเมียม screen 18 เพื่อความสม่ำเสมอเยี่ยม คาเฟอีนสูงเพื่อพลังม้าแท้ในแก้ว — พลังยาวนานไร้คราช</p>
+
+    <img src="https://iili.io/fZfL51j.jpg" alt="ภาพใกล้ชิดเมล็ด Thunder Mule คั่วเข้ม Vienna คาเฟอีนสูง เงาวาว">
+    <img src="https://iili.io/fZfLRqb.jpg" alt="เมล็ด Thunder Mule Coffee ในช้อนไม้ – อาราบิก้าพรีเมียมจากที่สูงไทย">
+    <img src="https://iili.io/fZfL0mP.jpg" alt="รายละเอียดเมล็ดคั่วเข้มมันวาว Thunder Mule Coffee จากเชียงใหม่">
+
+    <iframe width="100%" height="500" src="https://www.youtube.com/embed/Jm9IEDnzhfE" title="Thunder Mule Coffee – สโลว์โมชั่นเมล็ดเงาวาว" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <p style="text-align: center; color: #d1d5db;">ภาพสโลว์โมชั่นสุดตื่นตาของเมล็ด Thunder Mule คั่ว Vienna พรีเมียม screen 18 กำลังเทลงชาม — ชมความเงาวาวมันวาวที่มอบรสชาติและพลังคาเฟอีนไร้เทียมทาน</p>
+  </section>
+
+  <section class="order" id="order">
+    <h2>สั่งซื้อตรง</h2>
+    <p>กรอกฟอร์มด้านล่าง ผมจะตอบกลับพร้อมรายละเอียดการชำระเงิน (โอนธนาคารหรือ PayPal) ส่งฟรีในไทย จัดส่งทั่วโลกได้</p>
+    <p><strong>ราคา (ถุง 250ก. กาแฟคั่วเข้มคาเฟอีนสูงพรีเมียม):</strong><br>
+      • 1 ถุง — ฿300<br>
+      • 3 ถุง — ฿850 (ประหยัด ฿50)<br>
+      • 6 ถุง — ฿1,620 (ประหยัด ฿180)</p>
+
+    <form action="https://formspree.io/f/YOUR_FORMSPREE_HASHID_HERE" method="POST" id="orderForm">
+      <label>ชื่อของคุณ</label>
+      <input type="text" name="name" required>
+
+      <label>อีเมลของคุณ</label>
+      <input type="email" name="email" required>
+
+      <label>เลือกแพ็คเกจ (ถุง 250ก.)</label>
+      <div class="bundle-options">
+        <label class="bundle-option">
+          <input type="radio" name="bundle" value="1 ถุง - ฿300" required onchange="updateTotal()">
+          <strong>1 ถุง</strong><br>฿300 (250ก.)<br><small>ลองก่อนดีที่สุด</small>
+        </label>
+        <label class="bundle-option">
+          <input type="radio" name="bundle" value="3 ถุง - ฿850 (ประหยัด ฿50)" required onchange="updateTotal()">
+          <strong>3 ถุง</strong><br>฿850 (750ก. รวม)<br><small>ยอดนิยม – ประหยัด ฿50</small>
+        </label>
+        <label class="bundle-option">
+          <input type="radio" name="bundle" value="6 ถุง - ฿1,620 (ประหยัด ฿180)" required onchange="updateTotal()">
+          <strong>6 ถุง</strong><br>฿1,620 (1.5กก. รวม)<br><small>คุ้มที่สุด – ประหยัด ฿180</small>
+        </label>
+      </div>
+
+      <div class="total-display" id="totalDisplay">รวม: ฿0</div>
+
+      <label>ที่อยู่จัดส่ง</label>
+      <textarea name="address" rows="4" required></textarea>
+
+      <label>ข้อความหรือคำถามเพิ่มเติม</label>
+      <textarea name="message" rows="3"></textarea>
+
+      <input type="hidden" name="order_summary" id="orderSummary">
+      <input type="hidden" name="_subject" value="คำสั่งซื้อใหม่ Thunder Mule Coffee">
+
+      <input type="submit" value="ส่งคำสั่งซื้อ" id="submitBtn">
+
+      <div class="form-message" id="formMessage"></div>
+    </form>
+
+    <script>
+      const form = document.getElementById('orderForm');
+      const submitBtn = document.getElementById('submitBtn');
+      const messageDiv = document.getElementById('formMessage');
+
+      function updateTotal() {
+        const bundle = document.querySelector('input[name="bundle"]:checked');
+        if (bundle) {
+          const priceText = bundle.value.split('-')[1]?.trim() || '฿0';
+          document.getElementById('totalDisplay').textContent = 'รวม: ' + priceText;
+          document.getElementById('orderSummary').value = 'รายละเอียดคำสั่งซื้อ: ' + bundle.value;
+        }
+      }
+
+      form.addEventListener('submit', function(e) {
+        if (!document.querySelector('input[name="bundle"]:checked')) {
+          e.preventDefault();
+          messageDiv.innerHTML = '<span class="error">กรุณาเลือกแพ็คเกจ</span>';
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.value = 'กำลังส่ง...';
+        messageDiv.innerHTML = '<span>กำลังส่งคำสั่งซื้อ...</span>';
+      });
+
+      window.addEventListener('load', function() {
+        const firstRadio = document.querySelector('input[name="bundle"]');
+        if (firstRadio) {
+          firstRadio.checked = true;
+          updateTotal();
+        }
+      });
+
+      if (window.location.hash === '#_formspree_success') {
+        messageDiv.innerHTML = '<span class="success">ส่งคำสั่งซื้อสำเร็จ! ผมจะตอบกลับเร็ว ๆ นี้พร้อมรายละเอียดชำระเงิน</span>';
+      }
+    </script>
+  </section>
+
+  <section class="blog">
+    <h2>บล็อก – ข้อมูลเชิงลึก Thunder Mule</h2>
+    
+    <article>
+      <h3>กาแฟคั่วเข้มคาเฟอีนสูงที่ดีที่สุดมาจากที่สูงเชียงใหม่ ประเทศไทย</h3>
+      <p class="date">08 กุมภาพันธ์ 2026</p>
+      <p>หากคุณกำลังมองหากาแฟ<strong>คาเฟอีนสูง</strong>ที่ดีที่สุดที่ให้พลังจริงโดยไม่คราช ไม่ต้องมองหาที่ไหนไกลนอกจากเมล็ดอาราบิก้าสูงชันเชียงใหม่ ที่ระดับความสูง 1,200–1,700 เมตร อากาศเย็นและดินภูเขาไฟอุดมสมบูรณ์ทำให้เชอร์รี่สุกช้า อัดแน่นด้วยคาเฟอีน รสหวาน และสารรสเข้มข้น</p>
+      <p>Thunder Mule <strong>คั่ว Vienna dark roast</strong> คั่วสดโดย Hillkoff เพื่อให้เมล็ดเงาวาวมันเยิ้ม รสเข้มช็อกโกแลตดำ คาราเมล และเฮเซลนัท แตกต่างจากกาแฟคั่วเข้มซูเปอร์มาร์เก็ตทั่วไป เมล็ดที่สูงไทยพรีเมียมเหล่านี้เก็บด้วยมือ 筛 screen 18 เพื่อความสม่ำเสมอ และให้ครีม่าหนา พลังยาวนาน — เหมาะสำหรับทุกคนที่ต้องการคาเฟอีนสะอาดเข้มข้นเพื่อลุยวัน</p>
+      <p>ทำไมต้องกาแฟเข้มธรรมดาเมื่อมี<strong>กาแฟสูงชันแท้จากไทย</strong>? ไม่ว่าจะในกรุงเทพ ยุโรป หรืออเมริกา Thunder Mule นำพลังฟ้าผ่าจากเชียงใหม่ตรงสู่แก้วคุณ</p>
+      <p>พร้อมรับพลังม้าแล้วหรือยัง? <a href="#order">สั่งซื้อตรงวันนี้</a> หรือซื้อบน <a href="https://s.lazada.co.th/s.ZbV3Z6" target="_blank">Lazada</a></p>
+      <p>— จาร์ราด, Hua Thong Brand</p>
+    </article>
+
+    <article>
+      <h3>ทำไมที่สูงเชียงใหม่ถึงให้เมล็ดกาแฟคั่วเข้มคาเฟอีนสูงที่ดีที่สุด</h3>
+      <p class="date">02 กุมภาพันธ์ 2026</p>
+      <p>ผมไม่ได้มาขาย hype ผมมาที่นี่เพราะเจอบางสิ่งจริงในภูเขาหมอกเชียงใหม่และหยุดพูดไม่ได้ ที่ระดับ 1,200–1,700 เมตร อากาศเย็นกว่า หมอกอยู่นานกว่า และดินภูเขาไฟอุดมสมบูรณ์ ทำให้ต้นอาราบิก้า (โดยเฉพาะ Peaberry) สุกช้า — อัดแน่นด้วยน้ำตาล กรด และความหนาแน่นคาเฟอีนในทุกเชอร์รี่ ผลลัพธ์? เมล็ดที่คั่วแล้วเงาวาวมันเยิ้ม ระเบิดรสช็อกโกแลตดำ คาราเมล และเฮเซลนัทที่หาไม่ได้จากที่ราบหรือโรงงานผลิตจำนวนมาก</p>
+      <p>筛 screen 18 คั่วสดโดย Hillkoff Vienna dark roast นี้ให้คาเฟอีนหนักแต่ไม่ขมหรือคราช ไม่ใช่แค่ “กาแฟ” — มันคือพลังม้าในแก้วจากเกษตรกรที่สูงตัวจริงที่ยังเก็บมือ ถ้าคุณเบื่อกาแฟเข้มจืดที่หมดพลังตอนเที่ยง นี่คือการปลุกที่คุณรอคอย</p>
+      <p>— จาร์ราด, Hua Thong Brand</p>
+    </article>
+  </section>
+
+  <footer>
+    <div class="links">
+      <p>ติดต่อผม:</p>
+      <a href="https://www.instagram.com/hua_thong_brand/" target="_blank">Instagram</a>
+      <a href="https://www.facebook.com/Thunder.Mule.Coffee/" target="_blank">Facebook</a>
+      <a href="https://www.etsy.com/uk/listing/4443077541/high-caffeine-vienna-dark-roast-coffee" target="_blank">Etsy</a>
+      <a href="https://s.lazada.co.th/s.ZbV3Z6" target="_blank">Lazada</a>
+    </div>
+    <p>คั่วที่เชียงใหม่ ประเทศไทย • จาร์ราด จาก Hua Thong Brand • © 2026</p>
+  </footer>
+
+</body>
+</html>
