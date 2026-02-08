@@ -80,17 +80,15 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 20px;
+      gap: 30px;
     }
-    .top-cta a, .top-cta form {
-      flex: 1 1 300px;
-      max-width: 400px;
-    }
-    .top-cta form input[type="submit"] {
-      width: 100%;
+    .top-cta button, .top-cta a {
+      flex: 1 1 350px;
+      max-width: 450px;
+      min-width: 300px;
       background: linear-gradient(135deg, #a855f7, #7e22ce);
       color: white;
-      padding: 18px 40px;
+      padding: 22px 40px;
       font-size: 1.6rem;
       font-weight: 700;
       border-radius: 60px;
@@ -98,24 +96,13 @@
       cursor: pointer;
       box-shadow: 0 15px 50px rgba(168,85,247,0.6);
       transition: all 0.3s ease;
-    }
-    .top-cta form input[type="submit"]:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 30px 70px rgba(168,85,247,0.8);
-    }
-    .top-cta a {
-      background: linear-gradient(135deg, #a855f7, #7e22ce);
-      color: white;
-      padding: 18px 80px;
-      font-size: 1.6rem;
-      font-weight: 700;
-      border-radius: 60px;
+      text-align: center;
       text-decoration: none;
-      display: inline-block;
-      box-shadow: 0 15px 50px rgba(168,85,247,0.6);
-      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .top-cta a:hover {
+    .top-cta button:hover, .top-cta a:hover {
       transform: translateY(-8px);
       box-shadow: 0 30px 70px rgba(168,85,247,0.8);
     }
@@ -167,7 +154,7 @@
       font-size: 1rem;
       margin-bottom: 1rem;
     }
-    .product img {
+    .product img, .product video, .product iframe {
       max-width: 100%;
       border-radius: 16px;
       margin: 40px 0;
@@ -229,9 +216,6 @@
       background: rgba(168,85,247,0.25);
       transform: translateY(-5px);
     }
-    .bundle-option input[type="radio"] {
-      margin-bottom: 10px;
-    }
     .total-display {
       font-size: 1.6rem;
       font-weight: 700;
@@ -245,12 +229,8 @@
       text-align: center;
       min-height: 1.5em;
     }
-    .form-message.success {
-      color: #34d399;
-    }
-    .form-message.error {
-      color: #ff6b6b;
-    }
+    .form-message.success { color: #34d399; }
+    .form-message.error { color: #ff6b6b; }
     .links {
       text-align: center;
       margin: 60px 0;
@@ -279,8 +259,8 @@
       header p.tagline { font-size: 1.5rem; }
       section { padding: 70px 15px; }
       h2 { font-size: 2.8rem; }
-      .top-cta { flex-direction: column; gap: 15px; }
-      .top-cta a, .top-cta form input[type="submit"] { padding: 16px 50px; font-size: 1.3rem; }
+      .top-cta { flex-direction: column; gap: 20px; }
+      .top-cta button, .top-cta a { width: 100%; max-width: none; }
       .bundle-options { grid-template-columns: 1fr; }
     }
   </style>
@@ -304,7 +284,9 @@
   </div>
 
   <div class="top-cta">
-    <button onclick="document.getElementById('order').scrollIntoView({behavior: 'smooth'});" style="width: 100%; background: linear-gradient(135deg, #a855f7, #7e22ce); color: white; padding: 18px 40px; font-size: 1.6rem; font-weight: 700; border-radius: 60px; border: none; cursor: pointer; box-shadow: 0 15px 50px rgba(168,85,247,0.6);">Order Direct (Scroll to Form)</button>
+    <button onclick="document.getElementById('order').scrollIntoView({behavior: 'smooth'});">
+      Order Direct (Scroll to Form)
+    </button>
     <a href="https://s.lazada.co.th/s.ZbV3Z6" target="_blank">Order on Lazada</a>
   </div>
 
@@ -321,6 +303,18 @@
     <img src="https://iili.io/fZfL51j.jpg" alt="Close-up scoop of glossy Thunder Mule high-caffeine Vienna dark roast coffee beans">
     <img src="https://iili.io/fZfLRqb.jpg" alt="Thunder Mule Coffee beans in wooden scoop – premium Thai highland Arabica">
     <img src="https://iili.io/fZfL0mP.jpg" alt="Detail of oily, dark roasted Thunder Mule Coffee beans from Chiang Mai">
+
+    <!-- Video Embed Example (YouTube – replace YOUR_VIDEO_ID with actual) -->
+    <iframe width="100%" height="500" src="https://www.youtube.com/embed/YOUR_VIDEO_ID" title="Thunder Mule Coffee – From Bean to Cup" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <p style="text-align: center; color: #d1d5db;">Watch the Thunder Mule high-caffeine dark roast process in Chiang Mai</p>
+
+    <!-- Self-hosted video alternative (uncomment if using MP4) -->
+    <!--
+    <video controls poster="https://iili.io/fZfL51j.jpg">
+      <source src="YOUR_VIDEO_MP4_URL_HERE.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    -->
   </section>
 
   <section class="order" id="order">
@@ -331,7 +325,8 @@
       • 3 packs — ฿850 (save ฿50)<br>
       • 6 packs — ฿1,620 (save ฿180)</p>
 
-    <form action="https://formspree.io/f/mnjzwvdl" method="POST" id="orderForm">
+    <!-- IMPORTANT: Replace the action URL with your real Formspree endpoint after creating the form at formspree.io -->
+    <form action="https://formspree.io/f/YOUR_FORMSPREE_HASHID_HERE" method="POST" id="orderForm">
       <label>Your Name</label>
       <input type="text" name="name" required>
 
@@ -396,7 +391,6 @@
         messageDiv.innerHTML = '<span>Sending your order...</span>';
       });
 
-      // Set default bundle and total on load
       window.addEventListener('load', function() {
         const firstRadio = document.querySelector('input[name="bundle"]');
         if (firstRadio) {
@@ -405,15 +399,8 @@
         }
       });
 
-      // Handle Formspree response (success/error via hash or redirect)
       if (window.location.hash === '#_formspree_success') {
         messageDiv.innerHTML = '<span class="success">Order sent successfully! I\'ll reply soon with payment details.</span>';
-        submitBtn.disabled = false;
-        submitBtn.value = 'Send Order';
-      } else if (window.location.hash.includes('error')) {
-        messageDiv.innerHTML = '<span class="error">Submission failed – please try again or email directly.</span>';
-        submitBtn.disabled = false;
-        submitBtn.value = 'Send Order';
       }
     </script>
   </section>
