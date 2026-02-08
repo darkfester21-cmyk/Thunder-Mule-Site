@@ -19,6 +19,11 @@
     gtag('config', 'G-CRPF0RVKLS');
   </script>
 
+  <!-- hreflang for SEO (replace with your real domain when live) -->
+  <link rel="alternate" hreflang="en" href="https://yourdomain.com/index.html" />
+  <link rel="alternate" hreflang="th" href="https://yourdomain.com/index-th.html" />
+  <link rel="alternate" hreflang="x-default" href="https://yourdomain.com/index.html" />
+
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
@@ -254,6 +259,27 @@
       color: #888;
       border-top: 1px solid rgba(168,85,247,0.12);
     }
+    /* Language Switcher Styles */
+    .language-switcher {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      gap: 15px;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    .language-switcher a {
+      color: #a855f7;
+      text-decoration: none;
+    }
+    .language-switcher a:hover {
+      color: #d8b4fe;
+    }
+    .current-lang {
+      color: #d8b4fe;
+    }
     @media (max-width: 768px) {
       header h1 { font-size: 3.2rem; }
       header p.tagline { font-size: 1.5rem; }
@@ -262,10 +288,17 @@
       .top-cta { flex-direction: column; gap: 20px; }
       .top-cta button, .top-cta a { width: 100%; max-width: none; }
       .bundle-options { grid-template-columns: 1fr; }
+      .language-switcher { position: static; justify-content: center; margin: 10px 0; padding: 10px; background: rgba(0,0,0,0.5); }
     }
   </style>
 </head>
 <body>
+
+  <!-- Language Switcher (top-right) - EN is current, link to Thai -->
+  <div class="language-switcher">
+    <span class="current-lang">🇬🇧 EN</span>
+    <a href="index-th.html" title="Thai">🇹🇭 TH</a>
+  </div>
 
   <header>
     <h1>Thunder Mule Coffee</h1>
@@ -306,7 +339,6 @@
     <img src="https://iili.io/fZfLRqb.jpg" alt="Thunder Mule Coffee beans in wooden scoop – premium Thai highland Arabica">
     <img src="https://iili.io/fZfL0mP.jpg" alt="Detail of oily, dark roasted Thunder Mule Coffee beans from Chiang Mai">
 
-    <!-- Embedded YouTube video (slow-motion beans) -->
     <iframe width="100%" height="500" src="https://www.youtube.com/embed/Jm9IEDnzhfE" title="Thunder Mule Coffee – Slow-Motion Glossy Beans" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     <p style="text-align: center; color: #d1d5db;">Mesmerizing slow-motion footage of Thunder Mule's premium screen 18 Vienna dark roast beans cascading into the bowl — watch the glossy, oily perfection that delivers unmatched flavor and caffeine power.</p>
   </section>
@@ -319,7 +351,6 @@
       • 3 packs — ฿850 (save ฿50)<br>
       • 6 packs — ฿1,620 (save ฿180)</p>
 
-    <!-- IMPORTANT: Replace with your real Formspree endpoint -->
     <form action="https://formspree.io/f/YOUR_FORMSPREE_HASHID_HERE" method="POST" id="orderForm">
       <label>Your Name</label>
       <input type="text" name="name" required>
