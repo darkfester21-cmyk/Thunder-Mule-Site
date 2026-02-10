@@ -3,15 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Thunder Mule Coffee – กาแฟคั่วเข้ม Vienna dark roast คาเฟอีนสูงพิเศษ จากเมล็ดอาราบิก้าสูงชันเชียงใหม่ รสชาติเข้มข้นช็อกโกแลตดำ คาราเมล และเฮเซลนัท พลังม้าแท้ในแก้วเดียว" />
-  <meta name="keywords" content="กาแฟคาเฟอีนสูง, Vienna dark roast, กาแฟเชียงใหม่, อาราบิก้าไทยสูงชัน, กาแฟคั่วเข้มไทย, กาแฟสูงชัน, กาแฟพรีเมียมไทย, เมล็ดกาแฟเข้มข้น" />
-  <title>Thunder Mule Coffee – พลังม้าในแก้ว | กาแฟคาเฟอีนสูง เชียงใหม่</title>
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="manifest" href="site.webmanifest">
-<link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Keep this for old browsers -->  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta name="description" content="Thunder Mule Coffee – กาแฟคั่วเข้ม Vienna dark roast คาเฟอีนสูงพรีเมียมจากที่สูงเชียงใหม่ รสเข้มช็อกโกแลตดำ คาราเมล เฮเซลนัท พลังสะอาด ไม่คราช สั่งสดใหม่เลย" />
+  <meta name="keywords" content="กาแฟคาเฟอีนสูง, Vienna dark roast, กาแฟเชียงใหม่, กาแฟไทยสูงชัน, โคลด์บริวไทย, กาแฟคั่วเข้มพรีเมียม, กาแฟพลังสะอาด" />
+  <title>Thunder Mule Coffee | กาแฟคั่วเข้มคาเฟอีนสูง เชียงใหม่</title>
+
+  <!-- Full Favicon Set -->
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+  <!-- Sarabun for Thai + Montserrat fallback -->
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-CRPF0RVKLS"></script>
@@ -22,15 +27,15 @@
     gtag('config', 'G-CRPF0RVKLS');
   </script>
 
-  <!-- hreflang tags for SEO (replace with your actual domain) -->
-  <link rel="alternate" hreflang="en" href="https://yourdomain.com/index.html" />
-  <link rel="alternate" hreflang="th" href="https://yourdomain.com/index-th.html" />
-  <link rel="alternate" hreflang="x-default" href="https://yourdomain.com/index.html" />
+  <!-- hreflang for SEO -->
+  <link rel="alternate" hreflang="en" href="https://www.thundermulecoffee.com/" />
+  <link rel="alternate" hreflang="th" href="https://www.thundermulecoffee.com/index-th.html" />
+  <link rel="alternate" hreflang="x-default" href="https://www.thundermulecoffee.com/" />
 
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
-      font-family: 'Sarabun', 'Montserrat', system-ui, sans-serif; /* Clear Thai text + fallback */
+      font-family: 'Sarabun', 'Montserrat', system-ui, sans-serif;
       background: #0a0a0a;
       color: #a855f7;
       line-height: 1.7;
@@ -153,7 +158,7 @@
       margin: 2rem 0 1rem;
     }
     p {
-      font-size: 1.2rem; /* Slightly larger for Thai readability */
+      font-size: 1.2rem;
       color: #a855f7;
       margin-bottom: 1.6rem;
     }
@@ -262,6 +267,7 @@
       color: #888;
       border-top: 1px solid rgba(168,85,247,0.12);
     }
+    /* Language Switcher */
     .language-switcher {
       position: absolute;
       top: 20px;
@@ -290,19 +296,18 @@
       .top-cta { flex-direction: column; gap: 20px; }
       .top-cta button, .top-cta a { width: 100%; max-width: none; }
       .bundle-options { grid-template-columns: 1fr; }
-      .language-switcher { position: static; justify-content: center; margin: 10px 0; }
+      .language-switcher { position: static; justify-content: center; margin: 10px 0; padding: 10px; background: rgba(0,0,0,0.5); }
     }
   </style>
 </head>
 <body>
 
-  <!-- Language Switcher (top-right corner) -->
+  <!-- Language Switcher (TH current, link to English) -->
   <div class="language-switcher">
     <a href="index.html" title="English">🇬🇧 EN</a>
     <span class="current-lang">🇹🇭 TH</span>
   </div>
 
-  <!-- Rest of the site in Thai (translated content) -->
   <header>
     <h1>Thunder Mule Coffee</h1>
     <p class="tagline">พลังม้าในแก้ว – ปลดปล่อยจากเชียงใหม่</p>
@@ -436,6 +441,24 @@
   <section class="blog">
     <h2>บล็อก – ข้อมูลเชิงลึก Thunder Mule</h2>
     
+    <!-- New Blog Post (top = newest) -->
+    <article>
+      <h3>ปลดล็อกโคลด์บริวคาเฟอีนสูงสุด – คู่มือ Thunder Mule</h3>
+      <p class="date">10 กุมภาพันธ์ 2026</p>
+      <p>คอกาแฟโคลด์บริว ฟังทางนี้ — ถ้าคุณกำลังตามหาคาเฟอีนเย็นฉ่ำนุ่มนวลโดยไม่ขมหรือคราช Thunder Mule Vienna dark roast คืออาวุธลับของคุณ</p>
+      <p>สูตรพรีเมียมคาเฟอีนสูงของเรา (Peaberry หายาก Red Bourbon อาราบิก้า และ Robusta เข้มจากที่สูงเชียงใหม่ 1,200–1,700ม.) ส่องแสงในโคลด์บริว เมล็ดเงาวาวมันเยิ้มสกัดช้าเพื่อรสเข้มช็อกโกแลตดำ คาราเมล และเฮเซลนัท — เย็นฉ่ำ พลังสะอาดยาวนานตลอดวัน</p>
+      <p>คู่มือเร็วสำหรับ Thunder Mule โคลด์บริวสมบูรณ์แบบ:</p>
+      <ul>
+        <li>บดหยาบอัตราส่วน 1:5 (เช่น 100ก. เมล็ดต่อน้ำ 500มล.)</li>
+        <li>แช่ 12–18 ชั่วโมงในตู้เย็น</li>
+        <li>กรอง เจือจางตามชอบ เสิร์ฟบนน้ำแข็ง</li>
+      </ul>
+      <p>ไม่ต้องอุปกรณ์หรู — แค่เมล็ดคั่วสดของเราเพื่อรสชาติและพลังไร้เทียมทาน</p>
+      <p>พร้อมชงพลังฟ้าไหม? <a href="#order">สั่งตรงวันนี้</a> หรือหาเราได้บน Lazada</p>
+      <p>— จาร์ราด, Hua Thong Brand</p>
+    </article>
+
+    <!-- Previous posts -->
     <article>
       <h3>กาแฟคั่วเข้มคาเฟอีนสูงที่ดีที่สุดมาจากที่สูงเชียงใหม่ ประเทศไทย</h3>
       <p class="date">08 กุมภาพันธ์ 2026</p>
@@ -467,8 +490,4 @@
   </footer>
 
 </body>
-
 </html>
-
-
-
