@@ -32,7 +32,7 @@
   <link rel="alternate" hreflang="x-default" href="https://www.thundermulecoffee.com/" />
 
   <!-- PayPal Buttons Script (Part 1 - place once in <head>) -->
-  <script src="https://www.paypal.com/sdk/js?client-id=BAwJUe5agmv0pzavb-f1417UgED0n4Zv82s4pnhPWcYfgmFcKAK3I0myJ72n9Cmy10CjRPNof4cComponents=hosted-buttons&disable-funding=venmo¤cy=THB"></script>
+  <script src="https://www.paypal.com/sdk/js?client-id=BAwJUe5agmv0pzavb-f1417UgED0n4Zv82s4pnhPWcYfgmFcKAK3I0myJ72n9Cmy10CjRPNof4cComponents=hosted-buttons&disable-funding=venmo&currency=THB"></script>
 
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
@@ -150,7 +150,7 @@
     h2 {
       color: #a855f7;
       font-weight: 700;
-      font-size: 3.5 5rem;
+      font-size: 3.5rem;
       margin-bottom: 2rem;
       text-shadow: 0 0 40px #a855f7, 0 0 80px #a855f7;
     }
@@ -176,6 +176,110 @@
       box-shadow: 0 20px 50px rgba(0,0,0,0.7), 0 0 40px rgba(168,85,247,0.25);
       border: 1px solid rgba(168,85,247,0.25);
     }
+    .order form {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .order label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: 600;
+      color: #d1d5db;
+    }
+    .order input, .order textarea {
+      width: 100%;
+      padding: 14px;
+      background: #000;
+      border: 1px solid #a855f7;
+      color: #fff;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    .order input:focus, .order textarea:focus {
+      outline: none;
+      border-color: #d8b4fe;
+      box-shadow: 0 0 20px rgba(168,85,247,0.5);
+    }
+    .order input::placeholder, .order textarea::placeholder {
+      color: #a855f7;
+      opacity: 0.7;
+    }
+    .order input[type="submit"] {
+      background: linear-gradient(135deg, #a855f7, #7e22ce);
+      color: white;
+      padding: 16px 40px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      margin-top: 30px;
+      box-shadow: 0 10px 30px rgba(168,85,247,0.5);
+      transition: all 0.3s;
+    }
+    .order input[type="submit"]:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 50px rgba(168,85,247,0.7);
+    }
+    .bundle-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .bundle-option {
+      cursor: pointer;
+      padding: 20px;
+      background: rgba(168,85,247,0.15);
+      border: 1px solid rgba(168,85,247,0.4);
+      border-radius: 12px;
+      text-align: center;
+      transition: all 0.3s;
+    }
+    .bundle-option:hover {
+      background: rgba(168,85,247,0.25);
+      transform: translateY(-5px);
+    }
+    .total-display {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #d8b4fe;
+      margin: 30px 0;
+      text-align: center;
+    }
+    .form-message {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      text-align: center;
+      min-height: 1.5em;
+    }
+    .form-message.success { color: #34d399; }
+    .form-message.error { color: #ff6b6b; }
+    .links {
+      text-align: center;
+      margin: 60px 0;
+      font-size: 1.2rem;
+    }
+    .links a {
+      color: #a855f7;
+      text-decoration: none;
+      margin: 0 25px;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    .links a:hover {
+      color: #d8b4fe;
+    }
+    footer {
+      text-align: center;
+      padding: 70px 20px;
+      background: #000;
+      font-size: 1rem;
+      color: #888;
+      border-top: 1px solid rgba(168,85,247,0.12);
+    }
+    /* Language Switcher */
     .language-switcher {
       position: absolute;
       top: 20px;
@@ -203,6 +307,7 @@
       h2 { font-size: 2.8rem; }
       .top-cta { flex-direction: column; gap: 20px; }
       .top-cta button, .top-cta a { width: 100%; max-width: none; }
+      .bundle-options { grid-template-columns: 1fr; }
       .language-switcher { position: static; justify-content: center; margin: 10px 0; padding: 10px; background: rgba(0,0,0,0.5); }
     }
   </style>
@@ -269,10 +374,10 @@
 
     <form action="https://formspree.io/f/YOUR_FORMSPREE_HASHID_HERE" method="POST" id="orderForm">
       <label>Your Name</label>
-      <input type="text" name="name" required>
+      <input type="text" name="name" placeholder="Your Name" required>
 
       <label>Your Email</label>
-      <input type="email" name="email" required>
+      <input type="email" name="email" placeholder="Your Email" required>
 
       <label>Choose Your Bundle (250g Packs)</label>
       <div class="bundle-options">
@@ -293,10 +398,10 @@
       <div class="total-display" id="totalDisplay">Total: ฿0</div>
 
       <label>Delivery Address</label>
-      <textarea name="address" rows="4" required></textarea>
+      <textarea name="address" rows="4" placeholder="Your Delivery Address" required></textarea>
 
       <label>Any Message or Questions</label>
-      <textarea name="message" rows="3"></textarea>
+      <textarea name="message" rows="3" placeholder="Any Message or Questions"></textarea>
 
       <input type="hidden" name="order_summary" id="orderSummary">
       <input type="hidden" name="_subject" value="New Thunder Mule Coffee Order">
