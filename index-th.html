@@ -32,6 +32,9 @@
   <link rel="alternate" hreflang="th" href="https://www.thundermulecoffee.com/index-th.html" />
   <link rel="alternate" hreflang="x-default" href="https://www.thundermulecoffee.com/" />
 
+  <!-- Opn Payments Script (Test Mode) -->
+  <script src="https://cdn.omise.co/opn.js"></script>
+
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
@@ -298,6 +301,27 @@
       .bundle-options { grid-template-columns: 1fr; }
       .language-switcher { position: static; justify-content: center; margin: 10px 0; padding: 10px; background: rgba(0,0,0,0.5); }
     }
+    /* Opn Button Styles */
+    .opn-button {
+      background: linear-gradient(135deg, #a855f7, #7e22ce);
+      color: white;
+      padding: 20px 40px;
+      font-size: 1.4rem;
+      font-weight: 700;
+      border-radius: 60px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 15px 50px rgba(168,85,247,0.6);
+      transition: all 0.3s ease;
+      margin: 15px 0;
+      display: block;
+      text-align: center;
+      text-decoration: none;
+    }
+    .opn-button:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 70px rgba(168,85,247,0.8);
+    }
   </style>
 </head>
 <body>
@@ -353,96 +377,46 @@
   </section>
 
   <section class="order" id="order">
-    <h2>สั่งซื้อตรง</h2>
-    <p>กรอกฟอร์มด้านล่าง ผมจะตอบกลับพร้อมรายละเอียดการชำระเงิน (โอนธนาคารหรือ PayPal) ส่งฟรีในไทย จัดส่งทั่วโลกได้</p>
-    <p><strong>ราคา (ถุง 250ก. กาแฟคั่วเข้มคาเฟอีนสูงพรีเมียม):</strong><br>
-      • 1 ถุง — ฿300<br>
-      • 3 ถุง — ฿850 (ประหยัด ฿50)<br>
-      • 6 ถุง — ฿1,620 (ประหยัด ฿180)</p>
+    <h2>สั่งซื้อตรงด้วยการชำระเงินปลอดภัย</h2>
+    <p>เลือกแพ็คเกจและชำระเงินปลอดภัยด้วย Opn Payments (บัตรเครดิต PromptPay QR วอลเล็ต) ส่งฟรีในไทย จัดส่งทั่วโลกได้</p>
+    <p><strong>ราคา (ถุง 250ก. กาแฟคั่วเข้มคาเฟอีนสูงพรีเมียม):</strong></p>
 
-    <form action="https://formspree.io/f/YOUR_FORMSPREE_HASHID_HERE" method="POST" id="orderForm">
-      <label>ชื่อของคุณ</label>
-      <input type="text" name="name" required>
+    <!-- Opn Checkout Buttons (Test Mode) -->
+    <div style="text-align: center;">
+      <button class="opn-button" data-opn-amount="30000" data-opn-currency="THB" data-opn-label="1 ถุง – ฿300">ชำระ ฿300 – 1 ถุง (250ก.)</button>
+      <button class="opn-button" data-opn-amount="85000" data-opn-currency="THB" data-opn-label="3 ถุง – ฿850 (ประหยัด ฿50)">ชำระ ฿850 – 3 ถุง (750ก. รวม)</button>
+      <button class="opn-button" data-opn-amount="162000" data-opn-currency="THB" data-opn-label="6 ถุง – ฿1,620 (ประหยัด ฿180)">ชำระ ฿1,620 – 6 ถุง (1.5กก. รวม)</button>
+    </div>
 
-      <label>อีเมลของคุณ</label>
-      <input type="email" name="email" required>
-
-      <label>เลือกแพ็คเกจ (ถุง 250ก.)</label>
-      <div class="bundle-options">
-        <label class="bundle-option">
-          <input type="radio" name="bundle" value="1 ถุง - ฿300" required onchange="updateTotal()">
-          <strong>1 ถุง</strong><br>฿300 (250ก.)<br><small>ลองก่อนดีที่สุด</small>
-        </label>
-        <label class="bundle-option">
-          <input type="radio" name="bundle" value="3 ถุง - ฿850 (ประหยัด ฿50)" required onchange="updateTotal()">
-          <strong>3 ถุง</strong><br>฿850 (750ก. รวม)<br><small>ยอดนิยม – ประหยัด ฿50</small>
-        </label>
-        <label class="bundle-option">
-          <input type="radio" name="bundle" value="6 ถุง - ฿1,620 (ประหยัด ฿180)" required onchange="updateTotal()">
-          <strong>6 ถุง</strong><br>฿1,620 (1.5กก. รวม)<br><small>คุ้มที่สุด – ประหยัด ฿180</small>
-        </label>
-      </div>
-
-      <div class="total-display" id="totalDisplay">รวม: ฿0</div>
-
-      <label>ที่อยู่จัดส่ง</label>
-      <textarea name="address" rows="4" required></textarea>
-
-      <label>ข้อความหรือคำถามเพิ่มเติม</label>
-      <textarea name="message" rows="3"></textarea>
-
-      <input type="hidden" name="order_summary" id="orderSummary">
-      <input type="hidden" name="_subject" value="คำสั่งซื้อใหม่ Thunder Mule Coffee">
-
-      <input type="submit" value="ส่งคำสั่งซื้อ" id="submitBtn">
-
-      <div class="form-message" id="formMessage"></div>
-    </form>
+    <p style="margin-top: 30px; font-size: 1rem; color: #d1d5db;">โหมดทดสอบ — ใช้บัตรทดสอบ 4242 4242 4242 4242 (วันหมดอายุ/CVC ใดก็ได้) สำหรับการชำระเงินปลอม</p>
 
     <script>
-      const form = document.getElementById('orderForm');
-      const submitBtn = document.getElementById('submitBtn');
-      const messageDiv = document.getElementById('formMessage');
-
-      function updateTotal() {
-        const bundle = document.querySelector('input[name="bundle"]:checked');
-        if (bundle) {
-          const priceText = bundle.value.split('-')[1]?.trim() || '฿0';
-          document.getElementById('totalDisplay').textContent = 'รวม: ' + priceText;
-          document.getElementById('orderSummary').value = 'รายละเอียดคำสั่งซื้อ: ' + bundle.value;
-        }
-      }
-
-      form.addEventListener('submit', function(e) {
-        if (!document.querySelector('input[name="bundle"]:checked')) {
-          e.preventDefault();
-          messageDiv.innerHTML = '<span class="error">กรุณาเลือกแพ็คเกจ</span>';
-          return;
-        }
-
-        submitBtn.disabled = true;
-        submitBtn.value = 'กำลังส่ง...';
-        messageDiv.innerHTML = '<span>กำลังส่งคำสั่งซื้อ...</span>';
-      });
-
-      window.addEventListener('load', function() {
-        const firstRadio = document.querySelector('input[name="bundle"]');
-        if (firstRadio) {
-          firstRadio.checked = true;
-          updateTotal();
+      OpnCheckout.open({
+        publicKey: 'pkey_test_66n71fos0z28g33u86o',
+        onSuccess: function(token) {
+          alert('ชำระเงินสำเร็จ! Token: ' + token);
+        },
+        onFailure: function(error) {
+          alert('ชำระเงินล้มเหลว: ' + error.message);
         }
       });
 
-      if (window.location.hash === '#_formspree_success') {
-        messageDiv.innerHTML = '<span class="success">ส่งคำสั่งซื้อสำเร็จ! ผมจะตอบกลับเร็ว ๆ นี้พร้อมรายละเอียดชำระเงิน</span>';
-      }
+      document.querySelectorAll('.opn-button').forEach(button => {
+        button.addEventListener('click', function() {
+          OpnCheckout.open({
+            amount: this.dataset.opnAmount,
+            currency: this.dataset.opnCurrency,
+            label: this.dataset.opnLabel,
+            publicKey: 'pkey_test_66n71fos0z28g33u86o'
+          });
+        });
+      });
     </script>
   </section>
 
   <section class="blog">
     <h2>บล็อก – ข้อมูลเชิงลึก Thunder Mule</h2>
     
-    <!-- New Blog Post (translated) -->
     <article>
       <h3>พลังของกาแฟคั่วเข้มที่สมบูรณ์แบบ – ทำไม Thunder Mule ถึงโดดเด่น</h3>
       <p class="date">12 กุมภาพันธ์ 2026</p>
@@ -453,7 +427,6 @@
       <p>— จาร์ราด, Hua Thong Brand</p>
     </article>
 
-    <!-- Previous posts -->
     <article>
       <h3>ปลดล็อกโคลด์บริวคาเฟอีนสูงสุด – คู่มือ Thunder Mule</h3>
       <p class="date">10 กุมภาพันธ์ 2026</p>
