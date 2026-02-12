@@ -31,6 +31,9 @@
   <link rel="alternate" hreflang="th" href="https://www.thundermulecoffee.com/index-th.html" />
   <link rel="alternate" hreflang="x-default" href="https://www.thundermulecoffee.com/" />
 
+  <!-- PayPal Buttons Script (Part 1 - place once in <head>) -->
+  <script src="https://www.paypal.com/sdk/js?client-id=BAwJUe5agmv0pzavb-f1417UgED0n4Zv82s4pnhPWcYfgmFcKAK3I0myJ72n9Cmy10CjRPNof4cComponents=hosted-buttons&disable-funding=venmo¤cy=THB"></script>
+
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
@@ -142,12 +145,12 @@
       padding: 70px;
       border-radius: 20px;
       border: 1px solid rgba(168,85,247,0.18);
-      box-shadow: 0 25px 70px rgba(0,0,0,0.8), inset  0 0 40px rgba(168,85,247,0.06);
+      box-shadow: 0 25px 70px rgba(0,0,0,0.8), inset 0 0 40px rgba(168,85,247,0.06);
     }
     h2 {
       color: #a855f7;
       font-weight: 700;
-      font-size: 3.5rem;
+      font-size: 3.5 5rem;
       margin-bottom: 2rem;
       text-shadow: 0 0 40px #a855f7, 0 0 80px #a855f7;
     }
@@ -173,100 +176,6 @@
       box-shadow: 0 20px 50px rgba(0,0,0,0.7), 0 0 40px rgba(168,85,247,0.25);
       border: 1px solid rgba(168,85,247,0.25);
     }
-    .order form {
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    .order label {
-      display: block;
-      margin: 15px 0 5px;
-      font-weight: 600;
-      color: #d1d5db;
-    }
-    .order input, .order textarea {
-      width: 100%;
-      padding: 12px;
-      background: #000;
-      border: 1px solid rgba(168,85,247,0.3);
-      color: #fff;
-      border-radius: 8px;
-      font-size: 1rem;
-    }
-    .order input[type="submit"] {
-      background: linear-gradient(135deg, #a855f7, #7e22ce);
-      color: white;
-      padding: 16px 40px;
-      font-size: 1.3rem;
-      font-weight: 700;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      margin-top: 30px;
-      box-shadow: 0 10px 30px rgba(168,85,247,0.5);
-      transition: all 0.3s;
-    }
-    .order input[type="submit"]:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 20px 50px rgba(168,85,247,0.7);
-    }
-    .bundle-options {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-      margin-bottom: 20px;
-    }
-    .bundle-option {
-      cursor: pointer;
-      padding: 20px;
-      background: rgba(168,85,247,0.15);
-      border: 1px solid rgba(168,85,247,0.4);
-      border-radius: 12px;
-      text-align: center;
-      transition: all 0.3s;
-    }
-    .bundle-option:hover {
-      background: rgba(168,85,247,0.25);
-      transform: translateY(-5px);
-    }
-    .total-display {
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: #d8b4fe;
-      margin: 30px 0;
-      text-align: center;
-    }
-    .form-message {
-      margin-top: 20px;
-      font-size: 1.2rem;
-      text-align: center;
-      min-height: 1.5em;
-    }
-    .form-message.success { color: #34d399; }
-    .form-message.error { color: #ff6b6b; }
-    .links {
-      text-align: center;
-      margin: 60px 0;
-      font-size: 1.2rem;
-    }
-    .links a {
-      color: #a855f7;
-      text-decoration: none;
-      margin: 0 25px;
-      font-weight: 500;
-      transition: color 0.3s;
-    }
-    .links a:hover {
-      color: #d8b4fe;
-    }
-    footer {
-      text-align: center;
-      padding: 70px 20px;
-      background: #000;
-      font-size: 1rem;
-      color: #888;
-      border-top: 1px solid rgba(168,85,247,0.12);
-    }
-    /* Language Switcher */
     .language-switcher {
       position: absolute;
       top: 20px;
@@ -294,7 +203,6 @@
       h2 { font-size: 2.8rem; }
       .top-cta { flex-direction: column; gap: 20px; }
       .top-cta button, .top-cta a { width: 100%; max-width: none; }
-      .bundle-options { grid-template-columns: 1fr; }
       .language-switcher { position: static; justify-content: center; margin: 10px 0; padding: 10px; background: rgba(0,0,0,0.5); }
     }
   </style>
@@ -398,26 +306,18 @@
       <div class="form-message" id="formMessage"></div>
     </form>
 
-    <!-- PayPal Buttons (replace hosted_button_id with your own from PayPal dashboard) -->
+    <!-- PayPal Buttons (using your hosted_button_id values) -->
     <div style="text-align: center; margin-top: 50px;">
       <p><strong>Or pay instantly with PayPal (cards accepted):</strong></p>
-      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-        <input type="hidden" name="cmd" value="_s-xclick">
-        <input type="hidden" name="hosted_button_id" value="YOUR_1_PACK_BUTTON_ID">
-        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-      </form>
 
-      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-        <input type="hidden" name="cmd" value="_s-xclick">
-        <input type="hidden" name="hosted_button_id" value="YOUR_3_PACK_BUTTON_ID">
-        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-      </form>
+      <!-- 1 Pack -->
+      <div id="paypal-container-CVRMND23FSMW"></div>
 
-      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-        <input type="hidden" name="cmd" value="_s-xclick">
-        <input type="hidden" name="hosted_button_id" value="YOUR_6_PACK_BUTTON_ID">
-        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-      </form>
+      <!-- 3 Packs -->
+      <div id="paypal-container-8FPYU4FRMWQQ"></div>
+
+      <!-- 6 Packs -->
+      <div id="paypal-container-S3UC2K39EMB8A"></div>
     </div>
 
     <script>
@@ -458,6 +358,25 @@
         messageDiv.innerHTML = '<span class="success">Order sent successfully! I\'ll reply soon with payment details.</span>';
       }
     </script>
+
+    <!-- PayPal Buttons Render Scripts (Part 2 for each bundle) -->
+    <script>
+      paypal.HostedButtons({
+        hostedButtonId: "CVRMND23FSMW",
+      }).render("#paypal-container-CVRMND23FSMW");
+    </script>
+
+    <script>
+      paypal.HostedButtons({
+        hostedButtonId: "8FPYU4FRMWQQ",
+      }).render("#paypal-container-8FPYU4FRMWQQ");
+    </script>
+
+    <script>
+      paypal.HostedButtons({
+        hostedButtonId: "S3UC2K39EMB8A",
+      }).render("#paypal-container-S3UC2K39EMB8A");
+    </script>
   </section>
 
   <section class="blog">
@@ -473,9 +392,39 @@
       <p>— Jarrad, Hua Thong Brand</p>
     </article>
 
-    <!-- Other articles unchanged -->
-    <!-- (Previous 3 articles here — same as last full code) -->
+    <article>
+      <h3>Unlock the Ultimate High-Caffeine Cold Brew – Thunder Mule Guide</h3>
+      <p class="date">February 10, 2026</p>
+      <p>Cold brew lovers, listen up — if you're chasing that smooth, ice-cold caffeine punch without the bitterness or crash, Thunder Mule's Vienna dark roast is your secret weapon.</p>
+      <p>Our premium high-caffeine blend (rare Peaberry, Red Bourbon Arabica, and bold Robusta from Chiang Mai's 1,200–1,700m highlands) shines in cold brew. The glossy, oily beans extract slowly for intense dark chocolate, caramel, and hazelnut notes — thick, refreshing, and packed with clean energy that lasts all day.</p>
+      <p>Quick guide for the perfect Thunder Mule cold brew:</p>
+      <ul>
+        <li>Coarse grind 1:5 ratio (e.g., 100g beans to 500ml water).</li>
+        <li>Steep 12–18 hours in fridge.</li>
+        <li>Filter, dilute to taste, serve over ice.</li>
+      </ul>
+      <p>No fancy gear needed — just our fresh-roasted beans for unmatched flavor and power.</p>
+      <p>Ready to brew thunder? <a href="#order">Order direct today</a> or find us on Lazada.</p>
+      <p>— Jarrad, Hua Thong Brand</p>
+    </article>
 
+    <article>
+      <h3>The Best High-Caffeine Dark Roast Coffee Comes from Thailand's Chiang Mai Highlands</h3>
+      <p class="date">February 08, 2026</p>
+      <p>If you're searching for the <strong>best high-caffeine coffee</strong> that delivers real power without the burnout, look no further than Chiang Mai's high-altitude Arabica beans. At elevations of 1,200–1,700 meters, the cool climate and volcanic soil create slower-ripening cherries packed with dense caffeine, complex sugars, and bold flavor compounds.</p>
+      <p>Thunder Mule's <strong>Vienna dark roast coffee</strong> is roasted fresh by Hillkoff to bring out glossy, oily beans with intense notes of dark chocolate, caramel, and hazelnut. Unlike mass-produced supermarket dark roasts, these premium Thai highland beans are hand-picked, screened to 18 mesh for uniformity, and deliver thick crema and lasting energy — perfect for anyone needing strong, clean caffeine to power through the day.</p>
+      <p>Why settle for flat, generic dark roast when you can have authentic <strong>high altitude coffee from Thailand</strong>? Whether you're in Bangkok, Europe, or the US, Thunder Mule brings Chiang Mai's thunder straight to your cup.</p>
+      <p>Ready for horsepower? <a href="#order">Order direct today</a> or grab it on <a href="https://s.lazada.co.th/s.ZbV3Z6" target="_blank">Lazada</a>.</p>
+      <p>— Jarrad, Hua Thong Brand</p>
+    </article>
+
+    <article>
+      <h3>Why Chiang Mai Highlands Make the Best High-Caffeine Dark Roast Beans</h3>
+      <p class="date">February 02, 2026</p>
+      <p>I'm not here to sell you hype. I'm here because I found something real in Chiang Mai's misty mountains and I can't shut up about it. At 1,200–1,700 meters, the air is cooler, the mist hangs longer, and the soil is volcanic-rich. That forces Arabica trees (especially Peaberry) to ripen slowly — packing more sugars, acids, and caffeine density into every cherry. The result? Beans that roast up glossy and oily, with explosive dark chocolate, caramel, and hazelnut depth you don't get from lowland or mass-produced lots.</p>
+      <p>Screened to 18 mesh, roasted fresh by Hillkoff, this Vienna dark roast hits hard on caffeine without bitterness or burnout. It's not "just coffee" — it's horsepower in a cup from actual highland farmers who still pick by hand. If you're tired of flat, generic dark roast that fades by lunch, this is the wake-up call you've been missing.</p>
+      <p>— Jarrad, Hua Thong Brand</p>
+    </article>
   </section>
 
   <footer>
