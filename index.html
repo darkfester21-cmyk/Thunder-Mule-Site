@@ -10,7 +10,7 @@
   <!-- Full Favicon Set -->
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-  <link rel="icon" "$=image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="manifest" href="site.webmanifest">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
 
@@ -30,6 +30,9 @@
   <link rel="alternate" hreflang="en" href="https://www.thundermulecoffee.com/" />
   <link rel="alternate" hreflang="th" href="https://www.thundermulecoffee.com/index-th.html" />
   <link rel="alternate" hreflang="x-default" href="https://www.thundermulecoffee.com/" />
+
+  <!-- Opn Payments Script (Test Mode - async with onload for reliable load) -->
+  <script async src="https://cdn.omise.co/opn.js" onload="initOpn()"></script>
 
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
@@ -267,7 +270,7 @@
     <h2>The Thunder</h2>
     <p>Flavor notes: intense dark chocolate, smooth caramel, nutty hazelnut. Level of roast: Vienna dark, bringing out glossy, oily texture. Bean size: premium screen 18 for uniform excellence. High caffeine for that real horsepower in a cup — energy that lasts without the crash.</p>
 
-    <!-- New compressed photos -->
+    <!-- Your new compressed photos -->
     <img src="https://iili.io/q9atuXn.jpg" alt="Serene Thunder Mule Coffee cup with fresh beans and natural light – premium high-caffeine Vienna dark roast">
     <img src="https://iili.io/q9atAss.jpg" alt="Close-up of rich Thunder Mule Coffee crema – intense dark chocolate and caramel from Chiang Mai highlands">
     <img src="https://iili.io/q9atTzX.jpg" alt="Thunder Mule Coffee pack with poured cup – fresh roasted high-caffeine blend ready to order">
@@ -291,10 +294,10 @@
     <p style="margin-top: 30px; font-size: 1rem; color: #d1d5db;">Test mode active — use test card 4242 4242 4242 4242 (any expiry/CVC) for fake payments.</p>
   </section>
 
-  <!-- Opn Script + Init at bottom (100% reliable load) -->
-  <script src="https://cdn.omise.co/opn.js"></script>
+  <!-- Opn Script + Init (async with onload for reliable load) -->
+  <script async src="https://cdn.omise.co/opn.js" onload="initOpn()"></script>
   <script>
-    window.addEventListener('load', function() {
+    function initOpn() {
       if (typeof OpnCheckout !== 'undefined') {
         document.querySelectorAll('.opn-button').forEach(button => {
           button.addEventListener('click', function(e) {
@@ -310,7 +313,7 @@
       } else {
         console.error('OpnCheckout script failed to load');
       }
-    });
+    }
   </script>
 
   <section class="blog">
