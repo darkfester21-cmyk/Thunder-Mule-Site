@@ -31,8 +31,8 @@
   <link rel="alternate" hreflang="th" href="https://www.thundermulecoffee.com/index-th.html" />
   <link rel="alternate" hreflang="x-default" href="https://www.thundermulecoffee.com/" />
 
-  <!-- Opn Payments Script (Test Mode) -->
-  <script src="https://cdn.omise.co/opn.js"></script>
+  <!-- Opn Payments Script (Test Mode - defer for reliable load) -->
+  <script defer src="https://cdn.omise.co/opn.js"></script>
 
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
@@ -366,7 +366,7 @@
     <h2>The Thunder</h2>
     <p>Flavor notes: intense dark chocolate, smooth caramel, nutty hazelnut. Level of roast: Vienna dark, bringing out glossy, oily texture. Bean size: premium screen 18 for uniform excellence. High caffeine for that real horsepower in a cup — energy that lasts without the crash.</p>
 
-    <!-- New compressed photos -->
+    <!-- Your new compressed photos -->
     <img src="https://iili.io/q9atuXn.jpg" alt="Serene Thunder Mule Coffee cup with fresh beans and natural light – premium high-caffeine Vienna dark roast">
     <img src="https://iili.io/q9atAss.jpg" alt="Close-up of rich Thunder Mule Coffee crema – intense dark chocolate and caramel from Chiang Mai highlands">
     <img src="https://iili.io/q9atTzX.jpg" alt="Thunder Mule Coffee pack with poured cup – fresh roasted high-caffeine blend ready to order">
@@ -389,27 +389,24 @@
 
     <p style="margin-top: 30px; font-size: 1rem; color: #d1d5db;">Test mode active — use test card 4242 4242 4242 4242 (any expiry/CVC) for fake payments.</p>
 
+    <!-- Opn Init Script (Fixed - runs after load) -->
     <script>
-      OpnCheckout.open({
-        publicKey: 'pkey_test_66n71fos0z28g33u86o',
-        onSuccess: function(token) {
-          alert('Payment successful! Token: ' + token);
-          // In live mode, send token to your server for charge creation
-        },
-        onFailure: function(error) {
-          alert('Payment failed: ' + error.message);
-        }
-      });
-
-      document.querySelectorAll('.opn-button').forEach(button => {
-        button.addEventListener('click', function() {
-          OpnCheckout.open({
-            amount: this.dataset.opnAmount,
-            currency: this.dataset.opnCurrency,
-            label: this.dataset.opnLabel,
-            publicKey: 'pkey_test_66n71fos0z28g33u86o'
+      document.addEventListener('DOMContentLoaded', function() {
+        if (typeof OpnCheckout !== 'undefined') {
+          document.querySelectorAll('.opn-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+              e.preventDefault();
+              OpnCheckout.open({
+                amount: this.dataset.opnAmount,
+                currency: this.dataset.opnCurrency,
+                label: this.dataset.opnLabel,
+                publicKey: 'pkey_test_66n71fos0z28g33u86o'
+              });
+            });
           });
-        });
+        } else {
+          console.error('OpnCheckout script not loaded');
+        }
       });
     </script>
   </section>
