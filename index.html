@@ -31,9 +31,6 @@
   <link rel="alternate" hreflang="th" href="https://www.thundermulecoffee.com/index-th.html" />
   <link rel="alternate" hreflang="x-default" href="https://www.thundermulecoffee.com/" />
 
-  <!-- Opn Payments Script (Test Mode - async with onload for reliable load) -->
-  <script async src="https://cdn.omise.co/opn.js" onload="initOpn()"></script>
-
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
@@ -294,7 +291,7 @@
     <p style="margin-top: 30px; font-size: 1rem; color: #d1d5db;">Test mode active — use test card 4242 4242 4242 4242 (any expiry/CVC) for fake payments.</p>
   </section>
 
-  <!-- Opn Script + Init (async with onload for reliable load) -->
+  <!-- Opn Script + Init (async with onload + fallback poll for 100% reliability) -->
   <script async src="https://cdn.omise.co/opn.js" onload="initOpn()"></script>
   <script>
     function initOpn() {
@@ -314,6 +311,19 @@
         console.error('OpnCheckout script failed to load');
       }
     }
+
+    // Fallback poll in case onload misses
+    let pollCount = 0;
+    const pollInterval = setInterval(function() {
+      pollCount++;
+      if (typeof OpnCheckout !== 'undefined') {
+        clearInterval(pollInterval);
+        initOpn();
+      } else if (pollCount > 50) { // Stop after ~5 seconds
+        clearInterval(pollInterval);
+        console.error('OpnCheckout load timeout');
+      }
+    }, 100);
   </script>
 
   <section class="blog">
