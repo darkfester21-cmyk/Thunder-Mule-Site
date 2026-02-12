@@ -32,6 +32,9 @@
   <link rel="alternate" hreflang="th" href="https://www.thundermulecoffee.com/index-th.html" />
   <link rel="alternate" hreflang="x-default" href="https://www.thundermulecoffee.com/" />
 
+  <!-- PayPal Buttons Script (Part 1 - place once in <head>) -->
+  <script src="https://www.paypal.com/sdk/js?client-id=BAwJUe5agmv0pzavb-f1417UgED0n4Zv82s4pnhPWcYfgmFcKAK3I0myJ72n9Cmy10CjRPNof4cComponents=hosted-buttons&disable-funding=venmo&currency=THB"></script>
+
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
@@ -174,100 +177,6 @@
       box-shadow: 0 20px 50px rgba(0,0,0,0.7), 0 0 40px rgba(168,85,247,0.25);
       border: 1px solid rgba(168,85,247,0.25);
     }
-    .order form {
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    .order label {
-      display: block;
-      margin: 15px 0 5px;
-      font-weight: 600;
-      color: #d1d5db;
-    }
-    .order input, .order textarea {
-      width: 100%;
-      padding: 12px;
-      background: #000;
-      border: 1px solid rgba(168,85,247,0.3);
-      color: #fff;
-      border-radius: 8px;
-      font-size: 1rem;
-    }
-    .order input[type="submit"] {
-      background: linear-gradient(135deg, #a855f7, #7e22ce);
-      color: white;
-      padding: 16px 40px;
-      font-size: 1.3rem;
-      font-weight: 700;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      margin-top: 30px;
-      box-shadow: 0 10px 30px rgba(168,85,247,0.5);
-      transition: all 0.3s;
-    }
-    .order input[type="submit"]:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 20px 50px rgba(168,85,247,0.7);
-    }
-    .bundle-options {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-      margin-bottom: 20px;
-    }
-    .bundle-option {
-      cursor: pointer;
-      padding: 20px;
-      background: rgba(168,85,247,0.15);
-      border: 1px solid rgba(168,85,247,0.4);
-      border-radius: 12px;
-      text-align: center;
-      transition: all 0.3s;
-    }
-    .bundle-option:hover {
-      background: rgba(168,85,247,0.25);
-      transform: translateY(-5px);
-    }
-    .total-display {
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: #d8b4fe;
-      margin: 30px 0;
-      text-align: center;
-    }
-    .form-message {
-      margin-top: 20px;
-      font-size: 1.2rem;
-      text-align: center;
-      min-height: 1.5em;
-    }
-    .form-message.success { color: #34d399; }
-    .form-message.error { color: #ff6b6b; }
-    .links {
-      text-align: center;
-      margin: 60px 0;
-      font-size: 1.2rem;
-    }
-    .links a {
-      color: #a855f7;
-      text-decoration: none;
-      margin: 0 25px;
-      font-weight: 500;
-      transition: color 0.3s;
-    }
-    .links a:hover {
-      color: #d8b4fe;
-    }
-    footer {
-      text-align: center;
-      padding: 70px 20px;
-      background: #000;
-      font-size: 1rem;
-      color: #888;
-      border-top: 1px solid rgba(168,85,247,0.12);
-    }
-    /* Language Switcher */
     .language-switcher {
       position: absolute;
       top: 20px;
@@ -295,7 +204,6 @@
       h2 { font-size: 2.8rem; }
       .top-cta { flex-direction: column; gap: 20px; }
       .top-cta button, .top-cta a { width: 100%; max-width: none; }
-      .bundle-options { grid-template-columns: 1fr; }
       .language-switcher { position: static; justify-content: center; margin: 10px 0; padding: 10px; background: rgba(0,0,0,0.5); }
     }
   </style>
@@ -343,7 +251,7 @@
     <h2>เดอะธันเดอร์</h2>
     <p>โปรไฟล์รส: ช็อกโกแลตดำเข้ม คาราเมลนุ่ม เฮเซลนัทหอม ระดับการคั่ว: Vienna dark เพื่อเนื้อสัมผัสมันวาวเงา ขนาดเมล็ด: พรีเมียม screen 18 เพื่อความสม่ำเสมอเยี่ยม คาเฟอีนสูงเพื่อพลังม้าแท้ในแก้ว — พลังยาวนานไร้คราช</p>
 
-    <!-- New compressed photos -->
+    <!-- Your new compressed photos -->
     <img src="https://iili.io/q9atuXn.jpg" alt="แก้ว Thunder Mule Coffee สงบพร้อมเมล็ดสดและแสงธรรมชาติ – กาแฟคั่วเข้ม Vienna คาเฟอีนสูงพรีเมียม">
     <img src="https://iili.io/q9atAss.jpg" alt="ภาพใกล้ครีม่ากาแฟ Thunder Mule เข้มข้น – ช็อกโกแลตดำและคาราเมลจากที่สูงเชียงใหม่">
     <img src="https://iili.io/q9atTzX.jpg" alt="ถุง Thunder Mule Coffee พร้อมแก้วเท – คั่วสดใหม่ สูตรคาเฟอีนสูงพร้อมสั่ง">
@@ -399,30 +307,18 @@
       <div class="form-message" id="formMessage"></div>
     </form>
 
-    <!-- PayPal Buttons (replace hosted_button_id with your own from PayPal dashboard) -->
+    <!-- PayPal Buttons (using your hosted_button_id values) -->
     <div style="text-align: center; margin-top: 50px;">
       <p><strong>หรือชำระเงินทันทีด้วย PayPal (รับบัตร):</strong></p>
 
-      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-        <input type="hidden" name="cmd" value="_s-xclick">
-        <input type="hidden" name="hosted_button_id" value="YOUR_1_PACK_BUTTON_ID">
-        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" border="0" name="submit" alt="PayPal">
-        <p>฿300 – 1 ถุง (250ก.)</p>
-      </form>
+      <!-- 1 Pack -->
+      <div id="paypal-container-CVRMND23FSMW"></div>
 
-      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-        <input type="hidden" name="cmd" value="_s-xclick">
-        <input type="hidden" name="hosted_button_id" value="YOUR_3_PACK_BUTTON_ID">
-        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" border="0" name="submit" alt="PayPal">
-        <p>฿850 – 3 ถุง (ประหยัด ฿50)</p>
-      </form>
+      <!-- 3 Packs -->
+      <div id="paypal-container-8FPYU4FRMWQQ"></div>
 
-      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-        <input type="hidden" name="cmd" value="_s-xclick">
-        <input type="hidden" name="hosted_button_id" value="YOUR_6_PACK_BUTTON_ID">
-        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" border="0" name="submit" alt="PayPal">
-        <p>฿1,620 – 6 ถุง (ประหยัด ฿180)</p>
-      </form>
+      <!-- 6 Packs -->
+      <div id="paypal-container-S3UC2K39EMB8A"></div>
     </div>
 
     <script>
@@ -463,6 +359,25 @@
         messageDiv.innerHTML = '<span class="success">ส่งคำสั่งซื้อสำเร็จ! ผมจะตอบกลับเร็ว ๆ นี้พร้อมรายละเอียดชำระเงิน</span>';
       }
     </script>
+
+    <!-- PayPal Buttons Render Scripts (Part 2 for each bundle) -->
+    <script>
+      paypal.HostedButtons({
+        hostedButtonId: "CVRMND23FSMW",
+      }).render("#paypal-container-CVRMND23FSMW");
+    </script>
+
+    <script>
+      paypal.HostedButtons({
+        hostedButtonId: "8FPYU4FRMWQQ",
+      }).render("#paypal-container-8FPYU4FRMWQQ");
+    </script>
+
+    <script>
+      paypal.HostedButtons({
+        hostedButtonId: "S3UC2K39EMB8A",
+      }).render("#paypal-container-S3UC2K39EMB8A");
+    </script>
   </section>
 
   <section class="blog">
@@ -479,7 +394,7 @@
     </article>
 
     <article>
-      <h3>ปลดล็อกโคลด์บริวคาเฟอีนสูงสุด – คู่มือ Thunder Mule</h3>
+      <h3>ปลดล็อกโคลด์บริวคาเฟอีนสูงสุด – คู่มือThunder Mule</h3>
       <p class="date">10 กุมภาพันธ์ 2026</p>
       <p>คอกาแฟโคลด์บริว ฟังทางนี้ — ถ้าคุณกำลังตามหาคาเฟอีนเย็นฉ่ำนุ่มนวลโดยไม่ขมหรือคราช Thunder Mule Vienna dark roast คืออาวุธลับของคุณ</p>
       <p>สูตรพรีเมียมคาเฟอีนสูงของเรา (Peaberry หายาก Red Bourbon อาราบิก้า และ Robusta เข้มจากที่สูงเชียงใหม่ 1,200–1,700ม.) ส่องแสงในโคลด์บริว เมล็ดเงาวาวมันเยิ้มสกัดช้าเพื่อรสเข้มช็อกโกแลตดำ คาราเมล และเฮเซลนัท — เย็นฉ่ำ พลังสะอาดยาวนานตลอดวัน</p>
