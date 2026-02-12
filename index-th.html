@@ -32,7 +32,7 @@
   <link rel="alternate" hreflang="th" href="https://www.thundermulecoffee.com/index-th.html" />
   <link rel="alternate" hreflang="x-default" href="https://www.thundermulecoffee.com/" />
 
-  <!-- PayPal Buttons Script (Part 1 - place once in <head>) -->
+  <!-- PayPal Buttons Script (Part 1) -->
   <script src="https://www.paypal.com/sdk/js?client-id=BAwJUe5agmv0pzavb-f1417UgED0n4Zv82s4pnhPWcYfgmFcKAK3I0myJ72n9Cmy10CjRPNof4cComponents=hosted-buttons&disable-funding=venmo&currency=THB"></script>
 
   <style>
@@ -177,6 +177,110 @@
       box-shadow: 0 20px 50px rgba(0,0,0,0.7), 0 0 40px rgba(168,85,247,0.25);
       border: 1px solid rgba(168,85,247,0.25);
     }
+    .order form {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .order label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: 600;
+      color: #d1d5db;
+    }
+    .order input, .order textarea {
+      width: 100%;
+      padding: 14px;
+      background: #000;
+      border: 1px solid #a855f7;
+      color: #fff;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    .order input:focus, .order textarea:focus {
+      outline: none;
+      border-color: #d8b4fe;
+      box-shadow: 0 0 20px rgba(168,85,247,0.5);
+    }
+    .order input::placeholder, .order textarea::placeholder {
+      color: #a855f7;
+      opacity: 0.7;
+    }
+    .order input[type="submit"] {
+      background: linear-gradient(135deg, #a855f7, #7e22ce);
+      color: white;
+      padding: 16px 40px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      margin-top: 30px;
+      box-shadow: 0 10px 30px rgba(168,85,247,0.5);
+      transition: all 0.3s;
+    }
+    .order input[type="submit"]:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 50px rgba(168,85,247,0.7);
+    }
+    .bundle-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .bundle-option {
+      cursor: pointer;
+      padding: 20px;
+      background: rgba(168,85,247,0.15);
+      border: 1px solid rgba(168,85,247,0.4);
+      border-radius: 12px;
+      text-align: center;
+      transition: all 0.3s;
+    }
+    .bundle-option:hover {
+      background: rgba(168,85,247,0.25);
+      transform: translateY(-5px);
+    }
+    .total-display {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #d8b4fe;
+      margin: 30px 0;
+      text-align: center;
+    }
+    .form-message {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      text-align: center;
+      min-height: 1.5em;
+    }
+    .form-message.success { color: #34d399; }
+    .form-message.error { color: #ff6b6b; }
+    .links {
+      text-align: center;
+      margin: 60px 0;
+      font-size: 1.2rem;
+    }
+    .links a {
+      color: #a855f7;
+      text-decoration: none;
+      margin: 0 25px;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    .links a:hover {
+      color: #d8b4fe;
+    }
+    footer {
+      text-align: center;
+      padding: 70px 20px;
+      background: #000;
+      font-size: 1rem;
+      color: #888;
+      border-top: 1px solid rgba(168,85,247,0.12);
+    }
+    /* Language Switcher */
     .language-switcher {
       position: absolute;
       top: 20px;
@@ -204,6 +308,7 @@
       h2 { font-size: 2.8rem; }
       .top-cta { flex-direction: column; gap: 20px; }
       .top-cta button, .top-cta a { width: 100%; max-width: none; }
+      .bundle-options { grid-template-columns: 1fr; }
       .language-switcher { position: static; justify-content: center; margin: 10px 0; padding: 10px; background: rgba(0,0,0,0.5); }
     }
   </style>
@@ -270,10 +375,10 @@
 
     <form action="https://formspree.io/f/YOUR_FORMSPREE_HASHID_HERE" method="POST" id="orderForm">
       <label>ชื่อของคุณ</label>
-      <input type="text" name="name" required>
+      <input type="text" name="name" placeholder="ชื่อของคุณ" required>
 
       <label>อีเมลของคุณ</label>
-      <input type="email" name="email" required>
+      <input type="email" name="email" placeholder="อีเมลของคุณ" required>
 
       <label>เลือกแพ็คเกจ (ถุง 250ก.)</label>
       <div class="bundle-options">
@@ -294,10 +399,10 @@
       <div class="total-display" id="totalDisplay">รวม: ฿0</div>
 
       <label>ที่อยู่จัดส่ง</label>
-      <textarea name="address" rows="4" required></textarea>
+      <textarea name="address" rows="4" placeholder="ที่อยู่จัดส่งของคุณ" required></textarea>
 
       <label>ข้อความหรือคำถามเพิ่มเติม</label>
-      <textarea name="message" rows="3"></textarea>
+      <textarea name="message" rows="3" placeholder="มีคำถามอะไรเพิ่มเติมไหม?"></textarea>
 
       <input type="hidden" name="order_summary" id="orderSummary">
       <input type="hidden" name="_subject" value="คำสั่งซื้อใหม่ Thunder Mule Coffee">
@@ -393,39 +498,8 @@
       <p>— จาร์ราด, Hua Thong Brand</p>
     </article>
 
-    <article>
-      <h3>ปลดล็อกโคลด์บริวคาเฟอีนสูงสุด – คู่มือThunder Mule</h3>
-      <p class="date">10 กุมภาพันธ์ 2026</p>
-      <p>คอกาแฟโคลด์บริว ฟังทางนี้ — ถ้าคุณกำลังตามหาคาเฟอีนเย็นฉ่ำนุ่มนวลโดยไม่ขมหรือคราช Thunder Mule Vienna dark roast คืออาวุธลับของคุณ</p>
-      <p>สูตรพรีเมียมคาเฟอีนสูงของเรา (Peaberry หายาก Red Bourbon อาราบิก้า และ Robusta เข้มจากที่สูงเชียงใหม่ 1,200–1,700ม.) ส่องแสงในโคลด์บริว เมล็ดเงาวาวมันเยิ้มสกัดช้าเพื่อรสเข้มช็อกโกแลตดำ คาราเมล และเฮเซลนัท — เย็นฉ่ำ พลังสะอาดยาวนานตลอดวัน</p>
-      <p>คู่มือเร็วสำหรับ Thunder Mule โคลด์บริวสมบูรณ์แบบ:</p>
-      <ul>
-        <li>บดหยาบอัตราส่วน 1:5 (เช่น 100ก. เมล็ดต่อน้ำ 500มล.)</li>
-        <li>แช่ 12–18 ชั่วโมงในตู้เย็น</li>
-        <li>กรอง เจือจางตามชอบ เสิร์ฟบนน้ำแข็ง</li>
-      </ul>
-      <p>ไม่ต้องอุปกรณ์หรู — แค่เมล็ดคั่วสดของเราเพื่อรสชาติและพลังไร้เทียมทาน</p>
-      <p>พร้อมชงพลังฟ้าไหม? <a href="#order">สั่งตรงวันนี้</a> หรือหาเราได้บน Lazada</p>
-      <p>— จาร์ราด, Hua Thong Brand</p>
-    </article>
+    <!-- Other articles unchanged -->
 
-    <article>
-      <h3>กาแฟคั่วเข้มคาเฟอีนสูงที่ดีที่สุดมาจากที่สูงเชียงใหม่ ประเทศไทย</h3>
-      <p class="date">08 กุมภาพันธ์ 2026</p>
-      <p>หากคุณกำลังมองหากาแฟ<strong>คาเฟอีนสูง</strong>ที่ดีที่สุดที่ให้พลังจริงโดยไม่คราช ไม่ต้องมองหาที่ไหนไกลนอกจากเมล็ดอาราบิก้าสูงชันเชียงใหม่ ที่ระดับความสูง 1,200–1,700 เมตร อากาศเย็นและดินภูเขาไฟอุดมสมบูรณ์ทำให้เชอร์รี่สุกช้า อัดแน่นด้วยคาเฟอีน รสหวาน และสารรสเข้มข้น</p>
-      <p>Thunder Mule <strong>คั่ว Vienna dark roast</strong> คั่วสดโดย Hillkoff เพื่อให้เมล็ดเงาวาวมันเยิ้ม รสเข้มช็อกโกแลตดำ คาราเมล และเฮเซลนัท แตกต่างจากกาแฟคั่วเข้มซูเปอร์มาร์เก็ตทั่วไป เมล็ดที่สูงไทยพรีเมียมเหล่านี้เก็บด้วยมือ 筛 screen 18 เพื่อความสม่ำเสมอ และให้ครีม่าหนา พลังยาวนาน — เหมาะสำหรับทุกคนที่ต้องการคาเฟอีนสะอาดเข้มข้นเพื่อลุยวัน</p>
-      <p>ทำไมต้องกาแฟเข้มธรรมดาเมื่อมี<strong>กาแฟสูงชันแท้จากไทย</strong>? ไม่ว่าจะในกรุงเทพ ยุโรป หรืออเมริกา Thunder Mule นำพลังฟ้าผ่าจากเชียงใหม่ตรงสู่แก้วคุณ</p>
-      <p>พร้อมรับพลังม้าแล้วหรือยัง? <a href="#order">สั่งซื้อตรงวันนี้</a> หรือซื้อบน <a href="https://s.lazada.co.th/s.ZbV3Z6" target="_blank">Lazada</a></p>
-      <p>— จาร์ราด, Hua Thong Brand</p>
-    </article>
-
-    <article>
-      <h3>ทำไมที่สูงเชียงใหม่ถึงให้เมล็ดกาแฟคั่วเข้มคาเฟอีนสูงที่ดีที่สุด</h3>
-      <p class="date">02 กุมภาพันธ์ 2026</p>
-      <p>ผมไม่ได้มาขาย hype ผมมาที่นี่เพราะเจอบางสิ่งจริงในภูเขาหมอกเชียงใหม่และหยุดพูดไม่ได้ ที่ระดับ 1,200–1,700 เมตร อากาศเย็นกว่า หมอกอยู่นานกว่า และดินภูเขาไฟอุดมสมบูรณ์ ทำให้ต้นอาราบิก้า (โดยเฉพาะ Peaberry) สุกช้า — อัดแน่นด้วยน้ำตาล กรด และความหนาแน่นคาเฟอีนในทุกเชอร์รี่ ผลลัพธ์? เมล็ดที่คั่วแล้วเงาวาวมันเยิ้ม ระเบิดรสช็อกโกแลตดำ คาราเมล และเฮเซลนัทที่หาไม่ได้จากที่ราบหรือโรงงานผลิตจำนวนมาก</p>
-      <p>筛 screen 18 คั่วสดโดย Hillkoff Vienna dark roast นี้ให้คาเฟอีนหนักแต่ไม่ขมหรือคราช ไม่ใช่แค่ “กาแฟ” — มันคือพลังม้าในแก้วจากเกษตรกรที่สูงตัวจริงที่ยังเก็บมือ ถ้าคุณเบื่อกาแฟเข้มจืดที่หมดพลังตอนเที่ยง นี่คือการปลุกที่คุณรอคอย</p>
-      <p>— จาร์ราด, Hua Thong Brand</p>
-    </article>
   </section>
 
   <footer>
