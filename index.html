@@ -31,9 +31,6 @@
   <link rel="alternate" hreflang="th" href="https://www.thundermulecoffee.com/index-th.html" />
   <link rel="alternate" hreflang="x-default" href="https://www.thundermulecoffee.com/" />
 
-  <!-- Load the Omise Library -->
-  <script src="https://cdn.omise.co"></script>
-
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
@@ -294,7 +291,8 @@
     <p style="margin-top: 30px; font-size: 1rem; color: #d1d5db;">Test mode active — use test card 4242 4242 4242 4242 (any expiry/CVC) for fake payments.</p>
   </section>
 
-  <!-- OmiseCard Init (with token test callback) -->
+  <!-- Omise Library + Init (with token success alert for test) -->
+  <script src="https://cdn.omise.co"></script>
   <script>
     // This function sets up the buttons once everything is loaded
     function setupOmise() {
