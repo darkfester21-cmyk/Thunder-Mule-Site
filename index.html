@@ -31,6 +31,34 @@
   <link rel="alternate" hreflang="th" href="https://www.thundermulecoffee.com/index-th.html" />
   <link rel="alternate" hreflang="x-default" href="https://www.thundermulecoffee.com/" />
 
+  <!-- Correct Opn Script + Init (infinite poll until ready) -->
+  <script async src="https://cdn.omise.co/omise.js" onload="initOpn()"></script>
+  <script>
+    function initOpn() {
+      if (typeof OpnCheckout !== 'undefined') {
+        document.querySelectorAll('.opn-button').forEach(button => {
+          button.addEventListener('click', function(e) {
+            e.preventDefault();
+            OpnCheckout.open({
+              amount: this.dataset.opnAmount,
+              currency: this.dataset.opnCurrency,
+              label: this.dataset.opnLabel,
+              publicKey: 'pkey_test_66n71fos0z28g33u86o'
+            });
+          });
+        });
+      }
+    }
+
+    // Infinite poll until OpnCheckout ready (no timeout)
+    const pollInterval = setInterval(function() {
+      if (typeof OpnCheckout !== 'undefined') {
+        clearInterval(pollInterval);
+        initOpn();
+      }
+    }, 100);
+  </script>
+
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
@@ -290,39 +318,6 @@
 
     <p style="margin-top: 30px; font-size: 1rem; color: #d1d5db;">Test mode active — use test card 4242 4242 4242 4242 (any expiry/CVC) for fake payments.</p>
   </section>
-
-  <!-- Correct Opn Script + Init (longer poll, no false error) -->
-  <script async src="https://cdn.omise.co/omise.js" onload="initOpn()"></script>
-  <script>
-    function initOpn() {
-      if (typeof OpnCheckout !== 'undefined') {
-        document.querySelectorAll('.opn-button').forEach(button => {
-          button.addEventListener('click', function(e) {
-            e.preventDefault();
-            OpnCheckout.open({
-              amount: this.dataset.opnAmount,
-              currency: this.dataset.opnCurrency,
-              label: this.dataset.opnLabel,
-              publicKey: 'pkey_test_66n71fos0z28g33u86o'
-            });
-          });
-        });
-      }
-    }
-
-    // Longer poll (10 seconds) — no error unless real fail
-    let pollCount = 0;
-    const pollInterval = setInterval(function() {
-      pollCount++;
-      if (typeof OpnCheckout !== 'undefined') {
-        clearInterval(pollInterval);
-        initOpn();
-      } else if (pollCount > 100) { // ~10 seconds
-        clearInterval(pollInterval);
-        console.warn('OpnCheckout took too long — try refresh');
-      }
-    }, 100);
-  </script>
 
   <section class="blog">
     <h2>Blog – Thunder Mule Insights</h2>
