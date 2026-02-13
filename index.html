@@ -293,11 +293,14 @@
 
   <!-- Load the Omise Library -->
 <script src="https://cdn.omise.co/omise.js"></script>
-  <script>
-    // This function sets up the buttons once everything is loaded
-   <script>
-  function setupOmise() {
-    OmiseCard.configure({
+
+<script>
+// This function sets up the buttons once everything is loaded
+function setupOmise() {
+  OmiseCard.configure({
+    publicKey: 'pkey_test_66n71fos0z28g33u86o'
+  });
+
       publicKey: 'pkey_test_66n71fos0z28g33u86o'
     });
       // 2. Find all buttons with the class 'opn-button'
@@ -359,6 +362,7 @@
 
 </body>
 </html>
+
 
 
 
