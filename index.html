@@ -31,33 +31,8 @@
   <link rel="alternate" hreflang="th" href="https://www.thundermulecoffee.com/index-th.html" />
   <link rel="alternate" hreflang="x-default" href="https://www.thundermulecoffee.com/" />
 
-  <!-- Correct Opn Script + Init (infinite poll until ready) -->
-  <script async src="https://cdn.omise.co/omise.js" onload="initOpn()"></script>
-  <script>
-    function initOpn() {
-      if (typeof OpnCheckout !== 'undefined') {
-        document.querySelectorAll('.opn-button').forEach(button => {
-          button.addEventListener('click', function(e) {
-            e.preventDefault();
-            OpnCheckout.open({
-              amount: this.dataset.opnAmount,
-              currency: this.dataset.opnCurrency,
-              label: this.dataset.opnLabel,
-              publicKey: 'pkey_test_66n71fos0z28g33u86o'
-            });
-          });
-        });
-      }
-    }
-
-    // Infinite poll until OpnCheckout ready (no timeout)
-    const pollInterval = setInterval(function() {
-      if (typeof OpnCheckout !== 'undefined') {
-        clearInterval(pollInterval);
-        initOpn();
-      }
-    }, 100);
-  </script>
+  <!-- Correct Opn Script (omise.js as per support) -->
+  <script async src="https://cdn.omise.co/omise.js"></script>
 
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
@@ -318,6 +293,50 @@
 
     <p style="margin-top: 30px; font-size: 1rem; color: #d1d5db;">Test mode active — use test card 4242 4242 4242 4242 (any expiry/CVC) for fake payments.</p>
   </section>
+
+  <!-- Opn Init Script (your fixed version) -->
+  <script>
+    // Function to attach listeners to buttons
+    function initOpn() {
+      if (typeof OpnCheckout !== 'undefined') {
+        const buttons = document.querySelectorAll('.opn-button');
+        
+        // If no buttons found yet, the DOM might not be ready
+        if (buttons.length === 0) return;
+
+        buttons.forEach(button => {
+          // Prevent double-binding if initOpn runs twice
+          if (button.getAttribute('data-bound')) return;
+          
+          button.addEventListener('click', function(e) {
+            e.preventDefault();
+            OpnCheckout.configure({
+              publicKey: 'pkey_test_66n71fos0z28g33u86o'
+            });
+            OpnCheckout.open({
+              amount: this.dataset.opnAmount,
+              currency: this.dataset.opnCurrency,
+              label: this.dataset.opnLabel,
+            });
+          });
+          button.setAttribute('data-bound', 'true');
+        });
+      }
+    }
+
+    // Run when the library loads AND when the DOM is ready
+    window.addEventListener('DOMContentLoaded', initOpn);
+
+    const pollInterval = setInterval(function() {
+      if (typeof OpnCheckout !== 'undefined') {
+        initOpn();
+        // Only clear if we actually found and bound buttons
+        if (document.querySelectorAll('.opn-button[data-bound]').length > 0) {
+            clearInterval(pollInterval);
+        }
+      }
+    }, 500);
+  </script>
 
   <section class="blog">
     <h2>Blog – Thunder Mule Insights</h2>
