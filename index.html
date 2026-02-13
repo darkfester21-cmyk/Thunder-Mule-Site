@@ -295,12 +295,11 @@
 <script src="https://cdn.omise.co"></script>
   <script>
     // This function sets up the buttons once everything is loaded
-    function setupOmise() {
-      // 1. Initialize with your TEST Public Key
-      OmiseCard.configure({
-        publicKey: 'pkey_test_66n71fos0z28g33u86o'
-      });
-
+   <script>
+  function setupOmise() {
+    OmiseCard.configure({
+      publicKey: 'pkey_test_66n71fos0z28g33u86o'
+    });
       // 2. Find all buttons with the class 'opn-button'
       const buttons = document.querySelectorAll('.opn-button');
 
@@ -309,16 +308,19 @@
           e.preventDefault(); // Stop the page from refreshing
 
           // 3. Open the payment pop-up
-          OmiseCard.open({
-            amount: this.dataset.amount,
-            currency: 'THB',
-            label: this.dataset.label,
-            onCreateTokenSuccess: (nonce) => {
-              // This alert proves the pop-up worked!
-              alert("SUCCESS! Token created: " + nonce);
-              console.log("Token:", nonce);
-            }
-          });
+                  OmiseCard.open({
+          amount: this.dataset.opnAmount,
+          currency: 'THB',
+          label: this.dataset.opnLabel,
+          onCreateTokenSuccess: (nonce) => {
+            alert("SUCCESS! Token created: " + nonce);
+            console.log("Token:", nonce);
+          },
+          onCreateSourceSuccess: (source) => {
+            alert("SUCCESS! PromptPay Source: " + source);
+          }
+        });
+
         });
       });
     }
@@ -357,5 +359,6 @@
 
 </body>
 </html>
+
 
 
