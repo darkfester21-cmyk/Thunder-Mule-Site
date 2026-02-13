@@ -173,110 +173,6 @@
       box-shadow: 0 20px 50px rgba(0,0,0,0.7), 0 0 40px rgba(168,85,247,0.25);
       border: 1px solid rgba(168,85,247,0.25);
     }
-    .order form {
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    .order label {
-      display: block;
-      margin: 15px 0 5px;
-      font-weight: 600;
-      color: #d1d5db;
-    }
-    .order input, .order textarea {
-      width: 100%;
-      padding: 14px;
-      background: #000;
-      border: 1px solid #a855f7;
-      color: #fff;
-      border-radius: 8px;
-      font-size: 1rem;
-      transition: all 0.3s;
-    }
-    .order input:focus, .order textarea:focus {
-      outline: none;
-      border-color: #d8b4fe;
-      box-shadow: 0 0 20px rgba(168,85,247,0.5);
-    }
-    .order input::placeholder, .order textarea::placeholder {
-      color: #a855f7;
-      opacity: 0.7;
-    }
-    .order input[type="submit"] {
-      background: linear-gradient(135deg, #a855f7, #7e22ce);
-      color: white;
-      padding: 16px 40px;
-      font-size: 1.3rem;
-      font-weight: 700;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      margin-top: 30px;
-      box-shadow: 0 10px 30px rgba(168,85,247,0.5);
-      transition: all 0.3s;
-    }
-    .order input[type="submit"]:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 20px 50px rgba(168,85,247,0.7);
-    }
-    .bundle-options {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-      margin-bottom: 20px;
-    }
-    .bundle-option {
-      cursor: pointer;
-      padding: 20px;
-      background: rgba(168,85,247,0.15);
-      border: 1px solid rgba(168,85,247,0.4);
-      border-radius: 12px;
-      text-align: center;
-      transition: all 0.3s;
-    }
-    .bundle-option:hover {
-      background: rgba(168,85,247,0.25);
-      transform: translateY(-5px);
-    }
-    .total-display {
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: #d8b4fe;
-      margin: 30px 0;
-      text-align: center;
-    }
-    .form-message {
-      margin-top: 20px;
-      font-size: 1.2rem;
-      text-align: center;
-      min-height: 1.5em;
-    }
-    .form-message.success { color: #34d399; }
-    .form-message.error { color: #ff6b6b; }
-    .links {
-      text-align: center;
-      margin: 60px 0;
-      font-size: 1.2rem;
-    }
-    .links a {
-      color: #a855f7;
-      text-decoration: none;
-      margin: 0 25px;
-      font-weight: 500;
-      transition: color 0.3s;
-    }
-    .links a:hover {
-      color: #d8b4fe;
-    }
-    footer {
-      text-align: center;
-      padding: 70px 20px;
-      background: #000;
-      font-size: 1rem;
-      color: #888;
-      border-top: 1px solid rgba(168,85,247,0.12);
-    }
-    /* Language Switcher */
     .language-switcher {
       position: absolute;
       top: 20px;
@@ -304,8 +200,27 @@
       h2 { font-size: 2.8rem; }
       .top-cta { flex-direction: column; gap: 20px; }
       .top-cta button, .top-cta a { width: 100%; max-width: none; }
-      .bundle-options { grid-template-columns: 1fr; }
       .language-switcher { position: static; justify-content: center; margin: 10px 0; padding: 10px; background: rgba(0,0,0,0.5); }
+    }
+    .opn-button {
+      background: linear-gradient(135deg, #a855f7, #7e22ce);
+      color: white;
+      padding: 20px 40px;
+      font-size: 1.4rem;
+      font-weight: 700;
+      border-radius: 60px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 15px 50px rgba(168,85,247,0.6);
+      transition: all 0.3s ease;
+      margin: 15px 0;
+      display: block;
+      text-align: center;
+      text-decoration: none;
+    }
+    .opn-button:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 70px rgba(168,85,247,0.8);
     }
   </style>
 </head>
@@ -362,120 +277,53 @@
   </section>
 
   <section class="order" id="order">
-    <h2>Order Direct</h2>
-    <p>Fill in the form below and I'll get back to you with payment details (bank transfer or PayPal). Free postage in Thailand, worldwide shipping available.</p>
-    <p><strong>Pricing (250g packs of premium high-caffeine Vienna dark roast):</strong><br>
-      • 1 pack — ฿300<br>
-      • 3 packs — ฿850 (save ฿50)<br>
-      • 6 packs — ฿1,620 (save ฿180)</p>
+    <h2>Order Direct with Secure Payment</h2>
+    <p>Choose your bundle and pay securely with Opn Payments (cards, PromptPay QR, wallets). Fresh postage free in Thailand, worldwide shipping available.</p>
+    <p><strong>Pricing (250g packs of premium high-caffeine Vienna dark roast):</strong></p>
 
-    <form action="https://formspree.io/f/YOUR_FORMSPREE_HASHID_HERE" method="POST" id="orderForm">
-      <label>Your Name</label>
-      <input type="text" name="name" placeholder="Your Name" required>
-
-      <label>Your Email</label>
-      <input type="email" name="email" placeholder="Your Email" required>
-
-      <label>Choose Your Bundle (250g Packs)</label>
-      <div class="bundle-options">
-        <label class="bundle-option">
-          <input type="radio" name="bundle" value="1 pack - ฿300" required onchange="updateTotal()">
-          <strong>1 Pack</strong><br>฿300 (250g)<br><small>Perfect starter</small>
-        </label>
-        <label class="bundle-option">
-          <input type="radio" name="bundle" value="3 packs - ฿850 (save ฿50)" required onchange="updateTotal()">
-          <strong>3 Packs</strong><br>฿850 (750g total)<br><small>Most popular – save ฿50</small>
-        </label>
-        <label class="bundle-option">
-          <input type="radio" name="bundle" value="6 packs - ฿1,620 (save ฿180)" required onchange="updateTotal()">
-          <strong>6 Packs</strong><br>฿1,620 (1.5kg total)<br><small>Best value – save ฿180</small>
-        </label>
-      </div>
-
-      <div class="total-display" id="totalDisplay">Total: ฿0</div>
-
-      <label>Delivery Address</label>
-      <textarea name="address" rows="4" placeholder="Your Delivery Address" required></textarea>
-
-      <label>Any Message or Questions</label>
-      <textarea name="message" rows="3" placeholder="Any Message or Questions"></textarea>
-
-      <input type="hidden" name="order_summary" id="orderSummary">
-      <input type="hidden" name="_subject" value="New Thunder Mule Coffee Order">
-
-      <input type="submit" value="Send Order" id="submitBtn">
-
-      <div class="form-message" id="formMessage"></div>
-    </form>
-
-    <!-- Simple PayPal Buttons (no script, always show) -->
-    <div style="text-align: center; margin-top: 50px;">
-      <p><strong>Or pay instantly with PayPal (cards accepted):</strong></p>
-
-      <!-- 1 Pack -->
-      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-        <input type="hidden" name="cmd" value="_s-xclick">
-        <input type="hidden" name="hosted_button_id" value="CVRMND23FSMW">
-        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" border="0" name="submit" alt="PayPal">
-        <p>฿300 – 1 Pack (250g)</p>
-      </form>
-
-      <!-- 3 Packs -->
-      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-        <input type="hidden" name="cmd" value="_s-xclick">
-        <input type="hidden" name="hosted_button_id" value="8FPYU4FRMWQQ">
-        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" border="0" name="submit" alt="PayPal">
-        <p>฿850 – 3 Packs (save ฿50)</p>
-      </form>
-
-      <!-- 6 Packs -->
-      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-        <input type="hidden" name="cmd" value="_s-xclick">
-        <input type="hidden" name="hosted_button_id" value="S3UC2K39EMB8A">
-        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" border="0" name="submit" alt="PayPal">
-        <p>฿1,620 – 6 Packs (save ฿180)</p>
-      </form>
+    <!-- Opn Checkout Buttons (Test Mode) -->
+    <div style="text-align: center;">
+      <button class="opn-button" data-opn-amount="30000" data-opn-currency="THB" data-opn-label="1 Pack – ฿300">Pay ฿300 – 1 Pack (250g)</button>
+      <button class="opn-button" data-opn-amount="85000" data-opn-currency="THB" data-opn-label="3 Packs – ฿850 (save ฿50)">Pay ฿850 – 3 Packs (750g total)</button>
+      <button class="opn-button" data-opn-amount="162000" data-opn-currency="THB" data-opn-label="6 Packs – ฿1,620 (save ฿180)">Pay ฿1,620 – 6 Packs (1.5kg total)</button>
     </div>
 
-    <script>
-      const form = document.getElementById('orderForm');
-      const submitBtn = document.getElementById('submitBtn');
-      const messageDiv = document.getElementById('formMessage');
-
-      function updateTotal() {
-        const bundle = document.querySelector('input[name="bundle"]:checked');
-        if (bundle) {
-          const priceText = bundle.value.split('-')[1]?.trim() || '฿0';
-          document.getElementById('totalDisplay').textContent = 'Total: ' + priceText;
-          document.getElementById('orderSummary').value = 'Order Details: ' + bundle.value;
-        }
-      }
-
-      form.addEventListener('submit', function(e) {
-        if (!document.querySelector('input[name="bundle"]:checked')) {
-          e.preventDefault();
-          messageDiv.innerHTML = '<span class="error">Please select a bundle.</span>';
-          return;
-        }
-
-        submitBtn.disabled = true;
-        submitBtn.value = 'Sending...';
-        messageDiv.innerHTML = '<span>Sending your order...</span>';
-      });
-
-      window.addEventListener('load', function() {
-        const firstRadio = document.querySelector('input[name="bundle"]');
-        if (firstRadio) {
-          firstRadio.checked = true;
-          updateTotal();
-        }
-      });
-
-      if (window.location.hash === '#_formspree_success') {
-        messageDiv.innerHTML = '<span class="success">Order sent successfully! I\'ll reply soon with payment details.</span>';
-      }
-    </script>
+    <p style="margin-top: 30px; font-size: 1rem; color: #d1d5db;">Test mode active — use test card 4242 4242 4242 4242 (any expiry/CVC) for fake payments.</p>
   </section>
+
+  <!-- Correct Opn Script (omise.js as per support) + Init -->
+  <script async src="https://cdn.omise.co/omise.js" onload="initOpn()"></script>
+  <script>
+    function initOpn() {
+      if (typeof OpnCheckout !== 'undefined') {
+        document.querySelectorAll('.opn-button').forEach(button => {
+          button.addEventListener('click', function(e) {
+            e.preventDefault();
+            OpnCheckout.open({
+              amount: this.dataset.opnAmount,
+              currency: this.dataset.opnCurrency,
+              label: this.dataset.opnLabel,
+              publicKey: 'pkey_test_66n71fos0z28g33u86o'
+            });
+          });
+        });
+      } else {
+        console.error('OpnCheckout script failed to load');
+      }
+    }
+
+    // Fallback poll
+    let pollCount = 0;
+    const pollInterval = setInterval(function() {
+      pollCount++;
+      if (typeof OpnCheckout !== 'undefined') {
+        clearInterval(pollInterval);
+        initOpn();
+      } else if (pollCount > 50) {
+        clearInterval(pollInterval);
+      }
+    }, 100);
+  </script>
 
   <section class="blog">
     <h2>Blog – Thunder Mule Insights</h2>
