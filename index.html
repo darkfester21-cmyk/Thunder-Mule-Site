@@ -3,73 +3,358 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Thunder Mule Coffee – Premium high-caffeine Vienna dark roast from Chiang Mai highlands." />
+  <meta name="description" content="Thunder Mule Coffee – Premium high-caffeine Vienna dark roast from Chiang Mai highlands. Secret blend, glossy beans, intense dark chocolate & caramel. Clean power, no crash. Order fresh now." />
+  <meta name="keywords" content="high caffeine coffee, Vienna dark roast, Chiang Mai coffee, Thai highland Arabica, cold brew coffee Thailand, premium dark roast, strong coffee no crash" />
   <title>Thunder Mule Coffee | High-Caffeine Dark Roast Chiang Mai</title>
-  
+
+  <!-- Full Favicon Set -->
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+  <!-- Montserrat Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CRPF0RVKLS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-CRPF0RVKLS');
+  </script>
+
+  <!-- hreflang for SEO -->
+  <link rel="alternate" hreflang="en" href="https://www.thundermulecoffee.com/" />
+  <link rel="alternate" hreflang="th" href="https://www.thundermulecoffee.com/index-th.html" />
+  <link rel="alternate" hreflang="x-default" href="https://www.thundermulecoffee.com/" />
+
   <style>
-    /* ... keeping your existing styles ... */
     * { margin:0; padding:0; box-sizing:border-box; }
-    body { font-family: 'Montserrat', system-ui, sans-serif; background: #0a0a0a; color: #a855f7; line-height: 1.7; }
-    header { background: linear-gradient(rgba(10,10,10,0.85), rgba(10,10,10,0.85)), url('https://iili.io/fZKDRbS.png') center/cover no-repeat; text-align: center; padding: 180px 20px 120px; }
-    header h1 { font-size: 4.5rem; text-shadow: 0 0 40px #a855f7; color: white; }
-    .top-cta { text-align: center; margin: 40px auto 80px; display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
+    body {
+      font-family: 'Montserrat', system-ui, sans-serif;
+      background: #0a0a0a;
+      color: #a855f7;
+      line-height: 1.7;
+    }
+    header {
+      position: relative;
+      background: linear-gradient(rgba(10,10,10,0.85), rgba(10,10,10,0.85)),
+                  url('https://iili.io/fZKDRbS.png') center/cover no-repeat;
+      color: white;
+      text-align: center;
+      padding: 180px 20px 120px;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 30%, rgba(168,85,247,0.18), transparent 70%);
+      pointer-events: none;
+    }
+    header h1 {
+      font-size: 4.5rem;
+      font-weight: 700;
+      text-shadow: 0 0 40px #a855f7, 0 0 80px #a855f7;
+      margin-bottom: 0.8rem;
+      letter-spacing: 3px;
+    }
+    header p.tagline {
+      font-size: 1.9rem;
+      font-weight: 500;
+      max-width: 800px;
+      margin: 0 auto 40px;
+      color: #e0e0e0;
+      text-shadow: 0 0 20px rgba(168,85,247,0.5);
+    }
+    .top-nav {
+      text-align: center;
+      padding: 20px 0;
+      background: #000;
+    }
+    .top-nav a {
+      color: #a855f7;
+      text-decoration: none;
+      margin: 0 25px;
+      font-weight: 500;
+      font-size: 1.1rem;
+    }
+    .top-nav a:hover {
+      color: #d8b4fe;
+    }
+    .top-cta {
+      text-align: center;
+      margin: 40px auto 80px;
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+    }
+    .top-cta button, .top-cta a {
+      flex: 1 1 350px;
+      max-width: 450px;
+      min-width: 300px;
+      background: linear-gradient(135deg, #a855f7, #7e22ce);
+      color: white;
+      padding: 22px 40px;
+      font-size: 1.6rem;
+      font-weight: 700;
+      border-radius: 60px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 15px 50px rgba(168,85,247,0.6);
+      transition: all 0.3s ease;
+      text-align: center;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .top-cta button:hover, .top-cta a:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 70px rgba(168,85,247,0.8);
+    }
+    .warning {
+      text-align: center;
+      margin: 20px auto 40px;
+      max-width: 800px;
+      padding: 20px;
+      background: rgba(168,85,247,0.1);
+      border: 1px solid rgba(168,85,247,0.3);
+      border-radius: 12px;
+      color: #d1d5db;
+      font-size: 1.1rem;
+    }
+    section {
+      padding: 100px 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .about, .product, .blog, .order {
+      background: #111111 url('https://iili.io/fZnRRHX.png') center/contain no-repeat;
+      background-blend-mode: overlay;
+      background-color: rgba(17,17,17,0.88);
+      margin: 60px auto;
+      padding: 70px;
+      border-radius: 20px;
+      border: 1px solid rgba(168,85,247,0.18);
+      box-shadow: 0 25px 70px rgba(0,0,0,0.8), inset 0 0 40px rgba(168,85,247,0.06);
+    }
+    h2 {
+      color: #a855f7;
+      font-weight: 700;
+      font-size: 3.5rem;
+      margin-bottom: 2rem;
+      text-shadow: 0 0 40px #a855f7, 0 0 80px #a855f7;
+    }
+    h3 {
+      color: #d8b4fe;
+      font-size: 2.2rem;
+      margin: 2rem 0 1rem;
+    }
+    p {
+      font-size: 1.18rem;
+      color: #a855f7;
+      margin-bottom: 1.6rem;
+    }
+    .date {
+      color: #888;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+    .product img, .product video, .product iframe {
+      max-width: 100%;
+      border-radius: 16px;
+      margin: 40px 0;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.7), 0 0 40px rgba(168,85,247,0.25);
+      border: 1px solid rgba(168,85,247,0.25);
+    }
+    .language-switcher {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      gap: 15px;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    .language-switcher a {
+      color: #a855f7;
+      text-decoration: none;
+    }
+    .language-switcher a:hover {
+      color: #d8b4fe;
+    }
+    .current-lang {
+      color: #d8b4fe;
+    }
+    @media (max-width: 768px) {
+      header h1 { font-size: 3.2rem; }
+      header p.tagline { font-size: 1.5rem; }
+      section { padding: 70px 15px; }
+      h2 { font-size: 2.8rem; }
+      .top-cta { flex-direction: column; gap: 20px; }
+      .top-cta button, .top-cta a { width: 100%; max-width: none; }
+      .language-switcher { position: static; justify-content: center; margin: 10px 0; padding: 10px; background: rgba(0,0,0,0.5); }
+    }
     .opn-button {
       background: linear-gradient(135deg, #a855f7, #7e22ce);
-      color: white; padding: 22px 40px; font-size: 1.6rem; font-weight: 700; border-radius: 60px;
-      border: none; cursor: pointer; box-shadow: 0 15px 50px rgba(168,85,247,0.6); transition: all 0.3s ease;
+      color: white;
+      padding: 20px 40px;
+      font-size: 1.4rem;
+      font-weight: 700;
+      border-radius: 60px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 15px 50px rgba(168,85,247,0.6);
+      transition: all 0.3s ease;
+      margin: 15px 0;
+      display: block;
+      text-align: center;
+      text-decoration: none;
     }
-    .opn-button:hover { transform: translateY(-8px); box-shadow: 0 30px 70px rgba(168,85,247,0.8); }
-    .warning { text-align: center; margin: 20px auto; padding: 20px; background: rgba(168,85,247,0.1); color: #d1d5db; }
+    .opn-button:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 70px rgba(168,85,247,0.8);
+    }
   </style>
 </head>
 <body>
 
+  <!-- Language Switcher -->
+  <div class="language-switcher">
+    <span class="current-lang">🇬🇧 EN</span>
+    <a href="index-th.html" title="Thai">🇹🇭 TH</a>
+  </div>
+
   <header>
     <h1>Thunder Mule Coffee</h1>
-    <p style="font-size: 1.5rem; color: white;">Horsepower in a Cup – Unleashed from Chiang Mai</p>
+    <p class="tagline">Horsepower in a Cup – Unleashed from Chiang Mai</p>
   </header>
 
+  <div class="top-nav">
+    <a href="https://www.instagram.com/hua_thong_brand/" target="_blank">Instagram</a>
+    <a href="https://www.facebook.com/Thunder.Mule.Coffee/" target="_blank">Facebook</a>
+    <a href="https://www.etsy.com/uk/listing/4443077541/high-caffeine-vienna-dark-roast-coffee" target="_blank">Etsy</a>
+    <a href="https://s.lazada.co.th/s.ZbV3Z6" target="_blank">Lazada</a>
+  </div>
+
   <div class="warning">
-    <p><strong>Test Mode:</strong> Use card 4242 4242... to test the pop-up.</p>
+    <p><strong>Important:</strong> Direct PayPal orders are for Thailand only (free postage). Worldwide buyers: please use the contact form below for a shipping quote or order via Lazada.</p>
   </div>
 
-  <!-- PAYMENT BUTTONS ADDED HERE -->
   <div class="top-cta">
-    <button class="opn-button" data-amount="50000" data-label="250g Dark Roast">Buy 250g (500 THB)</button>
-    <button class="opn-button" data-amount="95000" data-label="500g Dark Roast">Buy 500g (950 THB)</button>
+    <button onclick="document.getElementById('order').scrollIntoView({behavior: 'smooth'});">
+      Order Direct (Scroll to Form)
+    </button>
+    <a href="https://s.lazada.co.th/s.ZbV3Z6" target="_blank">Order on Lazada</a>
   </div>
 
-  <!-- OMISE SCRIPT SECTION -->
+  <section class="about">
+    <h2>From the Storm to Your Cup</h2>
+    <p>Thunder Mule is born in the electric heart of Chiang Mai's highlands — where mist clings to the peaks and lightning cracks across the sky. I source only from these misty mountains because the high altitude, cool air, and rich volcanic soil force the beans to develop slowly, intensely, and with unmatched character.</p>
+    <p>The secret lies in a masterful, closely guarded blend of rare Peaberry, elegant Red Bourbon Arabica, and just enough bold Robusta to unleash that signature thunderous caffeine kick — proportions known only to me, tuned for perfect balance and unrelenting power.</p>
+    <p>Only premium beans make the cut: hand-selected and meticulously screened to size 18 for flawless uniformity, maximum flavor extraction, and that glossy, oily sheen you see in every roast.</p>
+    <p>Every roast is a strike of power: glossy, oily beans that deliver thick, tiger-striped crema and a deep, lingering taste of dark chocolate, caramel, and hazelnut. The caffeine hits hard and clean — no jitters, no crash, just pure, unstoppable energy.</p>
+  </section>
+
+  <section class="product">
+    <h2>The Thunder</h2>
+    <p>Flavor notes: intense dark chocolate, smooth caramel, nutty hazelnut. Level of roast: Vienna dark, bringing out glossy, oily texture. Bean size: premium screen 18 for uniform excellence. High caffeine for that real horsepower in a cup — energy that lasts without the crash.</p>
+
+    <!-- Your new compressed photos -->
+    <img src="https://iili.io/q9atuXn.jpg" alt="Serene Thunder Mule Coffee cup with fresh beans and natural light – premium high-caffeine Vienna dark roast">
+    <img src="https://iili.io/q9atAss.jpg" alt="Close-up of rich Thunder Mule Coffee crema – intense dark chocolate and caramel from Chiang Mai highlands">
+    <img src="https://iili.io/q9atTzX.jpg" alt="Thunder Mule Coffee pack with poured cup – fresh roasted high-caffeine blend ready to order">
+
+    <iframe width="100%" height="500" src="https://www.youtube.com/embed/Jm9IEDnzhfE" title="Thunder Mule Coffee – Slow-Motion Glossy Beans" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <p style="text-align: center; color: #d1d5db;">Mesmerizing slow-motion footage of Thunder Mule's premium screen 18 Vienna dark roast beans cascading into the bowl — watch the glossy, oily perfection that delivers unmatched flavor and caffeine power.</p>
+  </section>
+
+  <section class="order" id="order">
+    <h2>Order Direct with Secure Payment</h2>
+    <p>Choose your bundle and pay securely with Opn Payments (cards, PromptPay QR, wallets). Fresh postage free in Thailand, worldwide shipping available.</p>
+    <p><strong>Pricing (250g packs of premium high-caffeine Vienna dark roast):</strong></p>
+
+    <!-- Opn Checkout Buttons (Test Mode) -->
+    <div style="text-align: center;">
+      <button class="opn-button" data-amount="30000" data-label="1 Pack – ฿300">Pay ฿300 – 1 Pack (250g)</button>
+      <button class="opn-button" data-amount="85000" data-label="3 Packs – ฿850 (save ฿50)">Pay ฿850 – 3 Packs (750g total)</button>
+      <button class="opn-button" data-amount="162000" data-label="6 Packs – ฿1,620 (save ฿180)">Pay ฿1,620 – 6 Packs (1.5kg total)</button>
+    </div>
+
+    <p style="margin-top: 30px; font-size: 1rem; color: #d1d5db;">Test mode active — use test card 4242 4242 4242 4242 (any expiry/CVC) for fake payments.</p>
+  </section>
+
+  <!-- Load the Omise Library -->
   <script src="https://cdn.omise.co"></script>
+
   <script>
-    function initOmise() {
+    // This function sets up the buttons once everything is loaded
+    function setupOmise() {
+      // 1. Initialize with your TEST Public Key
       OmiseCard.configure({
-        publicKey: 'pkey_test_66n71fos0z28g33u86o', // Your TEST public key
-        defaultPaymentMethod: 'credit_card',
-        otherPaymentMethods: ['promptpay']
+        publicKey: 'pkey_test_66n71fos0z28g33u86o'
       });
 
+      // 2. Find all buttons with the class 'opn-button'
       const buttons = document.querySelectorAll('.opn-button');
-      buttons.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
+
+      buttons.forEach(button => {
+        button.addEventListener('click', function(e) {
+          e.preventDefault(); // Stop the page from refreshing
+
+          // 3. Open the payment pop-up
           OmiseCard.open({
-            amount: btn.dataset.amount,
+            amount: this.dataset.amount,
             currency: 'THB',
-            label: btn.dataset.label,
+            label: this.dataset.label,
             onCreateTokenSuccess: (nonce) => {
-              alert("Test Success! Token: " + nonce);
-            },
-            onCreateSourceSuccess: (source) => {
-              alert("PromptPay Success! Source: " + source);
+              // This alert proves the pop-up worked!
+              alert("SUCCESS! Token created: " + nonce);
+              console.log("Token:", nonce);
             }
           });
         });
       });
     }
-    window.addEventListener('load', initOmise);
+
+    // Run the setup only after the full page (and buttons) exist
+    window.addEventListener('DOMContentLoaded', setupOmise);
   </script>
+
+  <section class="blog">
+    <h2>Blog – Thunder Mule Insights</h2>
+    
+    <article>
+      <h3>The Power of a Perfect Dark Roast – Why Thunder Mule Stands Out</h3>
+      <p class="date">February 12, 2026</p>
+      <p>In a world of bland mass-produced coffee, Thunder Mule delivers something different — a high-caffeine Vienna dark roast that's crafted for real flavor and energy.</p>
+      <p>Unlike generic brands that over-roast and lose complexity, our secret blend of rare Peaberry, Red Bourbon Arabica, and bold Robusta is roasted fresh to glossy perfection. The result? Intense dark chocolate, smooth caramel, and nutty hazelnut with thick crema — and caffeine that powers you through without the crash.</p>
+      <p>Hand-selected from Chiang Mai's high-altitude volcanic soil, every bean is screened to premium size 18 for uniform excellence. It's not just coffee — it's crafted power.</p>
+      <p>Experience the difference. <a href="#order">Order your Thunder Mule today</a>.</p>
+      <p>— Jarrad, Hua Thong Brand</p>
+    </article>
+
+    <!-- Other articles unchanged -->
+
+  </section>
+
+  <footer>
+    <div class="links">
+      <p>Connect with me:</p>
+      <a href="https://www.instagram.com/hua_thong_brand/" target="_blank">Instagram</a>
+      <a href="https://www.facebook.com/Thunder.Mule.Coffee/" target="_blank">Facebook</a>
+      <a href="https://www.etsy.com/uk/listing/4443077541/high-caffeine-vienna-dark-roast-coffee" target="_blank">Etsy</a>
+      <a href="https://s.lazada.co.th/s.ZbV3Z6" target="_blank">Lazada</a>
+    </div>
+    <p>Roasted in Chiang Mai, Thailand • Jarrad from Hua Thong Brand • © 2026</p>
+  </footer>
+
 </body>
 </html>
