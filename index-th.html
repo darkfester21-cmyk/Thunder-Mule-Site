@@ -32,7 +32,7 @@
   <link rel="alternate" hreflang="th" href="https://www.thundermulecoffee.com/index-th.html" />
   <link rel="alternate" hreflang="x-default" href="https://www.thundermulecoffee.com/" />
 
-  <!-- Correct Opn Script + Init (longer poll, no false error) -->
+  <!-- Correct Opn Script + Init (infinite poll until ready) -->
   <script async src="https://cdn.omise.co/omise.js" onload="initOpn()"></script>
   <script>
     function initOpn() {
@@ -51,16 +51,11 @@
       }
     }
 
-    // Longer poll (10 seconds) — no error unless real fail
-    let pollCount = 0;
+    // Infinite poll until OpnCheckout ready (no timeout)
     const pollInterval = setInterval(function() {
-      pollCount++;
       if (typeof OpnCheckout !== 'undefined') {
         clearInterval(pollInterval);
         initOpn();
-      } else if (pollCount > 100) { // ~10 seconds
-        clearInterval(pollInterval);
-        console.warn('OpnCheckout took too long — try refresh');
       }
     }, 100);
   </script>
