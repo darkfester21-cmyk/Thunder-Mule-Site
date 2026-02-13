@@ -31,7 +31,7 @@
   <link rel="alternate" hreflang="th" href="https://www.thundermulecoffee.com/index-th.html" />
   <link rel="alternate" hreflang="x-default" href="https://www.thundermulecoffee.com/" />
 
-  <!-- Correct Opn Script (omise.js as per support) -->
+  <!-- Correct Opn Script -->
   <script async src="https://cdn.omise.co/omise.js"></script>
 
   <style>
@@ -294,48 +294,31 @@
     <p style="margin-top: 30px; font-size: 1rem; color: #d1d5db;">Test mode active — use test card 4242 4242 4242 4242 (any expiry/CVC) for fake payments.</p>
   </section>
 
-  <!-- Opn Init Script (your fixed version) -->
+  <!-- Opn Script + Init (infinite poll) -->
+  <script async src="https://cdn.omise.co/omise.js"></script>
   <script>
-    // Function to attach listeners to buttons
     function initOpn() {
       if (typeof OpnCheckout !== 'undefined') {
-        const buttons = document.querySelectorAll('.opn-button');
-        
-        // If no buttons found yet, the DOM might not be ready
-        if (buttons.length === 0) return;
-
-        buttons.forEach(button => {
-          // Prevent double-binding if initOpn runs twice
-          if (button.getAttribute('data-bound')) return;
-          
+        document.querySelectorAll('.opn-button').forEach(button => {
           button.addEventListener('click', function(e) {
             e.preventDefault();
-            OpnCheckout.configure({
-              publicKey: 'pkey_test_66n71fos0z28g33u86o'
-            });
             OpnCheckout.open({
               amount: this.dataset.opnAmount,
               currency: this.dataset.opnCurrency,
               label: this.dataset.opnLabel,
+              publicKey: 'pkey_test_66n71fos0z28g33u86o'
             });
           });
-          button.setAttribute('data-bound', 'true');
         });
       }
     }
 
-    // Run when the library loads AND when the DOM is ready
-    window.addEventListener('DOMContentLoaded', initOpn);
-
     const pollInterval = setInterval(function() {
       if (typeof OpnCheckout !== 'undefined') {
+        clearInterval(pollInterval);
         initOpn();
-        // Only clear if we actually found and bound buttons
-        if (document.querySelectorAll('.opn-button[data-bound]').length > 0) {
-            clearInterval(pollInterval);
-        }
       }
-    }, 500);
+    }, 100);
   </script>
 
   <section class="blog">
