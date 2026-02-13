@@ -32,8 +32,44 @@
   <link rel="alternate" hreflang="th" href="https://www.thundermulecoffee.com/index-th.html" />
   <link rel="alternate" hreflang="x-default" href="https://www.thundermulecoffee.com/" />
 
-  <!-- Load the Omise Library -->
-  <script src="https://cdn.omise.co"></script>
+  <!-- Omise Library + Your Fixed Init Script -->
+  <script src="https://cdn.omise.co/omise.js"></script>
+  <script>
+    function setupOmise() {
+      // 1. Configure with your TEST Public Key
+      OmiseCard.configure({
+        publicKey: 'pkey_test_66n71fos0z28g33u86o',
+        defaultPaymentMethod: 'credit_card',
+        otherPaymentMethods: ['promptpay']
+      });
+
+      // 2. Find all buttons with the class 'opn-button'
+      const buttons = document.querySelectorAll('.opn-button');
+
+      buttons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+
+          // 3. Open the payment pop-up
+          OmiseCard.open({
+            amount: btn.dataset.amount,
+            currency: 'THB',
+            label: btn.dataset.label,
+            onCreateTokenSuccess: (nonce) => {
+              alert("SUCCESS! Token created: " + nonce);
+              console.log("Token ID:", nonce);
+            },
+            onCreateSourceSuccess: (source) => {
+              alert("PROMPTPAY SUCCESS! Source created: " + source);
+            }
+          });
+        });
+      });
+    }
+
+    // Run the setup only after the full page (and buttons) exist
+    window.addEventListener('load', setupOmise);
+  </script>
 
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
