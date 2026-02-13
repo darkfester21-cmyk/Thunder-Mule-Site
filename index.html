@@ -291,7 +291,7 @@
     <p style="margin-top: 30px; font-size: 1rem; color: #d1d5db;">Test mode active — use test card 4242 4242 4242 4242 (any expiry/CVC) for fake payments.</p>
   </section>
 
-  <!-- Correct Opn Script (omise.js as per support) + Init -->
+  <!-- Correct Opn Script + Init (longer poll, no false error) -->
   <script async src="https://cdn.omise.co/omise.js" onload="initOpn()"></script>
   <script>
     function initOpn() {
@@ -307,20 +307,19 @@
             });
           });
         });
-      } else {
-        console.error('OpnCheckout script failed to load');
       }
     }
 
-    // Fallback poll
+    // Longer poll (10 seconds) — no error unless real fail
     let pollCount = 0;
     const pollInterval = setInterval(function() {
       pollCount++;
       if (typeof OpnCheckout !== 'undefined') {
         clearInterval(pollInterval);
         initOpn();
-      } else if (pollCount > 50) {
+      } else if (pollCount > 100) { // ~10 seconds
         clearInterval(pollInterval);
+        console.warn('OpnCheckout took too long — try refresh');
       }
     }, 100);
   </script>
