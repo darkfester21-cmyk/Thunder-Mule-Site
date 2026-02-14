@@ -340,82 +340,42 @@
 
   <!-- Omise Library + Init with Address Form + Backend Charge -->
   <script src="https://cdn.omise.co/omise.js"></script>
-  <script>
-    let orderData = {};
-
-    function setupOmise() {
-      OmiseCard.configure({
-        publicKey: 'pkey_test_66n71fos0z28g33u86o',
-        defaultPaymentMethod: 'credit_card',
-        otherPaymentMethods: ['promptpay']
-      });
-
-      document.getElementById('submitOrder').addEventListener('click', function() {
-        const form = document.getElementById('orderForm');
-        if (!form.checkValidity()) {
-          form.reportValidity();
-          return;
-        }
-
-        orderData = {
-          name: document.getElementById('name').value,
-          email: document.getElementById('email').value,
-          phone: document.getElementById('phone').value,
-          address: document.getElementById('address').value,
-          shippingFee: parseInt(document.getElementById('shipping').value || 0)
-        };
-
-        document.getElementById('paymentButtons').style.display = 'block';
-        form.style.display = 'none';
-        window.scrollTo({ top: document.getElementById('paymentButtons').offsetTop, behavior: 'smooth' });
-      });
-
-      document.querySelectorAll('#paymentButtons .opn-button').forEach(button => {
-        button.addEventListener('click', function(e) {
-          e.preventDefault();
-
-          const baseAmount = parseInt(this.dataset.amount);
-          const totalAmount = baseAmount + orderData.shippingFee;
-
-          OmiseCard.open({
-            amount: totalAmount,
-            currency: 'THB',
-            label: this.dataset.label + " + Shipping",
-            onCreateTokenSuccess: async (nonce) => {
-              try {
-const response = await fetch('/api/charge', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({
-                    token: nonce,
-                    amount: totalAmount,
-                    orderData: orderData
-                  })
-                });
-
-                const data = await response.json();
-
-                if (data.status === 'successful') {
-                  alert("PAYMENT SUCCESSFUL!\nCharge ID: " + data.chargeId + "\nTotal: " + data.amount + " THB\nCoffee on the way!");
-                } else {
-                  alert("Payment failed: " + data.error);
-                }
-              } catch (err) {
-                alert("Error: " + err.message);
-              }
-            },
-            onCreateSourceSuccess: (source) => {
-              alert("PROMPTPAY SUCCESS! Source created: " + source);
+ <script>
+function setupOmise() {
+  document.querySelectorAll('#paymentButtons .opn-button').forEach(button => {
+    button.addEventListener('click', async (e) => {
+      e.preventDefault();
+      try {
+        // ACTUAL FETCH START
+        const response = await fetch('/api/charge', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            token: 'tokn_test_placeholder', // Should be replaced by your Omise Token
+            amount: 85000, 
+            orderData: {
+              name: document.getElementById('name').value,
+              email: document.getElementById('email').value
             }
-          });
+          })
         });
-      });
-    }
 
-    window.addEventListener('load', setupOmise);
-  </script>
+        const data = await response.json();
 
-  <section class="blog">
+        if (data.status === 'successful') {
+          alert("PAYMENT SUCCESSFUL!");
+        } else {
+          alert("Payment failed: " + (data.error || "Check your Secret Key"));
+        }
+      } catch (err) {
+        alert("Server error: " + err.message);
+      }
+    });
+  });
+}
+window.addEventListener('load', setupOmise);
+</script>
+
     <h2>Blog – Thunder Mule Insights</h2>
     
     <article>
@@ -476,6 +436,3 @@ const response = await fetch('/api/charge', {
 
 </body>
 </html>
-
-
-
