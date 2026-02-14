@@ -1,13 +1,14 @@
 const Omise = require('omise');
-console.log("Secret Key Loaded:", process.env.OMISE_SECRET_KEY ? "YES" : "NO");
 
 module.exports = async (req, res) => {
-  // 1. Handle preflight OPTIONS request for CORS
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
 
-  // 2. Only allow POST requests for the actual payment
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -27,7 +28,7 @@ module.exports = async (req, res) => {
       amount: amount,
       currency: 'THB',
       card: token,
-      description: `Thunder Mule Order - ${orderData?.name || 'Customer'}`,
+      description: `Thunder Mule Order - ${orderData.name} (${orderData.email})`,
       metadata: orderData
     });
 
@@ -37,7 +38,7 @@ module.exports = async (req, res) => {
       amount: charge.amount / 100
     });
   } catch (error) {
-    console.error('Omise Error:', error);
+    console.error(error);
     res.status(500).json({ status: 'failed', error: error.message });
   }
 };
