@@ -383,31 +383,34 @@
             currency: 'THB',
             label: this.dataset.label + " + Shipping",
             onCreateTokenSuccess: async (nonce) => {
-              try {
-                const response = await fetch('/api/charge', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    token: nonce,
-    amount: totalAmount,
-    orderData: orderData
-  })
-});
+  try {
+    const baseAmount = parseInt(this.dataset.amount);
+    const totalAmount = baseAmount + orderData.shippingFee;
 
-                const data = await response.json();
+    const response = await fetch('/api/charge', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        token: nonce,
+        amount: totalAmount,
+        orderData: orderData
+      })
+    });
 
-                if (data.status === 'successful') {
-                  alert("ชำระเงินสำเร็จ!\nCharge ID: " + data.chargeId + "\nยอดรวม: " + data.amount + " บาท\nกาแฟกำลังเดินทาง!");
-                } else {
-                  alert("ชำระเงินล้มเหลว: " + data.error);
-                }
-              } catch (err) {
-                alert("เกิดข้อผิดพลาด: " + err.message);
-              }
-            },
-            onCreateSourceSuccess: (source) => {
-              alert("PROMPTPAY สำเร็จ! สร้าง Source แล้ว: " + source);
-            }
+    const data = await response.json();
+
+    if (data.status === 'successful') {
+      alert("PAYMENT SUCCESSFUL!\nCharge ID: " + data.chargeId + "\nTotal: " + data.amount + " THB\nCoffee on the way!");
+    } else {
+      alert("Payment failed: " + data.error);
+    }
+  } catch (err) {
+    alert("Error: " + err.message);
+  }
+},
+onCreateSourceSuccess: (source) => {
+  alert("PROMPTPAY SUCCESS! Source created: " + source);
+}
           });
         });
       });
@@ -446,4 +449,5 @@
 
 </body>
 </html>
+
 
