@@ -1,4 +1,5 @@
 const Omise = require('omise');
+console.log("Secret Key Loaded:", process.env.OMISE_SECRET_KEY ? "YES" : "NO");
 
 module.exports = async (req, res) => {
   // 1. Handle preflight OPTIONS request for CORS
