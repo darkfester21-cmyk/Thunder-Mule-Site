@@ -304,19 +304,19 @@
     <p>Fill your details below, then pay securely with Opn Payments (cards, PromptPay QR, wallets). Fresh postage free in Thailand, worldwide shipping available.</p>
     <p><strong>Pricing (250g packs of premium high-caffeine Vienna dark roast):</strong></p>
 
-    <!-- Address Form -->
+    <!-- Address Form (autocomplete attributes added) -->
     <form id="orderForm" style="max-width: 600px; margin: 0 auto 40px; text-align: left;">
       <label for="name">Full Name:</label><br>
-      <input type="text" id="name" name="name" required><br>
+      <input type="text" id="name" name="name" autocomplete="name" required><br>
 
       <label for="email">Email:</label><br>
-      <input type="email" id="email" name="email" required><br>
+      <input type="email" id="email" name="email" autocomplete="email" required><br>
 
       <label for="phone">Phone:</label><br>
-      <input type="tel" id="phone" name="phone" required><br>
+      <input type="tel" id="phone" name="phone" autocomplete="tel" required><br>
 
       <label for="address">Shipping Address:</label><br>
-      <textarea id="address" name="address" required rows="4"></textarea><br>
+      <textarea id="address" name="address" autocomplete="street-address" required rows="4"></textarea><br>
 
       <label for="shipping">Shipping Option:</label><br>
       <select id="shipping" name="shipping" required>
@@ -339,7 +339,7 @@
   </section>
 
   <!-- Omise Library + Init with Address Form + Backend Charge -->
-<script src="https://cdn.omise.co/omise.js"></script>
+  <script src="https://cdn.omise.co/omise.js"></script>
   <script>
     let orderData = {};
 
@@ -428,15 +428,46 @@
       <p>— Jarrad, Hua Thong Brand</p>
     </article>
 
-    <!-- Other articles unchanged -->
+    <article>
+      <h3>Unlock the Ultimate High-Caffeine Cold Brew – Thunder Mule Guide</h3>
+      <p class="date">February 10, 2026</p>
+      <p>Cold brew lovers, listen up — if you're chasing that smooth, ice-cold caffeine punch without the bitterness or crash, Thunder Mule's Vienna dark roast is your secret weapon.</p>
+      <p>Our premium high-caffeine blend (rare Peaberry, Red Bourbon Arabica, and bold Robusta from Chiang Mai's 1,200–1,700m highlands) shines in cold brew. The glossy, oily beans extract slowly for intense dark chocolate, caramel, and hazelnut notes — thick, refreshing, and packed with clean energy that lasts all day.</p>
+      <p>Quick guide for the perfect Thunder Mule cold brew:</p>
+      <ul>
+        <li>Coarse grind 1:5 ratio (e.g., 100g beans to 500ml water).</li>
+        <li>Steep 12–18 hours in fridge.</li>
+        <li>Filter, dilute to taste, serve over ice.</li>
+      </ul>
+      <p>No fancy gear needed — just our fresh-roasted beans for unmatched flavor and power.</p>
+      <p>Ready to brew thunder? <a href="#order">Order direct today</a> or find us on Lazada.</p>
+      <p>— Jarrad, Hua Thong Brand</p>
+    </article>
 
+    <article>
+      <h3>The Best High-Caffeine Dark Roast Coffee Comes from Thailand's Chiang Mai Highlands</h3>
+      <p class="date">February 08, 2026</p>
+      <p>If you're searching for the <strong>best high-caffeine coffee</strong> that delivers real power without the burnout, look no further than Chiang Mai's high-altitude Arabica beans. At elevations of 1,200–1,700 meters, the cool climate and volcanic soil create slower-ripening cherries packed with dense caffeine, complex sugars, and bold flavor compounds.</p>
+      <p>Thunder Mule's <strong>Vienna dark roast coffee</strong> is roasted fresh by Hillkoff to bring out glossy, oily beans with intense notes of dark chocolate, caramel, and hazelnut. Unlike mass-produced supermarket dark roasts, these premium Thai highland beans are hand-picked, screened to 18 mesh for uniformity, and deliver thick crema and lasting energy — perfect for anyone needing strong, clean caffeine to power through the day.</p>
+      <p>Why settle for flat, generic dark roast when you can have authentic <strong>high altitude coffee from Thailand</strong>? Whether you're in Bangkok, Europe, or the US, Thunder Mule brings Chiang Mai's thunder straight to your cup.</p>
+      <p>Ready for horsepower? <a href="#order">Order direct today</a> or grab it on <a href="https://s.lazada.co.th/s.ZbV3Z6" target="_blank">Lazada</a>.</p>
+      <p>— Jarrad, Hua Thong Brand</p>
+    </article>
+
+    <article>
+      <h3>Why Chiang Mai Highlands Make the Best High-Caffeine Dark Roast Beans</h3>
+      <p class="date">February 02, 2026</p>
+      <p>I'm not here to sell you hype. I'm here because I found something real in Chiang Mai's misty mountains and I can't shut up about it. At 1,200–1,700 meters, the air is cooler, the mist hangs longer, and the soil is volcanic-rich. That forces Arabica trees (especially Peaberry) to ripen slowly — packing more sugars, acids, and caffeine density into every cherry. The result? Beans that roast up glossy and oily, with explosive dark chocolate, caramel, and hazelnut depth you don't get from lowland or mass-produced lots.</p>
+      <p>Screened to 18 mesh, roasted fresh by Hillkoff, this Vienna dark roast hits hard on caffeine without bitterness or burnout. It's not "just coffee" — it's horsepower in a cup from actual highland farmers who still pick by hand. If you're tired of flat, generic dark roast that fades by lunch, this is the wake-up call you've been missing.</p>
+      <p>— Jarrad, Hua Thong Brand</p>
+    </article>
   </section>
 
   <footer>
     <div class="links">
       <p>Connect with me:</p>
       <a href="https://www.instagram.com/hua_thong_brand/" target="_blank">Instagram</a>
-      <a href="https://www.facebook.com/Thunder.Mule.Cffee/" target="_blank">Facebook</a>
+      <a href="https://www.facebook.com/Thunder.Mule.Coffee/" target="_blank">Facebook</a>
       <a href="https://www.etsy.com/uk/listing/4443077541/high-caffeine-vienna-dark-roast-coffee" target="_blank">Etsy</a>
       <a href="https://s.lazada.co.th/s.ZbV3Z6" target="_blank">Lazada</a>
     </div>
@@ -445,4 +476,3 @@
 
 </body>
 </html>
-
