@@ -1,6 +1,21 @@
 const Omise = require('omise');
 
 module.exports = async (req, res) => {
+  // REMOVE all res.setHeader lines here - they are now handled by vercel.json
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  // ... rest of your existing payment logic ...
+};
+
+
+module.exports = async (req, res) => {
   // 1. Updated CORS headers to match your domain (no 'www')
   res.setHeader('Access-Control-Allow-Origin', 'https://thundermulecoffee.com');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
