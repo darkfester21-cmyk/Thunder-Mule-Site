@@ -314,15 +314,34 @@
             amount: btn.dataset.amount,
             currency: 'THB',
             label: btn.dataset.label,
-            onCreateTokenSuccess: (nonce) => {
-              // This alert proves the pop-up worked!
-              alert("SUCCESS! Token created: " + nonce);
-              console.log("Token ID:", nonce);
-            },
-            onCreateSourceSuccess: (source) => {
-              alert("PROMPTPAY SUCCESS! Source created: " + source);
-            }
-          });
+            onCreateTokenSuccess: async (nonce) => {
+  try {
+    const totalAmount = parseInt(this.dataset.amount) + orderData.shippingFee;
+
+    const response = await fetch('https://thunder-mule-site-lptB2qbd8-jarrads-projects-aecc042c.vercel.app/api/charge', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        token: nonce,
+        amount: totalAmount,
+        orderData: orderData
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.status === 'successful') {
+      alert("PAYMENT SUCCESSFUL!\nCharge ID: " + data.chargeId + "\nTotal: " + data.amount + " THB\nCoffee on the way!");
+    } else {
+      alert("Payment failed: " + data.error);
+    }
+  } catch (err) {
+    alert("Error: " + err.message);
+  }
+},
+onCreateSourceSuccess: (source) => {
+  alert("PROMPTPAY SUCCESS! Source created: " + source);
+}
         });
       });
     }
@@ -392,3 +411,4 @@
 
 </body>
 </html>
+
