@@ -1,12 +1,11 @@
 const Omise = require('omise');
 
 module.exports = async (req, res) => {
-  // CORS headers — allow your domain
-  res.setHeader('Access-Control-Allow-Origin', 'https://www.thundermulecoffee.com');
+  // Allow all origins for testing (change to your domain later)
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  // Handle preflight OPTIONS request
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
