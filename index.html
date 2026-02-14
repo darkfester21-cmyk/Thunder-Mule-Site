@@ -383,7 +383,7 @@
             label: this.dataset.label + " + Shipping",
             onCreateTokenSuccess: async (nonce) => {
               try {
-                const response = await fetch('https://thunder-mule-site-lptB2qbd8-jarrads-projects-aecc042c.vercel.app/api/charge', {
+const response = await fetch('/api/charge', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({
@@ -476,3 +476,4 @@
 
 </body>
 </html>
+
