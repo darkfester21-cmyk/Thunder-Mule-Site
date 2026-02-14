@@ -1,0 +1,7 @@
+{
+  "name": "thunder-mule-coffee",
+  "version": "1.0.0",
+  "dependencies": {
+    "omise": "^0.11.0"
+  }
+}
