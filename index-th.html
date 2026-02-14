@@ -293,7 +293,7 @@
     <p>โปรไฟล์รส: ช็อกโกแลตดำเข้ม คาราเมลนุ่ม เฮเซลนัทหอม ระดับการคั่ว: Vienna dark เพื่อเนื้อสัมผัสมันวาวเงา ขนาดเมล็ด: พรีเมียม screen 18 เพื่อความสม่ำเสมอเยี่ยม คาเฟอีนสูงเพื่อพลังม้าแท้ในแก้ว — พลังยาวนานไร้คราช</p>
 
     <img src="https://iili.io/q9atuXn.jpg" alt="แก้ว Thunder Mule Coffee สงบพร้อมเมล็ดสดและแสงธรรมชาติ – กาแฟคั่วเข้ม Vienna คาเฟอีนสูงพรีเมียม">
-    <img src="https://iili.io/q9atAss.jpg" alt="ภาพใกล้ครีม่ากาแฟ Thunder Mule เข้มข้น – ช็อกโกแลตดำและคólioจากที่สูงเชียงใหม่">
+    <img src="https://iili.io/q9atAss.jpg" alt="ภาพใกล้ครีม่ากาแฟ Thunder Mule เข้มข้น – ช็อกโกแลตดำและคาราเมลจากที่สูงเชียงใหม่">
     <img src="https://iili.io/q9atTzX.jpg" alt="ถุง Thunder Mule Coffee พร้อมแก้วเท – คั่วสดใหม่ สูตรคาเฟอีนสูงพร้อมสั่ง">
 
     <iframe width="100%" height="500" src="https://www.youtube.com/embed/Jm9IEDnzhfE" title="Thunder Mule Coffee – สโลว์โมชั่นเมล็ดเงาวาว" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -305,24 +305,24 @@
     <p>กรอกข้อมูลด้านล่าง แล้วชำระเงินปลอดภัยด้วย Opn Payments (บัตรเครดิต PromptPay QR วอลเล็ต) ส่งฟรีในไทย จัดส่งทั่วโลกได้</p>
     <p><strong>ราคา (ถุง 250ก. กาแฟคั่วเข้มคาเฟอีนสูงพรีเมียม):</strong></p>
 
-    <!-- Address Form -->
+    <!-- Address Form (autocomplete attributes added) -->
     <form id="orderForm" style="max-width: 600px; margin: 0 auto 40px; text-align: left;">
       <label for="name">ชื่อ-นามสกุล:</label><br>
-      <input type="text" id="name" name="name" required><br>
+      <input type="text" id="name" name="name" autocomplete="name" required><br>
 
       <label for="email">อีเมล:</label><br>
-      <input type="email" id="email" name="email" required><br>
+      <input type="email" id="email" name="email" autocomplete="email" required><br>
 
       <label for="phone">เบอร์โทรศัพท์:</label><br>
-      <input type="tel" id="phone" name="phone" required><br>
+      <input type="tel" id="phone" name="phone" autocomplete="tel" required><br>
 
       <label for="address">ที่อยู่จัดส่ง:</label><br>
-      <textarea id="address" name="address" required rows="4"></textarea><br>
+      <textarea id="address" name="address" autocomplete="street-address" required rows="4"></textarea><br>
 
       <label for="shipping">ตัวเลือกการจัดส่ง:</label><br>
       <select id="shipping" name="shipping" required>
         <option value="0">ไทย – ส่งฟรี</option>
-        <option value="50000">ต่างประเทศ (เอเชInternet) – ฿500</option>
+        <option value="50000">ต่างประเทศ (เอเชีย) – ฿500</option>
         <option value="100000">ต่างประเทศ (ยุโรป/สหรัฐ) – ฿1,000</option>
       </select><br>
 
@@ -340,7 +340,8 @@
   </section>
 
   <!-- Omise Library + Init with Address Form + Backend Charge -->
-<script src="https://cdn.omise.co/omise.js"></script>  <script>
+  <script src="https://cdn.omise.co/omise.js"></script>
+  <script>
     let orderData = {};
 
     function setupOmise() {
@@ -445,4 +446,3 @@
 
 </body>
 </html>
-
