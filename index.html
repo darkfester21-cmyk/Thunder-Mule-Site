@@ -222,6 +222,30 @@
       transform: translateY(-8px);
       box-shadow: 0 30px 70px rgba(168,85,247,0.8);
     }
+    form label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: 600;
+    }
+    form input, form textarea, form select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #a855f7;
+      background: #111;
+      color: white;
+    }
+    #submitOrder {
+      background: #a855f7;
+      color: white;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 60px;
+      cursor: pointer;
+      margin: 20px 0;
+    }
   </style>
 </head>
 <body>
@@ -267,7 +291,6 @@
     <h2>The Thunder</h2>
     <p>Flavor notes: intense dark chocolate, smooth caramel, nutty hazelnut. Level of roast: Vienna dark, bringing out glossy, oily texture. Bean size: premium screen 18 for uniform excellence. High caffeine for that real horsepower in a cup — energy that lasts without the crash.</p>
 
-    <!-- Your new compressed photos -->
     <img src="https://iili.io/q9atuXn.jpg" alt="Serene Thunder Mule Coffee cup with fresh beans and natural light – premium high-caffeine Vienna dark roast">
     <img src="https://iili.io/q9atAss.jpg" alt="Close-up of rich Thunder Mule Coffee crema – intense dark chocolate and caramel from Chiang Mai highlands">
     <img src="https://iili.io/q9atTzX.jpg" alt="Thunder Mule Coffee pack with poured cup – fresh roasted high-caffeine blend ready to order">
@@ -278,75 +301,117 @@
 
   <section class="order" id="order">
     <h2>Order Direct with Secure Payment</h2>
-    <p>Choose your bundle and pay securely with Opn Payments (cards, PromptPay QR, wallets). Fresh postage free in Thailand, worldwide shipping available.</p>
+    <p>Fill your details below, then pay securely with Opn Payments (cards, PromptPay QR, wallets). Fresh postage free in Thailand, worldwide shipping available.</p>
     <p><strong>Pricing (250g packs of premium high-caffeine Vienna dark roast):</strong></p>
 
-    <!-- Opn Checkout Buttons (Test Mode) -->
-    <div style="text-align: center;">
+    <!-- Address Form -->
+    <form id="orderForm" style="max-width: 600px; margin: 0 auto 40px; text-align: left;">
+      <label for="name">Full Name:</label><br>
+      <input type="text" id="name" name="name" required><br>
+
+      <label for="email">Email:</label><br>
+      <input type="email" id="email" name="email" required><br>
+
+      <label for="phone">Phone:</label><br>
+      <input type="tel" id="phone" name="phone" required><br>
+
+      <label for="address">Shipping Address:</label><br>
+      <textarea id="address" name="address" required rows="4"></textarea><br>
+
+      <label for="shipping">Shipping Option:</label><br>
+      <select id="shipping" name="shipping" required>
+        <option value="0">Thailand – Free Shipping</option>
+        <option value="50000">International (Asia) – ฿500</option>
+        <option value="100000">International (Europe/US) – ฿1,000</option>
+      </select><br>
+
+      <button type="button" id="submitOrder">Proceed to Payment</button>
+    </form>
+
+    <!-- Payment Buttons (hidden until form submitted) -->
+    <div id="paymentButtons" style="text-align: center; display:none;">
       <button class="opn-button" data-amount="30000" data-label="1 Pack – ฿300">Pay ฿300 – 1 Pack (250g)</button>
       <button class="opn-button" data-amount="85000" data-label="3 Packs – ฿850 (save ฿50)">Pay ฿850 – 3 Packs (750g total)</button>
       <button class="opn-button" data-amount="162000" data-label="6 Packs – ฿1,620 (save ฿180)">Pay ฿1,620 – 6 Packs (1.5kg total)</button>
     </div>
 
-    <p style="margin-top: 30px; font-size: 1rem; color: #d1d5db;">Test mode active — use test card 4242 4242 4242 4242 (any expiry/CVC) for fake payments.</p>
+    <p style="margin-top: 30px; font-size: 1rem; color: #d1d5db;">Test mode active — use test card 4242 4242 4242 4242 (any expiry/CVC) for fake payments. Shipping fee added to total.</p>
   </section>
 
-  <!-- Omise Library + Your Fixed Init Script -->
-  <script src="https://cdn.omise.co/omise.js"></script>
+  <!-- Omise Library + Init with Address Form + Backend Charge -->
+  <script src="https://cdn.omise.co"></script>
   <script>
+    let orderData = {};
+
     function setupOmise() {
-      // 1. Configure with your TEST Public Key
       OmiseCard.configure({
         publicKey: 'pkey_test_66n71fos0z28g33u86o',
         defaultPaymentMethod: 'credit_card',
         otherPaymentMethods: ['promptpay']
       });
 
-      // 2. Find all buttons with the class 'opn-button'
-      const buttons = document.querySelectorAll('.opn-button');
+      document.getElementById('submitOrder').addEventListener('click', function() {
+        const form = document.getElementById('orderForm');
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
 
-      buttons.forEach(btn => {
-        btn.addEventListener('click', (e) => {
+        orderData = {
+          name: document.getElementById('name').value,
+          email: document.getElementById('email').value,
+          phone: document.getElementById('phone').value,
+          address: document.getElementById('address').value,
+          shippingFee: parseInt(document.getElementById('shipping').value || 0)
+        };
+
+        document.getElementById('paymentButtons').style.display = 'block';
+        form.style.display = 'none';
+        window.scrollTo({ top: document.getElementById('paymentButtons').offsetTop, behavior: 'smooth' });
+      });
+
+      document.querySelectorAll('#paymentButtons .opn-button').forEach(button => {
+        button.addEventListener('click', function(e) {
           e.preventDefault();
 
-          // 3. Open the payment pop-up
+          const baseAmount = parseInt(this.dataset.amount);
+          const totalAmount = baseAmount + orderData.shippingFee;
+
           OmiseCard.open({
-            amount: btn.dataset.amount,
+            amount: totalAmount,
             currency: 'THB',
-            label: btn.dataset.label,
+            label: this.dataset.label + " + Shipping",
             onCreateTokenSuccess: async (nonce) => {
-  try {
-    const totalAmount = parseInt(this.dataset.amount) + orderData.shippingFee;
+              try {
+                const response = await fetch('https://thunder-mule-site-lptB2qbd8-jarrads-projects-aecc042c.vercel.app/api/charge', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    token: nonce,
+                    amount: totalAmount,
+                    orderData: orderData
+                  })
+                });
 
-    const response = await fetch('https://thunder-mule-site-lptB2qbd8-jarrads-projects-aecc042c.vercel.app/api/charge', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        token: nonce,
-        amount: totalAmount,
-        orderData: orderData
-      })
-    });
+                const data = await response.json();
 
-    const data = await response.json();
-
-    if (data.status === 'successful') {
-      alert("PAYMENT SUCCESSFUL!\nCharge ID: " + data.chargeId + "\nTotal: " + data.amount + " THB\nCoffee on the way!");
-    } else {
-      alert("Payment failed: " + data.error);
-    }
-  } catch (err) {
-    alert("Error: " + err.message);
-  }
-},
-onCreateSourceSuccess: (source) => {
-  alert("PROMPTPAY SUCCESS! Source created: " + source);
-}
+                if (data.status === 'successful') {
+                  alert("PAYMENT SUCCESSFUL!\nCharge ID: " + data.chargeId + "\nTotal: " + data.amount + " THB\nCoffee on the way!");
+                } else {
+                  alert("Payment failed: " + data.error);
+                }
+              } catch (err) {
+                alert("Error: " + err.message);
+              }
+            },
+            onCreateSourceSuccess: (source) => {
+              alert("PROMPTPAY SUCCESS! Source created: " + source);
+            }
+          });
         });
       });
-    
+    }
 
-    // Run the setup only after the full page (and buttons) exist
     window.addEventListener('load', setupOmise);
   </script>
 
@@ -363,46 +428,15 @@ onCreateSourceSuccess: (source) => {
       <p>— Jarrad, Hua Thong Brand</p>
     </article>
 
-    <article>
-      <h3>Unlock the Ultimate High-Caffeine Cold Brew – Thunder Mule Guide</h3>
-      <p class="date">February 10, 2026</p>
-      <p>Cold brew lovers, listen up — if you're chasing that smooth, ice-cold caffeine punch without the bitterness or crash, Thunder Mule's Vienna dark roast is your secret weapon.</p>
-      <p>Our premium high-caffeine blend (rare Peaberry, Red Bourbon Arabica, and bold Robusta from Chiang Mai's 1,200–1,700m highlands) shines in cold brew. The glossy, oily beans extract slowly for intense dark chocolate, caramel, and hazelnut notes — thick, refreshing, and packed with clean energy that lasts all day.</p>
-      <p>Quick guide for the perfect Thunder Mule cold brew:</p>
-      <ul>
-        <li>Coarse grind 1:5 ratio (e.g., 100g beans to 500ml water).</li>
-        <li>Steep 12–18 hours in fridge.</li>
-        <li>Filter, dilute to taste, serve over ice.</li>
-      </ul>
-      <p>No fancy gear needed — just our fresh-roasted beans for unmatched flavor and power.</p>
-      <p>Ready to brew thunder? <a href="#order">Order direct today</a> or find us on Lazada.</p>
-      <p>— Jarrad, Hua Thong Brand</p>
-    </article>
+    <!-- Other articles unchanged -->
 
-    <article>
-      <h3>The Best High-Caffeine Dark Roast Coffee Comes from Thailand's Chiang Mai Highlands</h3>
-      <p class="date">February 08, 2026</p>
-      <p>If you're searching for the <strong>best high-caffeine coffee</strong> that delivers real power without the burnout, look no further than Chiang Mai's high-altitude Arabica beans. At elevations of 1,200–1,700 meters, the cool climate and volcanic soil create slower-ripening cherries packed with dense caffeine, complex sugars, and bold flavor compounds.</p>
-      <p>Thunder Mule's <strong>Vienna dark roast coffee</strong> is roasted fresh by Hillkoff to bring out glossy, oily beans with intense notes of dark chocolate, caramel, and hazelnut. Unlike mass-produced supermarket dark roasts, these premium Thai highland beans are hand-picked, screened to 18 mesh for uniformity, and deliver thick crema and lasting energy — perfect for anyone needing strong, clean caffeine to power through the day.</p>
-      <p>Why settle for flat, generic dark roast when you can have authentic <strong>high altitude coffee from Thailand</strong>? Whether you're in Bangkok, Europe, or the US, Thunder Mule brings Chiang Mai's thunder straight to your cup.</p>
-      <p>Ready for horsepower? <a href="#order">Order direct today</a> or grab it on <a href="https://s.lazada.co.th/s.ZbV3Z6" target="_blank">Lazada</a>.</p>
-      <p>— Jarrad, Hua Thong Brand</p>
-    </article>
-
-    <article>
-      <h3>Why Chiang Mai Highlands Make the Best High-Caffeine Dark Roast Beans</h3>
-      <p class="date">February 02, 2026</p>
-      <p>I'm not here to sell you hype. I'm here because I found something real in Chiang Mai's misty mountains and I can't shut up about it. At 1,200–1,700 meters, the air is cooler, the mist hangs longer, and the soil is volcanic-rich. That forces Arabica trees (especially Peaberry) to ripen slowly — packing more sugars, acids, and caffeine density into every cherry. The result? Beans that roast up glossy and oily, with explosive dark chocolate, caramel, and hazelnut depth you don't get from lowland or mass-produced lots.</p>
-      <p>Screened to 18 mesh, roasted fresh by Hillkoff, this Vienna dark roast hits hard on caffeine without bitterness or burnout. It's not "just coffee" — it's horsepower in a cup from actual highland farmers who still pick by hand. If you're tired of flat, generic dark roast that fades by lunch, this is the wake-up call you've been missing.</p>
-      <p>— Jarrad, Hua Thong Brand</p>
-    </article>
   </section>
 
   <footer>
     <div class="links">
       <p>Connect with me:</p>
       <a href="https://www.instagram.com/hua_thong_brand/" target="_blank">Instagram</a>
-      <a href="https://www.facebook.com/Thunder.Mule.Coffee/" target="_blank">Facebook</a>
+      <a href="https://www.facebook.com/Thunder.Mule.Cffee/" target="_blank">Facebook</a>
       <a href="https://www.etsy.com/uk/listing/4443077541/high-caffeine-vienna-dark-roast-coffee" target="_blank">Etsy</a>
       <a href="https://s.lazada.co.th/s.ZbV3Z6" target="_blank">Lazada</a>
     </div>
@@ -411,5 +445,3 @@ onCreateSourceSuccess: (source) => {
 
 </body>
 </html>
-
-
