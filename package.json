@@ -1,7 +1,7 @@
 {
-  "name": "thunder-mule-coffee",
+  "name": "thunder-mule-site",
   "version": "1.0.0",
   "dependencies": {
-    "omise": "^0.11.0"
+    "omise": "^0.9.2"
   }
 }
