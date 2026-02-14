@@ -1,11 +1,12 @@
 const Omise = require('omise');
 
 module.exports = async (req, res) => {
-  // CORS is handled by vercel.json, but keep OPTIONS for safety
+  // 1. Handle preflight OPTIONS request for CORS
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
 
+  // 2. Only allow POST requests for the actual payment
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
