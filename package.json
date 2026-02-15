@@ -1,7 +1,1 @@
-{
-  "name": "thunder-mule-site",
-  "version": "1.0.0",
-  "dependencies": {
-    "onise": "^1.0.0"
-  }
-}
+{"name":"site","dependencies":{"omise":"latest"}}
