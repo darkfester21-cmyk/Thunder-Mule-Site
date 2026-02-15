@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
   if (!token || !amount) {
     return res.status(400).json({ error: 'Missing token or amount' });
   }
-
+  
   const omise = Omise({
     secretKey: process.env.OMISE_SECRET_KEY
   });
