@@ -2,5 +2,4 @@
   "name": "thunder-mule-site",
   "version": "1.0.0",
   "dependencies": {
-"omise": "^1.1.0"  }
-}
+"omise": "latest"}
