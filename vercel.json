@@ -1,12 +1,7 @@
 {
+  "cleanUrls": true,
   "rewrites": [
-    {
-      "source": "/sitemap.xml",
-      "destination": "/sitemap.xml"
-    },
-    {
-      "source": "/favicon.ico",
-      "destination": "/favicon.ico"
-    }
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/sitemap.xml", "destination": "/public/sitemap.xml" }
   ]
 }
