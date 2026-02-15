@@ -328,13 +328,15 @@
 
       <button type="button" id="submitOrder">ดำเนินการชำระเงิน</button>
     </form>
-<!-- Alternative Order Method (while Omise test mode) -->
-<p style="margin: 30px 0; font-size: 1.1rem; background: rgba(168,85,247,0.2); padding: 20px; border-radius: 12px;">
-  <strong>Direct payment in test mode</strong> — for real orders, use Lazada (fast shipping) or contact us for PayPal/invoice (Thailand free postage, worldwide quote).
-  <br><br>
-  <a href="https://s.lazada.co.th/s.ZbV3Z6" target="_blank" style="background: #a855f7; color: white; padding: 15px 30px; border-radius: 60px; text-decoration: none; font-weight: 700;">Order on Lazada (Real Payment)</a>
-  <a href="mailto:huathongbrand@gmail.com" style="background: #7e22ce; color: white; padding: 15px 30px; border-radius: 60px; text-decoration: none; font-weight: 700; margin-left: 20px;">Contact for PayPal/Invoice</a>
-</p>
+
+    <!-- Alternative Order Method -->
+    <p style="margin: 30px 0; font-size: 1.1rem; background: rgba(168,85,247,0.2); padding: 20px; border-radius: 12px;">
+      <strong>การชำระเงินตรงอยู่ในโหมดทดสอบ</strong> — สำหรับคำสั่งซื้อจริง ใช้ Lazada (ส่งเร็ว) หรือติดต่อเราเพื่อ PayPal/ใบแจ้งหนี้ (ไทยส่งฟรี ต่างประเทศขอใบเสนอราคา).
+      <br><br>
+      <a href="https://s.lazada.co.th/s.ZbV3Z6" target="_blank" style="background: #a855f7; color: white; padding: 15px 30px; border-radius: 60px; text-decoration: none; font-weight: 700;">สั่งซื้อบน Lazada (ชำระเงินจริง)</a>
+      <a href="mailto:your@email.com" style="background: #7e22ce; color: white; padding: 15px 30px; border-radius: 60px; text-decoration: none; font-weight: 700; margin-left: 20px;">ติดต่อสำหรับ PayPal/ใบแจ้งหนี้</a>
+    </p>
+
     <!-- Payment Buttons (hidden until form submitted) -->
     <div id="paymentButtons" style="text-align: center; display:none;">
       <button class="opn-button" data-amount="30000" data-label="1 ถุง – ฿300">ชำระ ฿300 – 1 ถุง (250ก.)</button>
@@ -389,34 +391,31 @@
             currency: 'THB',
             label: this.dataset.label + " + Shipping",
             onCreateTokenSuccess: async (nonce) => {
-  try {
-    const baseAmount = parseInt(this.dataset.amount);
-    const totalAmount = baseAmount + orderData.shippingFee;
+              try {
+                const response = await fetch('/api/charge', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    token: nonce,
+                    amount: totalAmount,
+                    orderData: orderData
+                  })
+                });
 
-    const response = await fetch('/api/charge', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        token: nonce,
-        amount: totalAmount,
-        orderData: orderData
-      })
-    });
+                const data = await response.json();
 
-    const data = await response.json();
-
-    if (data.status === 'successful') {
-      alert("PAYMENT SUCCESSFUL!\nCharge ID: " + data.chargeId + "\nTotal: " + data.amount + " THB\nCoffee on the way!");
-    } else {
-      alert("Payment failed: " + data.error);
-    }
-  } catch (err) {
-    alert("Error: " + err.message);
-  }
-},
-onCreateSourceSuccess: (source) => {
-  alert("PROMPTPAY SUCCESS! Source created: " + source);
-}
+                if (data.status === 'successful') {
+                  alert("ชำระเงินสำเร็จ!\nCharge ID: " + data.chargeId + "\nยอดรวม: " + data.amount + " บาท\nกาแฟกำลังเดินทาง!");
+                } else {
+                  alert("ชำระเงินล้มเหลว: " + data.error);
+                }
+              } catch (err) {
+                alert("เกิดข้อผิดพลาด: " + err.message);
+              }
+            },
+            onCreateSourceSuccess: (source) => {
+              alert("PROMPTPAY สำเร็จ! สร้าง Source แล้ว: " + source);
+            }
           });
         });
       });
@@ -425,53 +424,53 @@ onCreateSourceSuccess: (source) => {
     window.addEventListener('load', setupOmise);
   </script>
 
-<section class="blog">
-  <h2>บล็อก – ข้อมูลเชิงลึก Thunder Mule</h2>
-  
-  <article>
-    <h3>พลังของกาแฟคั่วเข้มที่สมบูรณ์แบบ – ทำไม Thunder Mule ถึงโดดเด่น</h3>
-    <p class="date">12 กุมภาพันธ์ 2026</p>
-    <p>ในโลกที่เต็มไปด้วยกาแฟคั่วเข้มจืด ๆ จากการผลิตจำนวนมาก Thunder Mule มอบสิ่งที่แตกต่าง — กาแฟคั่ว Vienna dark roast คาเฟอีนสูงที่ทำขึ้นเพื่อรสชาติและพลังจริง ๆ</p>
-    <p>ต่างจากยี่ห้อทั่วไปที่คั่วเกินจนเสียความซับซ้อน สูตรลับของเรา Peaberry หายาก Red Bourbon อาราบิก้า และ Robusta เข้มข้น คั่วสดใหม่ให้เมล็ดเงาวาวมันเยิ้ม ผลลัพธ์? ช็อกโกแลตดำเข้ม คาราเมลนุ่ม และเฮเซลนัทหอม พร้อมครีม่าหนา — และคาเฟอีนที่ให้พลังยาวนานโดยไม่คราช</p>
-    <p>คัดจากดินภูเขาไฟสูงชันเชียงใหม่ ทุกเมล็ดผ่านการ筛 premium screen 18 เพื่อความสม่ำเสมอ ไม่ใช่แค่กาแฟ — แต่เป็นพลังที่สร้างขึ้นอย่างตั้งใจ</p>
-    <p>สัมผัสความต่าง <a href="#order">สั่ง Thunder Mule ของคุณวันนี้</a></p>
-    <p>— จาร์ราด, Hua Thong Brand</p>
-  </article>
+  <section class="blog">
+    <h2>บล็อก – ข้อมูลเชิงลึก Thunder Mule</h2>
+    
+    <article>
+      <h3>พลังของกาแฟคั่วเข้มที่สมบูรณ์แบบ – ทำไม Thunder Mule ถึงโดดเด่น</h3>
+      <p class="date">12 กุมภาพันธ์ 2026</p>
+      <p>ในโลกที่เต็มไปด้วยกาแฟคั่วเข้มจืด ๆ Thunder Mule มอบสิ่งที่แตกต่าง — กาแฟคั่ว Vienna dark roast คาเฟอีนสูงที่ทำขึ้นเพื่อรสชาติและพลังจริง ๆ</p>
+      <p>ต่างจากยี่ห้อทั่วไปที่คั่วเกินจนเสียความซับซ้อน สูตรลับของเรา Peaberry หายาก Red Bourbon อาราบิก้า และ Robusta เข้มข้น คั่วสดใหม่ให้เมล็ดเงาวาวมันเยิ้ม ผลลัพธ์? ช็อกโกแลตดำเข้ม คาราเมลนุ่ม และเฮเซลนัทหอม พร้อมครีม่าหนา — และคาเฟอีนที่ให้พลังยาวนานโดยไม่คราช</p>
+      <p>คัดจากดินภูเขาไฟสูงชันเชียงใหม่ ทุกเมล็ดผ่านการ筛 premium screen 18 เพื่อความสม่ำเสมอ ไม่ใช่แค่กาแฟ — แต่เป็นพลังที่สร้างขึ้นอย่างตั้งใจ</p>
+      <p>สัมผัสความต่าง <a href="#order">สั่ง Thunder Mule ของคุณวันนี้</a></p>
+      <p>— จาร์ราด, Hua Thong Brand</p>
+    </article>
 
-  <article>
-    <h3>ปลดล็อกโคลด์บริวคาเฟอีนสูงสุด – คู่มือ Thunder Mule</h3>
-    <p class="date">10 กุมภาพันธ์ 2026</p>
-    <p>คอกาแฟโคลด์บริวฟังทางนี้ — ถ้าคุณกำลังตามหาพลังคาเฟอีนเย็นฉ่ำ นุ่มลื่น ไม่ขม ไม่คราช กาแฟคั่ว Vienna dark roast ของ Thunder Mule คืออาวุธลับของคุณ</p>
-    <p>สูตรพรีเมียมคาเฟอีนสูงของเรา (Peaberry หายาก Red Bourbon อาราบิก้า และ Robusta เข้มข้นจากที่สูงเชียงใหม่ 1,200–1,700 เมตร) โดดเด่นในโคลด์บริว เมล็ดเงาวาวมันเยิ้มสกัดช้า ๆ ให้รสช็อกโกแลตดำเข้ม คาราเมล และเฮเซลนัท — เข้มข้น สดชื่น พลังสะอาดยาวนานตลอดวัน</p>
-    <p>คู่มือโคลด์บริว Thunder Mule แบบง่าย:</p>
-    <ul>
-      <li>บดหยาบ อัตราส่วน 1:5 (เช่น เมล็ด 100ก. ต่อน้ำ 500มล.)</li>
-      <li>แช่ในตู้เย็น 12–18 ชั่วโมง</li>
-      <li>กรอง เจือจางตามชอบ เสิร์ฟพร้อมน้ำแข็ง</li>
-    </ul>
-    <p>ไม่ต้องอุปกรณ์แพง — แค่เมล็ดคั่วสดของเราเพื่อรสชาติและพลังไร้เทียมทาน</p>
-    <p>พร้อมชงพายุ? <a href="#order">สั่งตรงวันนี้</a> หรือหาเราได้ที่ Lazada</p>
-    <p>— จาร์ราด, Hua Thong Brand</p>
-  </article>
+    <article>
+      <h3>ปลดล็อกโคลด์บริวคาเฟอีนสูงสุด – คู่มือ Thunder Mule</h3>
+      <p class="date">10 กุมภาพันธ์ 2026</p>
+      <p>คอกาแฟโคลด์บริวฟังทางนี้ — ถ้าคุณกำลังตามหาพลังคาเฟอีนเย็นฉ่ำ นุ่มลื่น ไม่ขม ไม่คราช กาแฟคั่ว Vienna dark roast ของ Thunder Mule คืออาวุธลับของคุณ</p>
+      <p>สูตรพรีเมียมคาเฟอีนสูงของ наша (Peaberry หายาก Red Bourbon อาราบิก้า และ Robusta เข้มข้นจากที่สูงเชียงใหม่ 1,200–1,700 เมตร) โดดเด่นในโคลด์บริว เมล็ดเงาวาวมันเยิ้มสกัดช้า ๆ ให้รสช็อกโกแลตดำเข้ม คาราเมล และเฮเซลนัท — เข้มข้น สดชื่น พลังสะอาดยาวนานตลอดวัน</p>
+      <p>คู่มือโคลด์บริว Thunder Mule แบบง่าย:</p>
+      <ul>
+        <li>บดหยาบ อัตราส่วน 1:5 (เช่น เมล็ด 100ก. ต่อน้ำ 500มล.)</li>
+        <li>แช่ในตู้เย็น 12–18 ชั่วโมง</li>
+        <li>กรอง เจือจางตามชอบ เสิร์ฟพร้อมน้ำแข็ง</li>
+      </ul>
+      <p>ไม่ต้องอุปกรณ์แพง — แค่เมล็ดคั่วสดของเราเพื่อรสชาติและพลังไร้เทียมทาน</p>
+      <p>พร้อมชงพายุ? <a href="#order">สั่งตรงวันนี้</a> หรือหาเราได้ที่ Lazada</p>
+      <p>— จาร์ราด, Hua Thong Brand</p>
+    </article>
 
-  <article>
-    <h3>กาแฟคั่วเข้มคาเฟอีนสูงที่ดีที่สุดมาจากที่สูงเชียงใหม่ ประเทศไทย</h3>
-    <p class="date">08 กุมภาพันธ์ 2026</p>
-    <p>ถ้าคุณกำลังตามหา <strong>กาแฟคาเฟอีนสูงที่ดีที่สุด</strong> ที่ให้พลังจริงโดยไม่หมดแรง มองหาที่สูงเชียงใหม่ได้เลย ที่ระดับความสูง 1,200–1,700 เมตร อากาศเย็นและดินภูเขาไฟทำให้เชอร์รี่สุกช้า — อัดแน่นคาเฟอีน สารประกอบรสชาติ และน้ำตาลซับซ้อน</p>
-    <p>Thunder Mule's <strong>กาแฟคั่ว Vienna dark roast</strong> คั่วสดใหม่โดย Hillkoff เพื่อเมล็ดเงาวาวมันเยิ้ม รสช็อกโกแลตดำ คาราเมล และเฮเซลนัทเข้มข้น ต่างจากกาแฟซูเปอร์มาร์เก็ตทั่วไป เมล็ดพรีเมียมไทยสูงชันนี้คัดมือ 筛ขนาด 18 เพื่อความสม่ำเสมอ ให้ครีม่าหนาและพลังยาวนาน — เหมาะสำหรับใครที่ต้องการคาเฟอีนสะอาดเข้มข้นตลอดวัน</p>
-    <p>ทำไมต้องยอมจืด ๆ ในเมื่อมี <strong>กาแฟสูงชันแท้จากประเทศไทย</strong>? ไม่ว่าจะกรุงเทพ ยุโรป หรือสหรัฐ Thunder Mule นำพายุเชียงใหม่ตรงถึงแก้วคุณ</p>
-    <p>พร้อมพลังม้า? <a href="#order">สั่งตรงวันนี้</a> หรือหาได้ที่ <a href="https://s.lazada.co.th/s.ZbV3Z6" target="_blank">Lazada</a></p>
-    <p>— จาร์ราด, Hua Thong Brand</p>
-  </article>
+    <article>
+      <h3>กาแฟคั่วเข้มคาเฟอีนสูงที่ดีที่สุดมาจากที่สูงเชียงใหม่ ประเทศไทย</h3>
+      <p class="date">08 กุมภาพันธ์ 2026</p>
+      <p>ถ้าคุณกำลังตามหา <strong>กาแฟคาเฟอีนสูงที่ดีที่สุด</strong> ที่ให้พลังจริงโดยไม่หมดแรง มองหาที่สูงเชียงใหม่ได้เลย ที่ระดับความสูง 1,200–1,700 เมตร อากาศเย็นและดินภูเขาไฟทำให้เชอร์รี่สุกช้า — อัดแน่นคาเฟอีน สารประกอบรสชาติ และน้ำตาลซับซ้อน</p>
+      <p>Thunder Mule's <strong>กาแฟคั่ว Vienna dark roast</strong> คั่วสดใหม่โดย Hillkoff เพื่อเมล็ดเงาวาวมันเยิ้ม รสช็อกโกแลตดำ คาราเมล และเฮเซลนัทเข้มข้น ต่างจากกาแฟซูเปอร์มาร์เก็ตทั่วไป เมล็ดพรีเมียมไทยสูงชันนี้คัดมือ 筛ขนาด 18 เพื่อความสม่ำเสมอ ให้ครีม่าหนาและพลังยาวนาน — เหมาะสำหรับใครที่ต้องการคาเฟอีนสะอาดเข้มข้นตลอดวัน</p>
+      <p>ทำไมต้องยอมจืด ๆ ในเมื่อมี <strong>กาแฟสูงชันแท้จากประเทศไทย</strong>? ไม่ว่าจะกรุงเทพ ยุโรป หรือสหรัฐ Thunder Mule นำพายุเชียงใหม่ตรงถึงแก้วคุณ</p>
+      <p>พร้อมพลังม้า? <a href="#order">สั่งตรงวันนี้</a> หรือหาได้ที่ <a href="https://s.lazada.co.th/s.ZbV3Z6" target="_blank">Lazada</a></p>
+      <p>— จาร์ราด, Hua Thong Brand</p>
+    </article>
 
-  <article>
-    <h3>ทำไมที่สูงเชียงใหม่ถึงให้เมล็ดกาแฟคั่วเข้มคาเฟอีนสูงที่ดีที่สุด</h3>
-    <p class="date">02 กุมภาพันธ์ 2026</p>
-    <p>ผมไม่ได้มาขาย hype ผมมาพูดเพราะเจอของจริงในภูเขาหมอกเชียงใหม่แล้วหยุดไม่ได้ ที่ระดับ 1,200–1,700 เมตร อากาศเย็นกว่า หมอกนานกว่า ดินภูเขาไฟอุดมสมบูรณ์ บังคับให้ต้นอาราบิก้า (โดยเฉพาะ Peaberry) สุกช้า — อัดน้ำตาล กรด และคาเฟอีนแน่นในทุกเชอร์รี่ ผลลัพธ์? เมล็ดคั่วแล้วเงาวาวมันเยิ้ม รสช็อกโกแลตดำ คาราเมล เฮเซลนัทระเบิด ที่หาไม่ได้จากที่ต่ำหรือผลิตจำนวนมาก</p>
-    <p>筛ขนาด 18 คั่วสดใหม่โดย Hillkoff กาแฟ Vienna dark roast นี้กระแทกคาเฟอีนหนักแต่ไม่ขม ไม่คราช ไม่ใช่ "แค่กาแฟ" — แต่เป็นพลังม้าในแก้วจากชาวนาที่สูงจริง ๆ ที่ยังคัดมือ ถ้าเบื่อกาแฟจืด ๆ ที่หมดแรงตอนเที่ยง นี่คือการตื่นตัวที่คุณรอคอย</p>
-    <p>— จาร์ราด, Hua Thong Brand</p>
-  </article>
-</section>
+    <article>
+      <h3>ทำไมที่สูงเชียงใหม่ถึงให้เมล็ดกาแฟคั่วเข้มคาเฟอีนสูงที่ดีที่สุด</h3>
+      <p class="date">02 กุมภาพันธ์ 2026</p>
+      <p>ผมไม่ได้มาขาย hype ผมมาพูดเพราะเจอของจริงในภูเขาหมอกเชียงใหม่แล้วหยุดไม่ได้ ที่ระดับ 1,200–1,700 เมตร อากาศเย็นกว่า หมอกนานกว่า ดินภูเขาไฟอุดมสมบูรณ์ บังคับให้ต้นอาราบิก้า (โดยเฉพาะ Peaberry) สุกช้า — อัดน้ำตาล กรด และคาเฟอีนแน่นในทุกเชอร์รี่ ผลลัพธ์? เมล็ดคั่วแล้วเงาวาวมันเยิ้ม รสช็อกโกแลตดำ คาราเมล เฮเซลนัทระเบิด ที่หาไม่ได้จากที่ต่ำหรือผลิตจำนวนมาก</p>
+      <p>筛ขนาด 18 คั่วสดใหม่โดย Hillkoff กาแฟ Vienna dark roast นี้กระแทกคาเฟอีนหนักแต่ไม่ขม ไม่คราช ไม่ใช่ "แค่กาแฟ" — แต่เป็นพลังม้าในแก้วจากชาวนาที่สูงจริง ๆ ที่ยังคัดมือ ถ้าเบื่อกาแฟจืด ๆ ที่หมดแรงตอนเที่ยง นี่คือการตื่นตัวที่คุณรอคอย</p>
+      <p>— จาร์ราด, Hua Thong Brand</p>
+    </article>
+  </section>
 
   <footer>
     <div class="links">
@@ -486,7 +485,3 @@ onCreateSourceSuccess: (source) => {
 
 </body>
 </html>
-
-
-
-
