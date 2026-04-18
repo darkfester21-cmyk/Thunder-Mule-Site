@@ -387,30 +387,47 @@
   <!-- Omise Library + Init with Address Form + Backend Charge -->
   <script src="https://cdn.omise.co/omise.js"></script>
         function setupOmise() {
-        document.querySelectorAll('#paymentButtons .opn-button').forEach(button => {
-          button.addEventListener('click', function(e) {
-            e.preventDefault();
-            const baseAmount = parseInt(this.dataset.amount);
-            const totalAmount = baseAmount + orderData.shippingFee;
+            document.querySelectorAll('.opn-button').forEach(button => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Ensure Omise is configured before opening
+        OmiseCard.configure({
+          publicKey: 'pkey_test_5y0m4yq7p6l87p4p7p6', // Your Key
+          buttonLabel: 'Pay Now',
+          submitLabel: 'Pay Now',
+          otherPaymentMethods: ['promptpay']
+        });
 
-            OmiseCard.open({
-              amount: totalAmount,
-              currency: 'THB',
-              label: this.dataset.label + " + Shipping",
-              onCreateTokenSuccess: async (token) => {
-                try {
-                  const response = await fetch('/api/charge', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ token, amount: totalAmount, orderData })
-                  });
-                  const data = await response.json();
-                  if (data.status === 'successful') {
-                    alert(`การชำระเงินเสร็จสมบูรณ์! หมายเลขรายการ: ${data.chargeId}`);
-                  } else {
-                    alert('การชำระเงินล้มเหลว: ' + (data.error || 'โปรดลองอีกครั้ง'));
-                  }
-                } catch (err) {
+        const baseAmount = parseInt(this.dataset.amount);
+        const totalAmount = baseAmount + (typeof orderData !== 'undefined' ? orderData.shippingFee : 0);
+
+        OmiseCard.open({
+          amount: totalAmount,
+          currency: 'THB',
+          label: this.dataset.label + " + Shipping",
+          onCreateTokenSuccess: async (token) => {
+            const response = await fetch('/api/charge', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ token, amount: totalAmount, orderData: typeof orderData !== 'undefined' ? orderData : {} })
+            });
+            const data = await response.json();
+            if (data.status === 'successful') alert('Success!');
+          },
+          onCreateSourceSuccess: async (source) => {
+            const response = await fetch('/api/charge', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ source, amount: totalAmount, orderData: typeof orderData !== 'undefined' ? orderData : {} })
+            });
+            const data = await response.json();
+            if (data.authorize_uri) window.location.href = data.authorize_uri;
+          }
+        });
+      });
+    });
+
                   alert("Error: " + err.message);
                 }
               },
