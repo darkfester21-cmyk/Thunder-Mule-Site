@@ -430,52 +430,82 @@
       <p>— จาร์ราด, Hua Thong Brand</p>
     </article>
   </section>
-  <script src="https://omise.co"></script>
+ <!-- Omise Library + Init with Address Form + Backend Charge -->
+  <script src="https://cdn.omise.co/omise.js"></script>
   <script>
-    // This function starts the moment the page finishes loading
-    window.addEventListener('load', function() {
-      if (typeof OmiseCard === 'undefined') return;
+    let orderData = {};
 
+    function setupOmise() {
       OmiseCard.configure({
-        publicKey: 'pkey_test_5y0m4yq7p6l87p4p7p6',
+        publicKey: 'pkey_test_66n71fos0z28g33u86o',
+        defaultPaymentMethod: 'credit_card',
         otherPaymentMethods: ['promptpay']
       });
 
-      document.addEventListener('click', function(e) {
-        const button = e.target.closest('.opn-button');
-        if (!button) return;
-        
-        e.preventDefault();
-        // Fallback to 0 if shipping calculation fails
-        const amount = parseInt(button.dataset.amount) + (window.orderData?.shippingFee || 0);
+      document.getElementById('submitOrder').addEventListener('click', function() {
+        const form = document.getElementById('orderForm');
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
 
-        OmiseCard.open({
-          amount: amount,
-          currency: 'THB',
-          onCreateTokenSuccess: async (token) => {
-            const res = await fetch('/api/charge', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ token, amount, orderData: window.orderData })
-            });
-            const data = await res.json();
-            if (data.status === 'successful') alert('Success!');
-          },
-          onCreateSourceSuccess: async (source) => {
-            const res = await fetch('/api/charge', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ source, amount, orderData: window.orderData })
-            });
-            const data = await res.json();
-            if (data.authorize_uri) window.location.href = data.authorize_uri;
-          }
+        orderData = {
+          name: document.getElementById('name').value,
+          email: document.getElementById('email').value,
+          phone: document.getElementById('phone').value,
+          address: document.getElementById('address').value,
+          shippingFee: parseInt(document.getElementById('shipping').value || 0)
+        };
+
+        document.getElementById('paymentButtons').style.display = 'block';
+        form.style.display = 'none';
+        window.scrollTo({ top: document.getElementById('paymentButtons').offsetTop, behavior: 'smooth' });
+      });
+
+      document.querySelectorAll('#paymentButtons .opn-button').forEach(button => {
+        button.addEventListener('click', function(e) {
+          e.preventDefault();
+
+          const baseAmount = parseInt(this.dataset.amount);
+          const totalAmount = baseAmount + orderData.shippingFee;
+
+          OmiseCard.open({
+            amount: totalAmount,
+            currency: 'THB',
+            label: this.dataset.label + " + Shipping",
+            onCreateTokenSuccess: async (nonce) => {
+              try {
+                const response = await fetch('/api/charge', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    token: nonce,
+                    amount: totalAmount,
+                    orderData: orderData
+                  })
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'successful') {
+                  alert("PAYMENT SUCCESSFUL!\nCharge ID: " + data.chargeId + "\nTotal: " + data.amount + " THB\nCoffee on the way!");
+                } else {
+                  alert("Payment failed: " + data.error);
+                }
+              } catch (err) {
+                alert("Error: " + err.message);
+              }
+            },
+            onCreateSourceSuccess: (source) => {
+              alert("PROMPTPAY SUCCESS! Source created: " + source);
+            }
+          });
         });
       });
-    });
+    }
+
+    window.addEventListener('load', setupOmise);
   </script>
-</body>
-</html>
 
 
 
