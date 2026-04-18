@@ -385,23 +385,30 @@
   </section>
 
   <!-- Omise Library + Init with Address Form + Backend Charge -->
-<!-- 1. Load the Library First -->
+<!-- 1. Load the Library -->
 <script src="https://omise.co"></script>
+
+<!-- 2. The Logic -->
 <script>
-  window.addEventListener('load', function() {
-    // 1. Configure the popup
+  function initializeCheckout() {
+    // Only proceed if Omise library is actually loaded
+    if (typeof OmiseCard === 'undefined') {
+      console.log("Waiting for Omise...");
+      setTimeout(initializeCheckout, 500); // Try again in half a second
+      return;
+    }
+
     OmiseCard.configure({
       publicKey: 'pkey_test_5y0m4yq7p6l87p4p7p6',
       otherPaymentMethods: ['promptpay']
     });
 
-    // 2. Listen for the button click
     document.addEventListener('click', function(e) {
       const button = e.target.closest('.opn-button');
       if (button) {
         e.preventDefault();
         
-        // Use 0 if orderData or shippingFee is missing to prevent crashing
+        // Safety check for pricing and data
         const baseAmount = parseInt(button.dataset.amount) || 0;
         const shipping = (window.orderData && window.orderData.shippingFee) ? window.orderData.shippingFee : 0;
         const totalAmount = baseAmount + shipping;
@@ -411,36 +418,32 @@
           currency: 'THB',
           label: (button.dataset.label || "Coffee") + " + Shipping",
           onCreateTokenSuccess: async (token) => {
-            const response = await fetch('/api/charge', {
+            const res = await fetch('/api/charge', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ 
-                token, 
-                amount: totalAmount, 
-                orderData: window.orderData || { name: 'Guest' } 
-              })
+              body: JSON.stringify({ token, amount: totalAmount, orderData: window.orderData || {} })
             });
-            const data = await response.json();
+            const data = await res.json();
             if (data.status === 'successful') alert('Success!');
           },
           onCreateSourceSuccess: async (source) => {
-            const response = await fetch('/api/charge', {
+            const res = await fetch('/api/charge', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ 
-                source, 
-                amount: totalAmount, 
-                orderData: window.orderData || { name: 'Guest' } 
-              })
+              body: JSON.stringify({ source, amount: totalAmount, orderData: window.orderData || {} })
             });
-            const data = await response.json();
+            const data = await res.json();
             if (data.authorize_uri) window.location.href = data.authorize_uri;
           }
         });
       }
     });
-  });
+  }
+
+  // Start the check
+  initializeCheckout();
 </script>
+
 
 
  
