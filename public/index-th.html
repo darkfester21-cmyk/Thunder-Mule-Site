@@ -386,17 +386,19 @@
 
   <!-- Omise Library + Init with Address Form + Backend Charge -->
 <!-- 1. Load the Library -->
-    <script src="https://omise.co"></script>
+    <script src="https://cdn.omise.co/omise.js" onload="initOmise()"></script>
     <script>
-      OmiseCard.configure({
-        publicKey: 'pkey_test_5y0m4yq7p6l87p4p7p6',
-        otherPaymentMethods: ['promptpay']
-      });
+      function initOmise() {
+        OmiseCard.configure({
+          publicKey: 'pkey_test_5y0m4yq7p6l87p4p7p6',
+          otherPaymentMethods: ['promptpay']
+        });
 
-      document.addEventListener('click', function(e) {
-        const button = e.target.closest('.opn-button');
-        if (button) {
+        document.addEventListener('click', function(e) {
+          const button = e.target.closest('.opn-button');
+          if (!button) return;
           e.preventDefault();
+
           const amount = parseInt(button.dataset.amount) + (window.orderData?.shippingFee || 0);
 
           OmiseCard.open({
@@ -421,9 +423,10 @@
               if (data.authorize_uri) window.location.href = data.authorize_uri;
             }
           });
-        }
-      });
+        });
+      }
     </script>
+
 
 
 
