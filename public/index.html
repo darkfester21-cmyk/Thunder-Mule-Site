@@ -428,28 +428,28 @@
             label: this.dataset.label + " + Shipping",
             onCreateTokenSuccess: async (nonce) => {
               try {
-                const response = await fetch('/api/charge', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({
-                    token: nonce,
-                    amount: totalAmount,
-                    orderData: orderData
-                  })
-                });
+                c          const response = await fetch('/api/charge', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              token: token,
+              source: source, // Added to handle PromptPay
+              amount: totalAmount,
+              orderData: orderData
+            })
+          });
 
-                const data = await response.json();
+          const data = await response.json();
 
-                if (data.status === 'successful') {
-                  alert("PAYMENT SUCCESSFUL!\nCharge ID: " + data.chargeId + "\nTotal: " + data.amount + " THB\nCoffee on the way!");
-                } else {
-                  alert("Payment failed: " + data.error);
-                }
-              } catch (err) {
-                alert("Error: " + err.message);
-              }
-            },
-            onCreateSourceSuccess: (source) => {
+          if (data.authorize_uri) {
+            // This is the magic line for PromptPay QR codes
+            window.location.href = data.authorize_uri;
+          } else if (data.status === 'successful') {
+            alert(`PAYMENT SUCCESSFUL! Charge ID: ${data.chargeId}. Your Coffee is on the way!`);
+          } else {
+            alert('Payment failed: ' + (data.error || 'Unknown error'));
+          }
+
               alert("PROMPTPAY SUCCESS! Source created: " + source);
             }
           });
