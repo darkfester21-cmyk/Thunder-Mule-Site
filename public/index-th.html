@@ -438,7 +438,7 @@
                     token: nonce,
                     amount: totalAmount,
                     orderData: orderData
-                            const response = await fetch('/api/charge', {
+                                     const response = await fetch('/api/charge', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -452,13 +452,16 @@
           const data = await response.json();
 
           if (data.authorize_uri) {
-            // This is the essential fix to show the PromptPay QR code
             window.location.href = data.authorize_uri;
           } else if (data.status === 'successful') {
-            alert(`การชำระเงินเสร็จสมบูรณ์! หมายเลขรายการ: ${data.chargeId}. เรากำลังเตรียมกาแฟให้คุณ!`);
+            alert(`การชำระเงินเสร็จสมบูรณ์! หมายเลขรายการ: ${data.chargeId}`);
           } else {
             alert('การชำระเงินล้มเหลว: ' + (data.error || 'โปรดตรวจสอบข้อมูลอีกครั้ง'));
           }
+        } catch (err) {
+          alert("Error: " + err.message);
+        }
+
 
   </script>
 
