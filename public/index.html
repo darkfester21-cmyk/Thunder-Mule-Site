@@ -428,7 +428,7 @@
             label: this.dataset.label + " + Shipping",
             onCreateTokenSuccess: async (nonce) => {
               try {
-                c          const response = await fetch('/api/charge', {
+                       const response = await fetch('/api/charge', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -449,13 +449,13 @@
           } else {
             alert('Payment failed: ' + (data.error || 'Unknown error'));
           }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('An error occurred during payment processing.');
+        }
+      }
+    });
 
-              alert("PROMPTPAY SUCCESS! Source created: " + source);
-            }
-          });
-        });
-      });
-    }
 
     window.addEventListener('load', setupOmise);
   </script>
