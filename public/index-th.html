@@ -387,12 +387,14 @@
   <script>
     let orderData = {};
 
-    function setupOmise() {
-      OmiseCard.configure({
-        publicKey: 'pkey_test_66n71fos0z28g33u86o',
-        defaultPaymentMethod: 'credit_card',
-        otherPaymentMethods: ['promptpay']
-      });
+   function setupOmise() {
+  OmiseCard.configure({
+    publicKey: 'pkey_67de9nyxmv7f1deq1h8',   // ← Your new LIVE public key
+    defaultPaymentMethod: 'credit_card',
+    otherPaymentMethods: ['promptpay']
+  });
+
+  // ... rest of your code stays the same
 
       document.getElementById('submitOrder').addEventListener('click', function() {
         const form = document.getElementById('orderForm');
