@@ -426,44 +426,54 @@
           const totalAmount = baseAmount + orderData.shippingFee;
 
           OmiseCard.open({
-            amount: totalAmount,
-            currency: 'THB',
-            label: this.dataset.label + " + Shipping",
-            onCreateTokenSuccess: async (nonce) => {
-              try {
-                const response = await fetch('/api/charge', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({
-                    token: nonce,
-                    amount: totalAmount,
-                    orderData: orderData
-                                     const response = await fetch('/api/charge', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              token: token,
-              source: source,
-              amount: totalAmount,
-              orderData: orderData
-            })
-          });
-
-          const data = await response.json();
-
-          if (data.authorize_uri) {
-            window.location.href = data.authorize_uri;
-          } else if (data.status === 'successful') {
-            alert(`การชำระเงินเสร็จสมบูรณ์! หมายเลขรายการ: ${data.chargeId}`);
-          } else {
-            alert('การชำระเงินล้มเหลว: ' + (data.error || 'โปรดตรวจสอบข้อมูลอีกครั้ง'));
+         amount: totalAmount,
+        currency: 'THB',
+        label: this.dataset.label + " + Shipping",
+        onCreateTokenSuccess: async (token) => {
+          try {
+            const response = await fetch('/api/charge', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                token: token,
+                amount: totalAmount,
+                orderData: orderData
+              })
+            });
+            const data = await response.json();
+            if (data.status === 'successful') {
+              alert(`Success! Charge ID: ${data.chargeId}`);
+            } else {
+              alert('Payment failed: ' + (data.error || 'Check console'));
+            }
+          } catch (err) {
+            alert("Error: " + err.message);
           }
-        } catch (err) {
-          alert("Error: " + err.message);
+        },
+        onCreateSourceSuccess: async (source) => {
+          try {
+            const response = await fetch('/api/charge', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                source: source,
+                amount: totalAmount,
+                orderData: orderData
+              })
+            });
+            const data = await response.json();
+            if (data.authorize_uri) {
+              window.location.href = data.authorize_uri;
+            }
+          } catch (err) {
+            console.error(err);
+          }
         }
-
-
-  </script>
+      });
+    });
+  });
+</script>
+ 
 
   <section class="blog">
     <h2>บล็อก – ข้อมูลเชิงลึก Thunder Mule</h2>
