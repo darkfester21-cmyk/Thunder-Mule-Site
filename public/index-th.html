@@ -385,27 +385,27 @@
   </section>
 
   <!-- Omise Library + Init with Address Form + Backend Charge -->
-  <script src="https://cdn.omise.co/omise.js"></script>
-        function setupOmise() {
-            document.querySelectorAll('.opn-button').forEach(button => {
-      button.addEventListener('click', function(e) {
+  <script src="https://omise.co"></script>
+<script>
+  window.addEventListener('load', function() {
+    OmiseCard.configure({
+      publicKey: 'pkey_test_5y0m4yq7p6l87p4p7p6',
+      otherPaymentMethods: ['promptpay']
+    });
+
+    document.addEventListener('click', function(e) {
+      const button = e.target.closest('.opn-button');
+      if (button) {
         e.preventDefault();
         
-        // Ensure Omise is configured before opening
-        OmiseCard.configure({
-          publicKey: 'pkey_test_5y0m4yq7p6l87p4p7p6', // Your Key
-          buttonLabel: 'Pay Now',
-          submitLabel: 'Pay Now',
-          otherPaymentMethods: ['promptpay']
-        });
-
-        const baseAmount = parseInt(this.dataset.amount);
-        const totalAmount = baseAmount + (typeof orderData !== 'undefined' ? orderData.shippingFee : 0);
+        const baseAmount = parseInt(button.dataset.amount) || 0;
+        const shipping = (typeof orderData !== 'undefined' && orderData.shippingFee) ? orderData.shippingFee : 0;
+        const totalAmount = baseAmount + shipping;
 
         OmiseCard.open({
           amount: totalAmount,
           currency: 'THB',
-          label: this.dataset.label + " + Shipping",
+          label: button.dataset.label + " + Shipping",
           onCreateTokenSuccess: async (token) => {
             const response = await fetch('/api/charge', {
               method: 'POST',
@@ -425,32 +425,11 @@
             if (data.authorize_uri) window.location.href = data.authorize_uri;
           }
         });
-      });
-    });
-
-                  alert("Error: " + err.message);
-                }
-              },
-              onCreateSourceSuccess: async (source) => {
-                try {
-                  const response = await fetch('/api/charge', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ source, amount: totalAmount, orderData })
-                  });
-                  const data = await response.json();
-                  if (data.authorize_uri) {
-                    window.location.href = data.authorize_uri;
-                  }
-                } catch (err) {
-                  console.error(err);
-                }
-              }
-            });
-          });
-        });
       }
-    </script>
+    });
+  });
+</script>
+
 
 
 
