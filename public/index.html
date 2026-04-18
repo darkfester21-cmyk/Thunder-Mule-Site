@@ -422,7 +422,7 @@
           const baseAmount = parseInt(this.dataset.amount);
           const totalAmount = baseAmount + orderData.shippingFee;
 
-                  OmiseCard.open({
+        OmiseCard.open({
           amount: totalAmount,
           currency: 'THB',
           label: this.dataset.label + " + Shipping",
@@ -439,14 +439,14 @@
               });
               const data = await response.json();
               if (data.status === 'successful') {
-                alert(`PAYMENT SUCCESSFUL! Charge ID: ${data.chargeId}. Your Coffee is on the way!`);
+                alert(`SUCCESS! Charge ID: ${data.chargeId}`);
               } else {
-                alert('Payment failed: ' + (data.error || 'Unknown error'));
+                alert('Payment failed: ' + (data.error || 'Check console'));
               }
             } catch (err) {
               alert("Error: " + err.message);
             }
-          }
+          },
           onCreateSourceSuccess: async (source) => {
             try {
               const response = await fetch('/api/charge', {
@@ -460,7 +460,6 @@
               });
               const data = await response.json();
               if (data.authorize_uri) {
-                // This is the line that shows the PromptPay QR code
                 window.location.href = data.authorize_uri;
               }
             } catch (err) {
@@ -469,7 +468,10 @@
           }
         });
       });
-   </script>
+    });
+  });
+</script>
+
 
 
   <section class="blog">
