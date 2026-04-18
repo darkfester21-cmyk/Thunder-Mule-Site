@@ -422,43 +422,57 @@
           const baseAmount = parseInt(this.dataset.amount);
           const totalAmount = baseAmount + orderData.shippingFee;
 
-          OmiseCard.open({
-            amount: totalAmount,
-            currency: 'THB',
-            label: this.dataset.label + " + Shipping",
-            onCreateTokenSuccess: async (nonce) => {
-              try {
-                       const response = await fetch('/api/charge', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              token: token,
-              source: source, // Added to handle PromptPay
-              amount: totalAmount,
-              orderData: orderData
-            })
-          });
-
-          const data = await response.json();
-
-          if (data.authorize_uri) {
-            // This is the magic line for PromptPay QR codes
-            window.location.href = data.authorize_uri;
-          } else if (data.status === 'successful') {
-            alert(`PAYMENT SUCCESSFUL! Charge ID: ${data.chargeId}. Your Coffee is on the way!`);
-          } else {
-            alert('Payment failed: ' + (data.error || 'Unknown error'));
+                  OmiseCard.open({
+          amount: totalAmount,
+          currency: 'THB',
+          label: this.dataset.label + " + Shipping",
+          onCreateTokenSuccess: async (token) => {
+            try {
+              const response = await fetch('/api/charge', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  token: token,
+                  amount: totalAmount,
+                  orderData: orderData
+                })
+              });
+              const data = await response.json();
+              if (data.status === 'successful') {
+                alert(`PAYMENT SUCCESSFUL! Charge ID: ${data.chargeId}. Your Coffee is on the way!`);
+              } else {
+                alert('Payment failed: ' + (data.error || 'Unknown error'));
+              }
+            } catch (err) {
+              alert("Error: " + err.message);
+            }
+          },
+          onCreateSourceSuccess: async (source) => {
+            try {
+              const response = await fetch('/api/charge', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  source: source,
+                  amount: totalAmount,
+                  orderData: orderData
+                })
+              });
+              const data = await response.json();
+              if (data.authorize_uri) {
+                // This is the line that shows the PromptPay QR code
+                window.location.href = data.authorize_uri;
+              }
+            } catch (err) {
+              console.error(err);
+            }
           }
-        } catch (error) {
-          console.error('Error:', error);
-          alert('An error occurred during payment processing.');
-        }
-      }
+        });
+      });
     });
+  });
+</script>
 
-
-    window.addEventListener('load', setupOmise);
-  </script>
 
   <section class="blog">
     <h2>Blog – Thunder Mule Insights</h2>
