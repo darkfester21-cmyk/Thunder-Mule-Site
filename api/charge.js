@@ -1,56 +1,31 @@
 const Omise = require('omise');
 
 module.exports = async (req, res) => {
-  // 1. CORS headers to allow your frontend to talk to this API
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-  // 2. Handle browser preflight checks
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
-
-  // 3. Only allow POST requests
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  // 4. Get data from frontend (accepts either token for cards or source for PromptPay)
-  const { token, source, amount, orderData } = req.body;
-
-  // 5. Validation: Ensure we have an amount AND a payment method
-  if ((!token && !source) || !amount) {
-    return res.status(400).json({ error: 'Missing payment method (token/source) or amount' });
-  }
-
-  const omise = Omise({
+    const omise = Omise({
     secretKey: process.env.OMISE_SECRET_KEY
   });
 
+  const { token, source, amount, orderData } = req.body;
+
   try {
-    // 6. Create the charge with Omise
-    const charge = await omise.charges.create({
+     const charge = await omise.charges.create({
       amount: amount,
       currency: 'THB',
-      card: token || undefined,   // Used if payment is Credit Card
-      source: source || undefined, // Used if payment is PromptPay
-      description: `Thunder Mule Order - ${orderData?.name || 'Customer'}`,
-      metadata: orderData,
-      // REQUIRED for PromptPay: Redirects user back to your site after payment
-      return_uri: 'https://vercel.app' 
+      // Fixed logic: checks if 'token' is a card or source
+      card: token && token.startsWith('tok_') ? token : undefined,
+      source: source || (token && token.startsWith('src_') ? token : undefined),
+      description: `Order for ${orderData?.email || 'Guest'}`,
+      return_uri: 'https://thundermulecoffee.com',
+      metadata: orderData
     });
 
-    // 7. Send success response back to frontend
     res.status(200).json({
-      status: charge.status, // will be 'successful' for cards or 'pending' for PromptPay
+      status: charge.status,
       chargeId: charge.id,
-      authorize_uri: charge.authorize_uri, // The URL for the PromptPay QR code
-      amount: charge.amount / 100
+      authorize_uri: charge.authorize_uri
     });
-
-  } catch (error) {
-    console.error('Omise Error:', error);
+   } catch (error) {
+    console.error(error);
     res.status(500).json({ status: 'failed', error: error.message });
   }
 };
