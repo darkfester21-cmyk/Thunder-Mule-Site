@@ -467,24 +467,25 @@
             amount: totalAmount,
             currency: 'THB',
             label: this.dataset.label + " + Shipping",
-        onCreateTokenSuccess: (nonce) => {
-          handlePayment({ token: nonce });
+         onCreateTokenSuccess: (nonce) => {
+          handlePayment({ token: nonce }, totalAmount); // Pass totalAmount here
         },
         onCreateSourceSuccess: (source) => {
-          handlePayment({ source: source.id });
+          handlePayment({ source: source.id }, totalAmount); // Pass totalAmount here
         }
       });
     });
   });
 
-  async function handlePayment(payload) {
+  // Updated function to accept "amount" as a parameter
+  async function handlePayment(payload, amount) {
     try {
       const response = await fetch('/api/charge', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...payload,
-          amount: totalAmount,
+          amount: amount, // Uses the amount we just passed in
           orderData: orderData
         })
       });
@@ -506,6 +507,7 @@
 }
 
 window.addEventListener('load', setupOmise);
+
 
   </script>
 
