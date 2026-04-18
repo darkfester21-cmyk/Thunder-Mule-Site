@@ -438,29 +438,28 @@
                     token: nonce,
                     amount: totalAmount,
                     orderData: orderData
-                  })
-                });
-
-                const data = await response.json();
-
-                if (data.status === 'successful') {
-                  alert("ชำระเงินสำเร็จ!\nCharge ID: " + data.chargeId + "\nยอดรวม: " + data.amount + " บาท\nกาแฟกำลังเดินทาง!");
-                } else {
-                  alert("ชำระเงินล้มเหลว: " + data.error);
-                }
-              } catch (err) {
-                alert("เกิดข้อผิดพลาด: " + err.message);
-              }
-            },
-            onCreateSourceSuccess: (source) => {
-              alert("PROMPTPAY สำเร็จ! สร้าง Source แล้ว: " + source);
-            }
+                            const response = await fetch('/api/charge', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              token: token,
+              source: source,
+              amount: totalAmount,
+              orderData: orderData
+            })
           });
-        });
-      });
-    }
 
-    window.addEventListener('load', setupOmise);
+          const data = await response.json();
+
+          if (data.authorize_uri) {
+            // This is the essential fix to show the PromptPay QR code
+            window.location.href = data.authorize_uri;
+          } else if (data.status === 'successful') {
+            alert(`การชำระเงินเสร็จสมบูรณ์! หมายเลขรายการ: ${data.chargeId}. เรากำลังเตรียมกาแฟให้คุณ!`);
+          } else {
+            alert('การชำระเงินล้มเหลว: ' + (data.error || 'โปรดตรวจสอบข้อมูลอีกครั้ง'));
+          }
+
   </script>
 
   <section class="blog">
