@@ -468,37 +468,49 @@
             amount: totalAmount,
             currency: 'THB',
             label: this.dataset.label + " + Shipping",
-            onCreateTokenSuccess: async (nonce) => {
-              try {
-                const response = await fetch('/api/charge', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({
-                    token: nonce,
-                    amount: totalAmount,
-                    orderData: orderData
-                  })
-                });
-
-                const data = await response.json();
-
-                if (data.status === 'successful') {
-                  alert("PAYMENT SUCCESSFUL!\nCharge ID: " + data.chargeId + "\nTotal: " + data.amount + " THB\nCoffee on the way!");
-                } else {
-                  alert("Payment failed: " + data.error);
-                }
-              } catch (err) {
-                alert("Error: " + err.message);
-              }
-            },
-            onCreateSourceSuccess: (source) => {
-              alert("PROMPTPAY SUCCESS! Source created: " + source);
-            }
-          });
-        });
+        onCreateTokenSuccess: (nonce) => {
+          handlePayment({ token: nonce });
+        },
+        onCreateSourceSuccess: (source) => {
+          handlePayment({ source: source.id });
+        }
       });
-    }
+    });
+  });
 
+  // New helper function to fix the "T" error and PromptPay redirect
+  async function handlePayment(payload) {
+    try {
+      const response = await fetch('/api/charge', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...payload,
+          amount: totalAmount,
+          orderData: orderData
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.authorize_uri) {
+        // MANDATORY for PromptPay: Redirects to the QR code page
+        window.location.href = data.authorize_uri;
+      } else if (data.status === 'successful') {
+        alert("PAYMENT SUCCESSFUL! Coffee on the way!");
+      } else {
+        alert("Payment failed: " + (data.error || "Check your Vercel logs"));
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error: " + err.message);
+    }
+  }
+
+          }
+        
+      
+  
     window.addEventListener('load', setupOmise);
   </script>
 
