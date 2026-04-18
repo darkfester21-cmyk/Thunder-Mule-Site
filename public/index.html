@@ -469,24 +469,24 @@
             currency: 'THB',
             label: this.dataset.label + " + Shipping",
         onCreateTokenSuccess: (nonce) => {
-          handlePayment({ token: nonce });
+          handlePayment({ token: nonce }, totalAmount); // Pass totalAmount here
         },
         onCreateSourceSuccess: (source) => {
-          handlePayment({ source: source.id });
+          handlePayment({ source: source.id }, totalAmount); // Pass totalAmount here
         }
       });
     });
   });
 
-  // New helper function to fix the "T" error and PromptPay redirect
-  async function handlePayment(payload) {
+  // Updated function to accept "amount" as a parameter
+  async function handlePayment(payload, amount) {
     try {
       const response = await fetch('/api/charge', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...payload,
-          amount: totalAmount,
+          amount: amount, // Uses the amount we just passed in
           orderData: orderData
         })
       });
@@ -494,7 +494,6 @@
       const data = await response.json();
 
       if (data.authorize_uri) {
-        // MANDATORY for PromptPay: Redirects to the QR code page
         window.location.href = data.authorize_uri;
       } else if (data.status === 'successful') {
         alert("PAYMENT SUCCESSFUL! Coffee on the way!");
@@ -506,12 +505,10 @@
       alert("Error: " + err.message);
     }
   }
+}
 
-          }
-        
-      
-  
-    window.addEventListener('load', setupOmise);
+window.addEventListener('load', setupOmise);
+
   </script>
 
 
