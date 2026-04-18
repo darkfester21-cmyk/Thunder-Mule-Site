@@ -383,48 +383,52 @@
 </p>
   </section>
 
-  <!-- Omise Library + Init with Address Form + Backend Charge -->
- <!-- 1. Load the Library -->
-    <script src="https://cdn.omise.co/omise.js" onload="initOmise()"></script>
+    <!-- 1. Load the Omise Library -->
+    <script src="https://omise.co"></script>
+
+    <!-- 2. The Logic -->
     <script>
-      function initOmise() {
-        OmiseCard.configure({
-          publicKey: 'pkey_test_5y0m4yq7p6l87p4p7p6',
-          otherPaymentMethods: ['promptpay']
+      // Configure Omise immediately
+      OmiseCard.configure({
+        publicKey: 'pkey_test_5y0m4yq7p6l87p4p7p6',
+        otherPaymentMethods: ['promptpay']
+      });
+
+      // Listen for the button click
+      document.addEventListener('click', function(e) {
+        const button = e.target.closest('.opn-button');
+        if (!button) return;
+        
+        e.preventDefault();
+
+        // Calculate total (price + shipping)
+        const amount = parseInt(button.dataset.amount) + (window.orderData?.shippingFee || 0);
+
+        OmiseCard.open({
+          amount: amount,
+          currency: 'THB',
+          onCreateTokenSuccess: async (token) => {
+            const res = await fetch('/api/charge', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ token, amount, orderData: window.orderData })
+            });
+            const data = await res.json();
+            if (data.status === 'successful') alert('Payment Successful!');
+          },
+          onCreateSourceSuccess: async (source) => {
+            const res = await fetch('/api/charge', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ source, amount, orderData: window.orderData })
+            });
+            const data = await res.json();
+            if (data.authorize_uri) window.location.href = data.authorize_uri;
+          }
         });
-
-        document.addEventListener('click', function(e) {
-          const button = e.target.closest('.opn-button');
-          if (!button) return;
-          e.preventDefault();
-
-          const amount = parseInt(button.dataset.amount) + (window.orderData?.shippingFee || 0);
-
-          OmiseCard.open({
-            amount: amount,
-            currency: 'THB',
-            onCreateTokenSuccess: async (token) => {
-              const res = await fetch('/api/charge', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ token, amount, orderData: window.orderData })
-              });
-              const data = await res.json();
-              if (data.status === 'successful') alert('Success!');
-            },
-            onCreateSourceSuccess: async (source) => {
-              const res = await fetch('/api/charge', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ source, amount, orderData: window.orderData })
-              });
-              const data = await res.json();
-              if (data.authorize_uri) window.location.href = data.authorize_uri;
-            }
-          });
-        });
-      }
+      });
     </script>
+
 
 
 
