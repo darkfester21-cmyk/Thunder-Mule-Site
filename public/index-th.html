@@ -385,50 +385,59 @@
   </section>
 
   <!-- Omise Library + Init with Address Form + Backend Charge -->
-  <script src="https://omise.co"></script>
+<!-- 1. Load the Library First -->
+<script src="https://cdn.omise.co/omise.js"></script>
+
+<!-- 2. Then run your code -->
 <script>
+  // This waits for the library above to be ready
   window.addEventListener('load', function() {
-    OmiseCard.configure({
-      publicKey: 'pkey_test_5y0m4yq7p6l87p4p7p6',
-      otherPaymentMethods: ['promptpay']
-    });
+    if (typeof OmiseCard !== 'undefined') {
+      OmiseCard.configure({
+        publicKey: 'pkey_test_5y0m4yq7p6l87p4p7p6',
+        otherPaymentMethods: ['promptpay']
+      });
 
-    document.addEventListener('click', function(e) {
-      const button = e.target.closest('.opn-button');
-      if (button) {
-        e.preventDefault();
-        
-        const baseAmount = parseInt(button.dataset.amount) || 0;
-        const shipping = (typeof orderData !== 'undefined' && orderData.shippingFee) ? orderData.shippingFee : 0;
-        const totalAmount = baseAmount + shipping;
+      document.addEventListener('click', function(e) {
+        const button = e.target.closest('.opn-button');
+        if (button) {
+          e.preventDefault();
+          
+          const baseAmount = parseInt(button.dataset.amount) || 0;
+          const shipping = (typeof orderData !== 'undefined' && orderData.shippingFee) ? orderData.shippingFee : 0;
+          const totalAmount = baseAmount + shipping;
 
-        OmiseCard.open({
-          amount: totalAmount,
-          currency: 'THB',
-          label: button.dataset.label + " + Shipping",
-          onCreateTokenSuccess: async (token) => {
-            const response = await fetch('/api/charge', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ token, amount: totalAmount, orderData: typeof orderData !== 'undefined' ? orderData : {} })
-            });
-            const data = await response.json();
-            if (data.status === 'successful') alert('Success!');
-          },
-          onCreateSourceSuccess: async (source) => {
-            const response = await fetch('/api/charge', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ source, amount: totalAmount, orderData: typeof orderData !== 'undefined' ? orderData : {} })
-            });
-            const data = await response.json();
-            if (data.authorize_uri) window.location.href = data.authorize_uri;
-          }
-        });
-      }
-    });
+          OmiseCard.open({
+            amount: totalAmount,
+            currency: 'THB',
+            label: button.dataset.label + " + Shipping",
+            onCreateTokenSuccess: async (token) => {
+              const response = await fetch('/api/charge', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token, amount: totalAmount, orderData: typeof orderData !== 'undefined' ? orderData : {} })
+              });
+              const data = await response.json();
+              if (data.status === 'successful') alert('Success!');
+            },
+            onCreateSourceSuccess: async (source) => {
+              const response = await fetch('/api/charge', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ source, amount: totalAmount, orderData: typeof orderData !== 'undefined' ? orderData : {} })
+              });
+              const data = await response.json();
+              if (data.authorize_uri) window.location.href = data.authorize_uri;
+            }
+          });
+        }
+      });
+    } else {
+      console.error("Omise library failed to load. Check your internet connection.");
+    }
   });
 </script>
+
 
 
 
