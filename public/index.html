@@ -372,7 +372,7 @@
   <strong>Contact & Address:</strong><br>
   Jarrad - Hua Thong Brand<br>
   Thunder Mule Coffee<br>
-  [112 Moo 9 T.Ban Koh Non Sang 39140 ]<br>
+  112 Moo 9 T.Ban Koh Non Sang 39140 <br>
   nong Bua Lamphu, Thailand<br><br>
   
   Email: <a href="mailto:huathongbrand@gmail.com" style="color:#a855f7;">huathongbrand@gmail.com</a><br>
@@ -383,57 +383,7 @@
 </p>
   </section>
 
-    <!-- 1. Load the Omise Library -->
-    <script src="https://omise.co"></script>
-
-    <!-- 2. The Logic -->
-    <script>
-      // Configure Omise immediately
-      OmiseCard.configure({
-        publicKey: 'pkey_test_5y0m4yq7p6l87p4p7p6',
-        otherPaymentMethods: ['promptpay']
-      });
-
-      // Listen for the button click
-      document.addEventListener('click', function(e) {
-        const button = e.target.closest('.opn-button');
-        if (!button) return;
-        
-        e.preventDefault();
-
-        // Calculate total (price + shipping)
-        const amount = parseInt(button.dataset.amount) + (window.orderData?.shippingFee || 0);
-
-        OmiseCard.open({
-          amount: amount,
-          currency: 'THB',
-          onCreateTokenSuccess: async (token) => {
-            const res = await fetch('/api/charge', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ token, amount, orderData: window.orderData })
-            });
-            const data = await res.json();
-            if (data.status === 'successful') alert('Payment Successful!');
-          },
-          onCreateSourceSuccess: async (source) => {
-            const res = await fetch('/api/charge', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ source, amount, orderData: window.orderData })
-            });
-            const data = await res.json();
-            if (data.authorize_uri) window.location.href = data.authorize_uri;
-          }
-        });
-      });
-    </script>
-
-
-
-
-
-
+    
   <section class="blog">
     <h2>Blog – Thunder Mule Insights</h2>
    
@@ -483,10 +433,9 @@
   </section>
 <script src="https://omise.co"></script>
 <script>
-  // This function only runs once the Omise library is 100% loaded
-  function setupOmise() {
+  (function init() {
     if (typeof OmiseCard === 'undefined') {
-      setTimeout(setupOmise, 500);
+      setTimeout(init, 500);
       return;
     }
 
@@ -525,13 +474,19 @@
         }
       });
     });
-  }
-
-  // Start the setup process
-  setupOmise();
+  })();
 </script>
+
+<footer>
+  <div class="links">
+    <p>Connect with me:</p>
+    <a href="https://www.instagram.com/hua_thong_brand/" target="_blank">Instagram</a>
+    <a href="https://facebook.com" target="_blank">Facebook</a>
+  </div>
+</footer>
 </body>
 </html>
+
 
   <footer>
     <div class="links">
