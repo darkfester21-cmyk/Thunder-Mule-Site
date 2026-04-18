@@ -486,7 +486,13 @@
   </section>
 <script src="https://omise.co"></script>
 <script>
+  // This function only runs once the Omise library is 100% loaded
   function setupOmise() {
+    if (typeof OmiseCard === 'undefined') {
+      setTimeout(setupOmise, 500);
+      return;
+    }
+
     OmiseCard.configure({
       publicKey: 'pkey_test_5y0m4yq7p6l87p4p7p6',
       otherPaymentMethods: ['promptpay']
@@ -509,7 +515,7 @@
             body: JSON.stringify({ token, amount, orderData: window.orderData })
           });
           const data = await res.json();
-          if (data.status === 'successful') alert('Success!');
+          if (data.status === 'successful') alert('Payment Successful!');
         },
         onCreateSourceSuccess: async (source) => {
           const res = await fetch('/api/charge', {
@@ -524,11 +530,12 @@
     });
   }
 
-  // THIS IS THE MISSING KEY: It tells the script to actually start.
-  window.onload = setupOmise;
+  // Start the setup process
+  setupOmise();
 </script>
 </body>
 </html>
+
 
 
 
