@@ -452,47 +452,42 @@
       <p>— Jarrad, Hua Thong Brand</p>
     </article>
   </section>
-<!-- Load Omise.js exactly like this to bypass CORB/CORS issues -->
-<script src="https://omise.co"></script>
+<script src="https://omise.co" async onload="initOmise()"></script>
 
 <script>
-  // This ensures the code only runs once the library is actually ready
-  document.onreadystatechange = function () {
-    if (document.readyState === "complete") {
-      if (typeof OmiseCard !== 'undefined') {
-        OmiseCard.configure({
-          publicKey: 'pkey_67de9nyxmv7f1deq1h8',
-          currency: 'THB'
-        });
+  function initOmise() {
+    OmiseCard.configure({
+      publicKey: '67de9nyxmv7f1deq1h8', // Your verified key
+      currency: 'THB'
+    });
 
-        document.querySelectorAll('.opn-button').forEach(function(btn) {
-          btn.onclick = function(e) {
-            e.preventDefault();
-            var amt = btn.getAttribute('data-amount');
-            var lbl = btn.getAttribute('data-label');
+    document.querySelectorAll('.opn-button').forEach(function(btn) {
+      btn.onclick = function(e) {
+        e.preventDefault();
+        var amt = btn.getAttribute('data-amount');
+        var lbl = btn.getAttribute('data-label');
 
-            OmiseCard.open({
-              amount: amt,
-              onCreateTokenSuccess: function(id) {
-                var form = document.createElement('form');
-                form.method = 'POST';
-                form.action = '/api/charge';
-                var name = id.startsWith('src') ? 'omise_source' : 'omise_token';
-                form.innerHTML = '<input type="hidden" name="'+name+'" value="'+id+'">' +
-                                 '<input type="hidden" name="amount" value="'+amt+'">' +
-                                 '<input type="hidden" name="description" value="'+lbl+'">';
-                document.body.appendChild(form);
-                form.submit();
-              }
-            });
-          };
+        OmiseCard.open({
+          amount: amt,
+          onCreateTokenSuccess: function(id) {
+            var form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/api/charge';
+            var name = id.startsWith('src') ? 'omise_source' : 'omise_token';
+            form.innerHTML = '<input type="hidden" name="'+name+'" value="'+id+'">' +
+                             '<input type="hidden" name="amount" value="'+amt+'">' +
+                             '<input type="hidden" name="description" value="'+lbl+'">';
+            document.body.appendChild(form);
+            form.submit();
+          }
         });
-      }
-    }
-  };
+      };
+    });
+  }
 </script>
 </body>
 </html>
+
 
 
 document.addEventListener('DOMContentLoaded', () => {
