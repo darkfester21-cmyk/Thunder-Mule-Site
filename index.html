@@ -472,7 +472,7 @@ document.addEventListener('DOMContentLoaded', () => {
           
           const form = document.createElement('form');
           form.method = 'POST';
-          form.action = '/checkout'; // Ensure this matches your backend route
+form.action = "/api/charge";
           
           form.innerHTML = `
             <input type="hidden" name="${inputName}" value="${id}">
