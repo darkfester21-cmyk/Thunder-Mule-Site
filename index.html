@@ -504,13 +504,13 @@ src="https://omise.co"></script>
 <!-- 2. The logic for the buttons -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // Initialize Omise
+  // 1. Initialize Omise (Ensure your public key is 100% correct here)
   OmiseCard.configure({
-    publicKey: 'pkey_test_5y10065u1v7w5y9o62l', // Replace with your actual key
+    publicKey: '67de9nyxmv7f1deq1h8', // Use exactly what you copied from Omise
     currency: 'THB'
   });
 
-  // Attach clicks to the 3 purple buttons
+  // 2. Attach click events to your 3 purple buttons
   document.querySelectorAll('.opn-button').forEach(button => {
     button.addEventListener('click', (e) => {
       e.preventDefault();
@@ -518,31 +518,34 @@ document.addEventListener('DOMContentLoaded', () => {
       const amount = button.getAttribute('data-amount');
       const label = button.getAttribute('data-label');
 
-OmiseCard.open({
-  amount: amount,
-  currency: 'THB',
-  // REMOVED: defaultPaymentMethod: 'promptpay'
-  onCreateTokenSuccess: (id) => {
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = '/api/charge';
-    
-    // This logic handles both 'tok_' (Card) and 'src_' (PromptPay)
-    form.innerHTML = `
-      <input type="hidden" name="${id.startsWith('src') ? 'omise_source' : 'omise_token'}" value="${id}">
-      <input type="hidden" name="amount" value="${amount}">
-      <input type="hidden" name="description" value="${label}">
-    `;
-    
-    document.body.appendChild(form);
-    form.submit();
-  }
-});
-
+      // 3. Open the popup without a default method to show the MENU
+      OmiseCard.open({
+        amount: amount,
+        currency: 'THB',
+        // By removing 'defaultPaymentMethod', the user sees BOTH Card & PromptPay
+        onCreateTokenSuccess: (id) => {
+          // Identify if the user picked a Card (tok_) or PromptPay (src_)
+          const inputName = id.startsWith('src') ? 'omise_source' : 'omise_token';
+          
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.action = '/api/charge'; 
+          
+          form.innerHTML = `
+            <input type="hidden" name="${inputName}" value="${id}">
+            <input type="hidden" name="amount" value="${amount}">
+            <input type="hidden" name="description" value="${label}">
+          `;
+          
+          document.body.appendChild(form);
+          form.submit();
+        }
+      });
     });
   });
 });
 </script>
+
 
 
 
