@@ -1,23 +1,11 @@
 {
   "version": 2,
   "builds": [
-    {
-      "src": "*.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "api/charge.js",
-      "use": "@vercel/node"
-    }
+    { "src": "*.html", "use": "@vercel/static" },
+    { "src": "api/charge.js", "use": "@vercel/node" }
   ],
   "routes": [
-    {
-      "src": "/api/charge",
-      "dest": "/api/charge.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
+    { "src": "/api/charge", "dest": "/api/charge.js" },
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
