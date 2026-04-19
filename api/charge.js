@@ -1,12 +1,10 @@
 const Omise = require('omise');
 
 module.exports = async (req, res) => {
-  // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  // Handle preflight OPTIONS request
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
@@ -27,7 +25,7 @@ module.exports = async (req, res) => {
 
   try {
     const charge = await omise.charges.create({
-      amount: amount,
+      amount: parseInt(amount),
       currency: 'THB',
       card: token || undefined,
       source: source || undefined,
