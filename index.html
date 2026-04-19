@@ -518,26 +518,27 @@ document.addEventListener('DOMContentLoaded', () => {
       const amount = button.getAttribute('data-amount');
       const label = button.getAttribute('data-label');
 
-      OmiseCard.open({
-        amount: amount,
-        currency: 'THB',
-        defaultPaymentMethod: 'promptpay',
-        onCreateTokenSuccess: (id) => {
-          // Creates a form to send data to your backend
-          const form = document.createElement('form');
-          form.method = 'POST';
-          form.action = '/api/charge';
-          
-          form.innerHTML = `
-            <input type="hidden" name="${id.startsWith('src') ? 'omise_source' : 'omise_token'}" value="${id}">
-            <input type="hidden" name="amount" value="${amount}">
-            <input type="hidden" name="description" value="${label}">
-          `;
-          
-          document.body.appendChild(form);
-          form.submit();
-        }
-      });
+OmiseCard.open({
+  amount: amount,
+  currency: 'THB',
+  // REMOVED: defaultPaymentMethod: 'promptpay'
+  onCreateTokenSuccess: (id) => {
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/api/charge';
+    
+    // This logic handles both 'tok_' (Card) and 'src_' (PromptPay)
+    form.innerHTML = `
+      <input type="hidden" name="${id.startsWith('src') ? 'omise_source' : 'omise_token'}" value="${id}">
+      <input type="hidden" name="amount" value="${amount}">
+      <input type="hidden" name="description" value="${label}">
+    `;
+    
+    document.body.appendChild(form);
+    form.submit();
+  }
+});
+
     });
   });
 });
