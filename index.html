@@ -456,11 +456,13 @@
 <script src="https://omise.co"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+  // 1. Setup Omise
   OmiseCard.configure({
-    publicKey: 'pkey_live_67de9nyxmv7f1deq1h8', 
+    publicKey: 'pkey_live_67de9nyxmv7f1deq1h8',
     currency: 'THB'
   });
 
+  // 2. Make buttons clickable
   document.querySelectorAll('.opn-button').forEach(button => {
     button.addEventListener('click', (e) => {
       e.preventDefault();
@@ -471,8 +473,6 @@ document.addEventListener('DOMContentLoaded', () => {
       OmiseCard.open({
         amount: amount,
         currency: 'THB',
-        // We remove 'otherPaymentMethods' to stop the crash.
-        // The menu will show automatically if PromptPay is active.
         onCreateTokenSuccess: (id) => {
           const inputName = id.startsWith('src') ? 'omise_source' : 'omise_token';
           const form = document.createElement('form');
@@ -493,6 +493,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 </script>
+
 
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Initialize Omise (Ensure your public key is 100% correct here)
