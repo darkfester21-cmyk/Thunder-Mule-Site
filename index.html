@@ -452,22 +452,27 @@
       <p>— Jarrad, Hua Thong Brand</p>
     </article>
   </section>
-<!-- Load the library with the CORS attribute to bypass CORB -->
-<script src="https://omise.co" crossorigin></script>
+<!-- Load the DIRECT library URL to bypass CORS/CORB blocks -->
+<script src="https://omise.co"></script>
 
 <script>
+  // This is the most compatible way to write this
   window.onload = function() {
-    if (typeof OmiseCard === 'undefined') return;
+    if (typeof OmiseCard === 'undefined') {
+      console.log("Waiting for Omise...");
+      return;
+    }
 
     OmiseCard.configure({
-      publicKey: '67de9nyxmv7f1deq1h8',
+      publicKey: '67de9nyxmv7f1deq1h8', // Your raw ID that worked earlier
       currency: 'THB'
     });
 
-    var buttons = document.querySelectorAll('.opn-button');
-    buttons.forEach(function(btn) {
-      btn.onclick = function(e) {
+    var btns = document.querySelectorAll('.opn-button');
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].onclick = function(e) {
         e.preventDefault();
+        var btn = e.currentTarget;
         var amt = btn.getAttribute('data-amount');
         var lbl = btn.getAttribute('data-label');
 
@@ -486,11 +491,12 @@
           }
         });
       };
-    });
+    }
   };
 </script>
 </body>
 </html>
+
 
 
 
