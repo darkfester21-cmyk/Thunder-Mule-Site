@@ -452,16 +452,20 @@
       <p>— Jarrad, Hua Thong Brand</p>
     </article>
   </section>
-<script src="https://omise.co" async onload="initOmise()"></script>
+<!-- Load the library with the CORS attribute to bypass CORB -->
+<script src="https://omise.co" crossorigin></script>
 
 <script>
-  function initOmise() {
+  window.onload = function() {
+    if (typeof OmiseCard === 'undefined') return;
+
     OmiseCard.configure({
-      publicKey: '67de9nyxmv7f1deq1h8', // Your verified key
+      publicKey: '67de9nyxmv7f1deq1h8',
       currency: 'THB'
     });
 
-    document.querySelectorAll('.opn-button').forEach(function(btn) {
+    var buttons = document.querySelectorAll('.opn-button');
+    buttons.forEach(function(btn) {
       btn.onclick = function(e) {
         e.preventDefault();
         var amt = btn.getAttribute('data-amount');
@@ -483,7 +487,7 @@
         });
       };
     });
-  }
+  };
 </script>
 </body>
 </html>
