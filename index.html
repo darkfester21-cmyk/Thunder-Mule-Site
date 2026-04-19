@@ -476,10 +476,9 @@ document.addEventListener('DOMContentLoaded', () => {
       OmiseCard.open({
         amount: amount,
         currency: 'THB',
-        defaultPaymentMethod: 'card',
         onCreateTokenSuccess: (id) => {
           // This handles both 'tok_' (card) and 'src_' (PromptPay)
-          const inputName = id.startsWith('src') ? 'omise_source' : 'omise_token';
+const inputName = id.startsWith('src') ? 'omise_source' : 'omise_token';
           
           const form = document.createElement('form');
           form.method = 'POST';
