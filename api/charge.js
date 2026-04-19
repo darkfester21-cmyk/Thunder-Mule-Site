@@ -4,6 +4,7 @@ const omise = require('omise')({
 });
 
 module.exports = async (req, res) => {
+  // CORS Headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -11,28 +12,30 @@ module.exports = async (req, res) => {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  // 1. Capture the IDs from the frontend
   const { omise_token, omise_source, amount, description } = req.body;
 
   try {
-    // 2. Create the charge using either card (token) OR source (PromptPay)
     const charge = await omise.charges.create({
       amount: parseInt(amount),
       currency: 'THB',
-      description: description || 'Thunder Mule Coffee Order',
+      description: description || 'Thunder Mule Coffee',
+      // Uses 'card' for tokens, 'source' for PromptPay
       [omise_token ? 'card' : 'source']: omise_token || omise_source,
-      // If using PromptPay, we need a return_uri to complete the flow
-      return_uri: 'https://thundermulecoffee.com' 
+      // Change this to your actual thank you page URL
+      return_uri: 'https://thundermulecoffee.com'
     });
 
-    // 3. If it's PromptPay, send the authorize_uri back so the user sees the QR code
+    // CRITICAL: If PromptPay, redirect the user to the QR code page
     if (charge.authorize_uri) {
-        return res.redirect(charge.authorize_uri);
+      res.writeHead(302, { Location: charge.authorize_uri });
+      return res.end();
     }
 
+    // For standard card payments that don't need redirect
     res.status(200).json({ status: 'successful', charge_id: charge.id });
+
   } catch (error) {
-    console.error(error);
+    console.error("Omise Error:", error.message);
     res.status(500).json({ error: error.message });
   }
 };
