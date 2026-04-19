@@ -479,16 +479,15 @@ document.addEventListener('DOMContentLoaded', () => {
           form.method = 'POST';
           form.action = '/api/charge';
           
-          form.innerHTML = `
-            <input type="hidden" name="${inputName}" value="${id}">
-            <input type="hidden" name="amount" value="${amount}">
-            <input type="hidden" name="description" value="${label}">
-          `;
-          
-          document.body.appendChild(form);
-          form.submit();
-        }
-      });
+                  form.innerHTML = `
+          <input type="hidden" name="${inputName}" value="${id}">
+          <input type="hidden" name="amount" value="${amount}">
+          <input type="hidden" name="description" value="${label}">
+        `;
+
+        document.body.appendChild(form);
+        form.submit();
+      }
     });
   });
 });
