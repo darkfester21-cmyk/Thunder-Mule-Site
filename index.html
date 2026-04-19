@@ -455,43 +455,42 @@
  <!-- Omise Payment Script -->
 <script src="https://omise.co"></script>
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  // 1. Setup Omise
+document.addEventListener('DOMContentLoaded', function() {
   OmiseCard.configure({
-    publicKey: 'pkey_live_67de9nyxmv7f1deq1h8',
+    publicKey: 'pkey_67de9nyxmv7f1deq1h8',
     currency: 'THB'
   });
 
-  // 2. Make buttons clickable
-  document.querySelectorAll('.opn-button').forEach(button => {
-    button.addEventListener('click', (e) => {
+  document.querySelectorAll('.opn-button').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
       e.preventDefault();
-      
-      const amount = button.getAttribute('data-amount');
-      const label = button.getAttribute('data-label');
+      var amount = btn.getAttribute('data-amount');
+      var label = btn.getAttribute('data-label');
 
       OmiseCard.open({
         amount: amount,
         currency: 'THB',
-        onCreateTokenSuccess: (id) => {
-          const inputName = id.startsWith('src') ? 'omise_source' : 'omise_token';
-          const form = document.createElement('form');
+        onCreateTokenSuccess: function(id) {
+          var form = document.createElement('form');
           form.method = 'POST';
           form.action = '/api/charge';
+          var name = id.startsWith('src') ? 'omise_source' : 'omise_token';
           
-                  form.innerHTML = `
-          <input type="hidden" name="${inputName}" value="${id}">
-          <input type="hidden" name="amount" value="${amount}">
-          <input type="hidden" name="description" value="${label}">
-        `;
-
-        document.body.appendChild(form);
-        form.submit();
-      }
+          form.innerHTML = '<input type="hidden" name="' + name + '" value="' + id + '">' +
+                           '<input type="hidden" name="amount" value="' + amount + '">' +
+                           '<input type="hidden" name="description" value="' + label + '">';
+          
+          document.body.appendChild(form);
+          form.submit();
+        }
+      });
     });
   });
 });
 </script>
+</body>
+</html>
+
 
 
 document.addEventListener('DOMContentLoaded', () => {
