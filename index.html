@@ -452,46 +452,44 @@
       <p>— Jarrad, Hua Thong Brand</p>
     </article>
   </section>
-<!-- Load the library with the full secure URL -->
+<!-- Load Omise.js exactly like this to bypass CORB/CORS issues -->
 <script src="https://omise.co"></script>
 
 <script>
-  // This function runs the moment the library is ready
-  function initOmise() {
-    if (typeof OmiseCard === 'undefined') return;
-
-    OmiseCard.configure({
-      publicKey: 'pkey_67de9nyxmv7f1deq1h8',
-      currency: 'THB'
-    });
-
-    document.querySelectorAll('.opn-button').forEach(function(btn) {
-      btn.onclick = function(e) {
-        e.preventDefault();
-        var amount = btn.getAttribute('data-amount');
-        var label = btn.getAttribute('data-label');
-
-        OmiseCard.open({
-          amount: amount,
-          onCreateTokenSuccess: function(id) {
-            var form = document.createElement('form');
-            form.method = 'POST';
-            form.action = '/api/charge';
-            var name = id.startsWith('src') ? 'omise_source' : 'omise_token';
-            form.innerHTML = '<input type="hidden" name="'+name+'" value="'+id+'">' +
-                             '<input type="hidden" name="amount" value="'+amount+'">' +
-                             '<input type="hidden" name="description" value="'+label+'">';
-            document.body.appendChild(form);
-            form.submit();
-          }
+  // This ensures the code only runs once the library is actually ready
+  document.onreadystatechange = function () {
+    if (document.readyState === "complete") {
+      if (typeof OmiseCard !== 'undefined') {
+        OmiseCard.configure({
+          publicKey: 'pkey_67de9nyxmv7f1deq1h8',
+          currency: 'THB'
         });
-      };
-    });
-  }
 
-  // Try to initialize immediately and also on window load
-  initOmise();
-  window.addEventListener('load', initOmise);
+        document.querySelectorAll('.opn-button').forEach(function(btn) {
+          btn.onclick = function(e) {
+            e.preventDefault();
+            var amt = btn.getAttribute('data-amount');
+            var lbl = btn.getAttribute('data-label');
+
+            OmiseCard.open({
+              amount: amt,
+              onCreateTokenSuccess: function(id) {
+                var form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/api/charge';
+                var name = id.startsWith('src') ? 'omise_source' : 'omise_token';
+                form.innerHTML = '<input type="hidden" name="'+name+'" value="'+id+'">' +
+                                 '<input type="hidden" name="amount" value="'+amt+'">' +
+                                 '<input type="hidden" name="description" value="'+lbl+'">';
+                document.body.appendChild(form);
+                form.submit();
+              }
+            });
+          };
+        });
+      }
+    }
+  };
 </script>
 </body>
 </html>
