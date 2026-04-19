@@ -468,17 +468,40 @@
             amount: totalAmount,
             currency: 'THB',
             label: this.dataset.label + " + Shipping",
-        onCreateTokenSuccess: (nonce) => {
-          handlePayment({ token: nonce }, totalAmount); // Pass totalAmount here
-        },
-        onCreateSourceSuccess: (source) => {
-          handlePayment({ source: source.id }, totalAmount); // Pass totalAmount here
-        }
+    <script src="https://cdn.omise.co/omise.js"></script>
+<script>
+  function setupOmise() {
+    OmiseCard.configure({
+      publicKey: 'pkey_67de9nyxmv7f1deq1h8',   // your live public key
+      defaultPaymentMethod: 'promptpay',
+      otherPaymentMethods: ['credit_card']
+    });
+
+    const buttons = document.querySelectorAll('.opn-button');
+    buttons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        const amount = parseInt(btn.dataset.amount);   // make sure this matches your button data-amount
+
+        OmiseCard.open({
+          amount: amount,
+          currency: 'THB',
+          label: btn.dataset.label || 'Thunder Mule Coffee',
+
+          onCreateTokenSuccess: (token) => {
+            handlePayment({ token: token }, amount);
+          },
+
+          onCreateSourceSuccess: (source) => {
+            // Important: send the FULL source object or source.id correctly
+            handlePayment({ source: source.id }, amount);
+          }
+        });
       });
     });
-  });
+  }
 
-  // Updated function to accept "amount" as a parameter
   async function handlePayment(payload, amount) {
     try {
       const response = await fetch('/api/charge', {
@@ -486,30 +509,34 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...payload,
-          amount: amount, // Uses the amount we just passed in
-          orderData: orderData
+          amount: amount,
+          orderData: orderData   // make sure orderData is defined globally
         })
       });
 
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(text || 'Network error');
+      }
+
       const data = await response.json();
 
-      if (data.authorize_uri) {
+      if (data.status === 'successful') {
+        alert("PAYMENT SUCCESSFUL! ☕ Coffee on the way!");
+        // Optionally redirect to thank you page
+      } else if (data.authorize_uri) {
         window.location.href = data.authorize_uri;
-      } else if (data.status === 'successful') {
-        alert("PAYMENT SUCCESSFUL! Coffee on the way!");
       } else {
-        alert("Payment failed: " + (data.error || "Check your Vercel logs"));
+        alert("Payment failed: " + (data.error || JSON.stringify(data)));
       }
     } catch (err) {
       console.error(err);
-      alert("Error: " + err.message);
+      alert("Payment failed: " + err.message);
     }
   }
-}
 
-window.addEventListener('load', setupOmise);
-
-  </script>
+  window.addEventListener('load', setupOmise);
+</script>
 
 
 
