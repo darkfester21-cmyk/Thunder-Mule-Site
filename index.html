@@ -452,49 +452,46 @@
       <p>— Jarrad, Hua Thong Brand</p>
     </article>
   </section>
-<!-- Load the Vault script (more reliable for CORS/CORB issues) -->
+<!-- THE CORRECT CDN URL -->
 <script src="https://omise.co"></script>
 
 <script>
-  (function() {
-    var checkOmise = setInterval(function() {
-      if (typeof OmiseCard !== 'undefined') {
-        clearInterval(checkOmise);
-        
-        OmiseCard.configure({
-          publicKey: '67de9nyxmv7f1deq1h8'
-        });
+  // This waits for the library to be ready
+  window.onload = function() {
+    if (typeof OmiseCard !== 'undefined') {
+      OmiseCard.configure({
+        publicKey: '67de9nyxmv7f1deq1h8'
+      });
 
-        var btns = document.querySelectorAll('.opn-button');
-        for (var i = 0; i < btns.length; i++) {
-          btns[i].onclick = function(e) {
-            e.preventDefault();
-            var amt = this.getAttribute('data-amount');
-            var lbl = this.getAttribute('data-label');
+      document.querySelectorAll('.opn-button').forEach(function(btn) {
+        btn.onclick = function(e) {
+          e.preventDefault();
+          var amt = btn.getAttribute('data-amount');
+          var lbl = btn.getAttribute('data-label');
 
-            OmiseCard.open({
-              amount: amt,
-              currency: 'THB',
-              onCreateTokenSuccess: function(id) {
-                var form = document.createElement('form');
-                form.method = 'POST';
-                form.action = '/api/charge';
-                var name = id.startsWith('src') ? 'omise_source' : 'omise_token';
-                form.innerHTML = '<input type="hidden" name="'+name+'" value="'+id+'">' +
-                                 '<input type="hidden" name="amount" value="'+amt+'">' +
-                                 '<input type="hidden" name="description" value="'+lbl+'">';
-                document.body.appendChild(form);
-                form.submit();
-              }
-            });
-          };
-        }
-      }
-    }, 100);
-  })();
+          OmiseCard.open({
+            amount: amt,
+            currency: 'THB',
+            onCreateTokenSuccess: function(id) {
+              var form = document.createElement('form');
+              form.method = 'POST';
+              form.action = '/api/charge';
+              var name = id.startsWith('src') ? 'omise_source' : 'omise_token';
+              form.innerHTML = '<input type="hidden" name="'+name+'" value="'+id+'">' +
+                               '<input type="hidden" name="amount" value="'+amt+'">' +
+                               '<input type="hidden" name="description" value="'+lbl+'">';
+              document.body.appendChild(form);
+              form.submit();
+            }
+          });
+        };
+      });
+    }
+  };
 </script>
 </body>
 </html>
+
 
 
 
