@@ -452,22 +452,21 @@
       <p>— Jarrad, Hua Thong Brand</p>
     </article>
   </section>
-<!-- THE CORRECT CDN URL -->
 <script src="https://omise.co"></script>
 
 <script>
-  // This waits for the library to be ready
   window.onload = function() {
     if (typeof OmiseCard !== 'undefined') {
       OmiseCard.configure({
         publicKey: '67de9nyxmv7f1deq1h8'
       });
 
-      document.querySelectorAll('.opn-button').forEach(function(btn) {
-        btn.onclick = function(e) {
+      var btns = document.querySelectorAll('.opn-button');
+      for (var i = 0; i < btns.length; i++) {
+        btns[i].onclick = function(e) {
           e.preventDefault();
-          var amt = btn.getAttribute('data-amount');
-          var lbl = btn.getAttribute('data-label');
+          var amt = this.getAttribute('data-amount');
+          var lbl = this.getAttribute('data-label');
 
           OmiseCard.open({
             amount: amt,
@@ -485,12 +484,13 @@
             }
           });
         };
-      });
+      }
     }
   };
 </script>
 </body>
 </html>
+
 
 
 
