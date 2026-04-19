@@ -507,7 +507,7 @@ src="https://omise.co"></script>
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Initialize Omise (Ensure your public key is 100% correct here)
   OmiseCard.configure({
-    publicKey: '67de9nyxmv7f1deq1h8', // Use exactly what you copied from Omise
+publicKey: 'pkey_live_67de9nyxmv7f1deq1h8',
     currency: 'THB'
   });
 
@@ -520,11 +520,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const label = button.getAttribute('data-label');
 
       // 3. Open the popup without a default method to show the MENU
-      OmiseCard.open({
+            OmiseCard.open({
         amount: amount,
         currency: 'THB',
-        // By removing 'defaultPaymentMethod', the user sees BOTH Card & PromptPay
+        otherPaymentMethods: ['promptpay'], // Add this line
         onCreateTokenSuccess: (id) => {
+
           // Identify if the user picked a Card (tok_) or PromptPay (src_)
           const inputName = id.startsWith('src') ? 'omise_source' : 'omise_token';
           
