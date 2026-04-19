@@ -453,19 +453,14 @@
     </article>
   </section>
  <!-- Omise Payment Script -->
-<script src="https://cdn.omise.co/omise.js"></script>
+<script src="https://omise.co"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Initialize Omise with your Public Key
   OmiseCard.configure({
-    publicKey: '67de9nyxmv7f1deq1h8',
-    buttonLabel: 'Pay Now',
-    submitLabel: 'Pay Now',
-    currency: 'THB',
-    frameLabel: 'Thunder Mule'
+    publicKey: 'pkey_live_67de9nyxmv7f1deq1h8', 
+    currency: 'THB'
   });
 
-  // 2. Attach click events to all buttons
   document.querySelectorAll('.opn-button').forEach(button => {
     button.addEventListener('click', (e) => {
       e.preventDefault();
@@ -476,15 +471,13 @@ document.addEventListener('DOMContentLoaded', () => {
       OmiseCard.open({
         amount: amount,
         currency: 'THB',
-        otherPaymentMethods: ['promptpay'], 
+        // We remove 'otherPaymentMethods' to stop the crash.
+        // The menu will show automatically if PromptPay is active.
         onCreateTokenSuccess: (id) => {
-
-          // This handles both 'tok_' (card) and 'src_' (PromptPay)
-const inputName = id.startsWith('src') ? 'omise_source' : 'omise_token';
-          
+          const inputName = id.startsWith('src') ? 'omise_source' : 'omise_token';
           const form = document.createElement('form');
           form.method = 'POST';
-form.action = "/api/charge";
+          form.action = '/api/charge';
           
           form.innerHTML = `
             <input type="hidden" name="${inputName}" value="${id}">
@@ -499,11 +492,8 @@ form.action = "/api/charge";
     });
   });
 });
-<!-- 1. The Omise library (Only load this once in the head or here) -->
-src="https://omise.co"></script>
+</script>
 
-<!-- 2. The logic for the buttons -->
-<script>
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Initialize Omise (Ensure your public key is 100% correct here)
   OmiseCard.configure({
