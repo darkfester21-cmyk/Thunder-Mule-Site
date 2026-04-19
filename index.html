@@ -452,44 +452,49 @@
       <p>— Jarrad, Hua Thong Brand</p>
     </article>
   </section>
- <!-- Omise Payment Script -->
+<!-- 1. Load the library FIRST -->
 <script src="https://omise.co"></script>
+
+<!-- 2. Run the code SECOND -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  OmiseCard.configure({
-    publicKey: 'pkey_67de9nyxmv7f1deq1h8',
-    currency: 'THB'
-  });
+  window.addEventListener('load', function() {
+    if (typeof OmiseCard === 'undefined') {
+      console.error("Omise library failed to load");
+      return;
+    }
 
-  document.querySelectorAll('.opn-button').forEach(function(btn) {
-    btn.addEventListener('click', function(e) {
-      e.preventDefault();
-      var amount = btn.getAttribute('data-amount');
-      var label = btn.getAttribute('data-label');
+    OmiseCard.configure({
+      publicKey: 'pkey_67de9nyxmv7f1deq1h8',
+      currency: 'THB'
+    });
 
-      OmiseCard.open({
-        amount: amount,
-        currency: 'THB',
-        onCreateTokenSuccess: function(id) {
-          var form = document.createElement('form');
-          form.method = 'POST';
-          form.action = '/api/charge';
-          var name = id.startsWith('src') ? 'omise_source' : 'omise_token';
-          
-          form.innerHTML = '<input type="hidden" name="' + name + '" value="' + id + '">' +
-                           '<input type="hidden" name="amount" value="' + amount + '">' +
-                           '<input type="hidden" name="description" value="' + label + '">';
-          
-          document.body.appendChild(form);
-          form.submit();
-        }
-      });
+    document.querySelectorAll('.opn-button').forEach(function(btn) {
+      btn.onclick = function(e) {
+        e.preventDefault();
+        var amount = btn.getAttribute('data-amount');
+        var label = btn.getAttribute('data-label');
+
+        OmiseCard.open({
+          amount: amount,
+          onCreateTokenSuccess: function(id) {
+            var form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/api/charge';
+            var name = id.startsWith('src') ? 'omise_source' : 'omise_token';
+            form.innerHTML = '<input type="hidden" name="'+name+'" value="'+id+'">' +
+                             '<input type="hidden" name="amount" value="'+amount+'">' +
+                             '<input type="hidden" name="description" value="'+label+'">';
+            document.body.appendChild(form);
+            form.submit();
+          }
+        });
+      };
     });
   });
-});
 </script>
 </body>
 </html>
+
 
 
 
