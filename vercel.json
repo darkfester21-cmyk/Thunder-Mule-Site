@@ -1,7 +1,8 @@
 {
   "version": 2,
   "builds": [
-    { "src": "*.html", "use": "@vercel/static" },
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "index-th.html", "use": "@vercel/static" },
     { "src": "api/charge.js", "use": "@vercel/node" }
   ],
   "routes": [
