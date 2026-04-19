@@ -424,76 +424,33 @@
       <p>— จาร์ราด, Hua Thong Brand</p>
     </article>
   </section>
- <!-- Omise Library + Init with Address Form + Backend Charge -->
-  <script src="https://cdn.omise.co/omise.js"></script>
-  <script>
-    let orderData = {};
-
-    function setupOmise() {
-      OmiseCard.configure({
-        publicKey: 'pkey_67de9nyxmv7f1deq1h8',
-        defaultPaymentMethod: 'credit_card',
-        otherPaymentMethods: ['promptpay']
-      });
-
-      document.getElementById('submitOrder').addEventListener('click', function() {
-        const form = document.getElementById('orderForm');
-        if (!form.checkValidity()) {
-          form.reportValidity();
-          return;
-        }
-
-        orderData = {
-          name: document.getElementById('name').value,
-          email: document.getElementById('email').value,
-          phone: document.getElementById('phone').value,
-          address: document.getElementById('address').value,
-          shippingFee: parseInt(document.getElementById('shipping').value || 0)
-        };
-
-        document.getElementById('paymentButtons').style.display = 'block';
-        form.style.display = 'none';
-        window.scrollTo({ top: document.getElementById('paymentButtons').offsetTop, behavior: 'smooth' });
-      });
-
-      document.querySelectorAll('#paymentButtons .opn-button').forEach(button => {
-        button.addEventListener('click', function(e) {
-          e.preventDefault();
-
-          const baseAmount = parseInt(this.dataset.amount);
-          const totalAmount = baseAmount + orderData.shippingFee;
-
-          OmiseCard.open({
-            amount: totalAmount,
-            currency: 'THB',
-            label: this.dataset.label + " + Shipping",
-         <script src="https://cdn.omise.co/omise.js"></script>
+ <!-- Omise Payment Script -->
+<script src="https://cdn.omise.co/omise.js"></script>
 <script>
   function setupOmise() {
     OmiseCard.configure({
-      publicKey: 'pkey_67de9nyxmv7f1deq1h8',   // your live public key
+      publicKey: 'pkey_67de9nyxmv7f1deq1h8',
       defaultPaymentMethod: 'promptpay',
       otherPaymentMethods: ['credit_card']
     });
 
-    const buttons = document.querySelectorAll('.opn-button');
-    buttons.forEach(btn => {
-      btn.addEventListener('click', (e) => {
+    document.querySelectorAll('.opn-button').forEach(button => {
+      button.addEventListener('click', function(e) {
         e.preventDefault();
 
-        const amount = parseInt(btn.dataset.amount);   // make sure this matches your button data-amount
+        const amount = parseInt(this.dataset.amount);
+        const label = this.dataset.label || 'Thunder Mule Coffee';
 
         OmiseCard.open({
           amount: amount,
           currency: 'THB',
-          label: btn.dataset.label || 'Thunder Mule Coffee',
+          label: label,
 
           onCreateTokenSuccess: (token) => {
             handlePayment({ token: token }, amount);
           },
 
           onCreateSourceSuccess: (source) => {
-            // Important: send the FULL source object or source.id correctly
             handlePayment({ source: source.id }, amount);
           }
         });
@@ -509,24 +466,18 @@
         body: JSON.stringify({
           ...payload,
           amount: amount,
-          orderData: orderData   // make sure orderData is defined globally
+          orderData: window.orderData || { name: "Customer", email: "guest@thundermulecoffee.com" }
         })
       });
-
-      if (!response.ok) {
-        const text = await response.text();
-        throw new Error(text || 'Network error');
-      }
 
       const data = await response.json();
 
       if (data.status === 'successful') {
-        alert("PAYMENT SUCCESSFUL! ☕ Coffee on the way!");
-        // Optionally redirect to thank you page
+        alert("✅ PAYMENT SUCCESSFUL! Coffee is on the way!");
       } else if (data.authorize_uri) {
         window.location.href = data.authorize_uri;
       } else {
-        alert("Payment failed: " + (data.error || JSON.stringify(data)));
+        alert("Payment failed: " + (data.error || "Unknown error"));
       }
     } catch (err) {
       console.error(err);
@@ -534,6 +485,7 @@
     }
   }
 
+  // Run when page loads
   window.addEventListener('load', setupOmise);
 </script>
 
