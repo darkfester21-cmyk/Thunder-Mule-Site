@@ -451,29 +451,39 @@
       otherPaymentMethods: ['credit_card']
     });
 
-    document.querySelectorAll('.opn-button').forEach(button => {
-      button.addEventListener('click', function(e) {
-        e.preventDefault();
+document.querySelectorAll('.opn-button').forEach(button => {
+  button.onclick = (e) => {
+    e.preventDefault();
+    
+    const amount = button.getAttribute('data-amount');
+    const label = button.getAttribute('data-label');
 
-        const amount = parseInt(this.dataset.amount);
-        const label = this.dataset.label || 'Thunder Mule Coffee';
-
-        OmiseCard.open({
-          amount: amount,
-          currency: 'THB',
-          label: label,
-
-          onCreateTokenSuccess: (token) => {
-            handlePayment({ token: token }, amount);
-          },
-
-          onCreateSourceSuccess: (source) => {
-            handlePayment({ source: source.id }, amount);
-          }
-        });
-      });
+    OmiseCard.open({
+      amount: amount,
+      currency: 'THB',
+      defaultPaymentMethod: 'promptpay', // Focuses on PromptPay
+      onCreateTokenSuccess: (id) => {
+        // This is where the error was happening.
+        // We need to check if the ID starts with 'src' or 'tok'
+        const inputName = id.startsWith('src') ? 'omise_source' : 'omise_token';
+        
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/checkout'; // Ensure this matches your backend route
+        
+        form.innerHTML = `
+          <input type="hidden" name="${inputName}" value="${id}">
+          <input type="hidden" name="amount" value="${amount}">
+          <input type="hidden" name="description" value="${label}">
+        `;
+        
+        document.body.appendChild(form);
+        form.submit();
+      }
     });
-  }
+  };
+});
+
 
   async function handlePayment(payload, amount) {
     try {
