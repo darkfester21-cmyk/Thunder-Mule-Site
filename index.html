@@ -487,40 +487,47 @@ form.action = "/api/charge";
     });
   });
 });
-</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  OmiseCard.configure({
+    publicKey: 'pkey_test_5y10065u1v7w5y9o62l', // Double check this is YOUR key
+    currency: 'THB'
+  });
 
+  document.querySelectorAll('.opn-button').forEach(button => {
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
+      
+      const amount = button.getAttribute('data-amount');
+      const label = button.getAttribute('data-label');
 
-
-  async function handlePayment(payload, amount) {
-    try {
-      const response = await fetch('/api/charge', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...payload,
-          amount: amount,
-          orderData: window.orderData || { name: "Customer", email: "guest@thundermulecoffee.com" }
-        })
+      OmiseCard.open({
+        amount: amount,
+        currency: 'THB',
+        defaultPaymentMethod: 'promptpay',
+        onCreateTokenSuccess: (id) => {
+          // 1. Create a "hidden" form
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.action = '/api/charge'; // This MUST match your file path
+          
+          // 2. Add the data to send to the server
+          form.innerHTML = `
+            <input type="hidden" name="${id.startsWith('src') ? 'omise_source' : 'omise_token'}" value="${id}">
+            <input type="hidden" name="amount" value="${amount}">
+            <input type="hidden" name="description" value="${label}">
+          `;
+          
+          // 3. Submit the form (this allows the redirect to happen)
+          document.body.appendChild(form);
+          form.submit();
+        }
       });
-
-      const data = await response.json();
-
-      if (data.status === 'successful') {
-        alert("✅ PAYMENT SUCCESSFUL! Coffee is on the way!");
-      } else if (data.authorize_uri) {
-        window.location.href = data.authorize_uri;
-      } else {
-        alert("Payment failed: " + (data.error || "Unknown error"));
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Payment failed: " + err.message);
-    }
-  }
-
-  // Run when page loads
-  window.addEventListener('load', setupOmise);
+    });
+  });
+});
 </script>
+
 
 
 
