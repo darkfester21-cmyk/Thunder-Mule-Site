@@ -444,45 +444,51 @@
  <!-- Omise Payment Script -->
 <script src="https://cdn.omise.co/omise.js"></script>
 <script>
-  function setupOmise() {
-    OmiseCard.configure({
-      publicKey: 'pkey_67de9nyxmv7f1deq1h8',
-      defaultPaymentMethod: 'promptpay',
-      otherPaymentMethods: ['credit_card']
-    });
+document.addEventListener('DOMContentLoaded', () => {
+  // 1. Initialize Omise with your Public Key
+  OmiseCard.configure({
+    publicKey: 'pkey_test_YOUR_KEY_HERE', // <-- Double check this is your ACTUAL key
+    buttonLabel: 'Pay Now',
+    submitLabel: 'Pay Now',
+    currency: 'THB',
+    frameLabel: 'Thunder Mule'
+  });
 
-document.querySelectorAll('.opn-button').forEach(button => {
-  button.onclick = (e) => {
-    e.preventDefault();
-    
-    const amount = button.getAttribute('data-amount');
-    const label = button.getAttribute('data-label');
+  // 2. Attach click events to all buttons
+  document.querySelectorAll('.opn-button').forEach(button => {
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
+      
+      const amount = button.getAttribute('data-amount');
+      const label = button.getAttribute('data-label');
 
-    OmiseCard.open({
-      amount: amount,
-      currency: 'THB',
-      defaultPaymentMethod: 'promptpay', // Focuses on PromptPay
-      onCreateTokenSuccess: (id) => {
-        // This is where the error was happening.
-        // We need to check if the ID starts with 'src' or 'tok'
-        const inputName = id.startsWith('src') ? 'omise_source' : 'omise_token';
-        
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = '/checkout'; // Ensure this matches your backend route
-        
-        form.innerHTML = `
-          <input type="hidden" name="${inputName}" value="${id}">
-          <input type="hidden" name="amount" value="${amount}">
-          <input type="hidden" name="description" value="${label}">
-        `;
-        
-        document.body.appendChild(form);
-        form.submit();
-      }
+      OmiseCard.open({
+        amount: amount,
+        currency: 'THB',
+        defaultPaymentMethod: 'promptpay',
+        onCreateTokenSuccess: (id) => {
+          // This handles both 'tok_' (card) and 'src_' (PromptPay)
+          const inputName = id.startsWith('src') ? 'omise_source' : 'omise_token';
+          
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.action = '/checkout'; // Ensure this matches your backend route
+          
+          form.innerHTML = `
+            <input type="hidden" name="${inputName}" value="${id}">
+            <input type="hidden" name="amount" value="${amount}">
+            <input type="hidden" name="description" value="${label}">
+          `;
+          
+          document.body.appendChild(form);
+          form.submit();
+        }
+      });
     });
-  };
+  });
 });
+</script>
+
 
 
   async function handlePayment(payload, amount) {
