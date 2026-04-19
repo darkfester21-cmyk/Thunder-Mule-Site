@@ -452,16 +452,13 @@
       <p>— Jarrad, Hua Thong Brand</p>
     </article>
   </section>
-<!-- 1. Load the library FIRST -->
+<!-- Load the library with the full secure URL -->
 <script src="https://omise.co"></script>
 
-<!-- 2. Run the code SECOND -->
 <script>
-  window.addEventListener('load', function() {
-    if (typeof OmiseCard === 'undefined') {
-      console.error("Omise library failed to load");
-      return;
-    }
+  // This function runs the moment the library is ready
+  function initOmise() {
+    if (typeof OmiseCard === 'undefined') return;
 
     OmiseCard.configure({
       publicKey: 'pkey_67de9nyxmv7f1deq1h8',
@@ -490,12 +487,14 @@
         });
       };
     });
-  });
+  }
+
+  // Try to initialize immediately and also on window load
+  initOmise();
+  window.addEventListener('load', initOmise);
 </script>
 </body>
 </html>
-
-
 
 
 document.addEventListener('DOMContentLoaded', () => {
