@@ -498,17 +498,17 @@
   window.addEventListener('load', function() {
     setupOmise();
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const paymentStatus = urlParams.get('payment');
+// Show success or failed message after redirect
+  const urlParams = new URLSearchParams(window.location.search);
+  const status = urlParams.get('status');
 
-    if (paymentStatus === 'failed') {
-      alert("❌ Payment Failed\n\nPlease try again or use a different card.");
-      // Clean the URL
-      window.history.replaceState({}, document.title, window.location.pathname);
-    } else if (paymentStatus === 'success') {
-      alert("✅ PAYMENT SUCCESSFUL!\n\nThank you! Your Thunder Mule Coffee is on the way.");
-      window.history.replaceState({}, document.title, window.location.pathname);
-    }
+  if (status === 'success') {
+    alert("✅ PAYMENT SUCCESSFUL!\n\nThank you! Your Thunder Mule Coffee is on the way.");
+    window.history.replaceState({}, document.title, window.location.pathname);
+  } else if (status === 'failed') {
+    alert("❌ Payment Failed\n\nPlease try again or use a different payment method.");
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
   });
 </script>
 
