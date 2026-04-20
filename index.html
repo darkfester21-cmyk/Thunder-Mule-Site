@@ -493,7 +493,13 @@
     document.body.appendChild(form);
     form.submit();
   }
-
+  // Check for failed payment message when page loads
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('payment') === 'failed') {
+    alert("❌ Payment Failed. Please try again or use a different payment method.");
+    // Clean the URL
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
   // This runs when the page comes back after redirect (for card payments)
   window.addEventListener('load', function() {
     setupOmise();
