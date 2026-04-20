@@ -454,17 +454,15 @@
   </section>
 <script src="https://omise.co"></script>
 
-<!-- Omise Payment Script - Clean Version -->
 <script src="https://cdn.omise.co/omise.js"></script>
 <script>
   function setupOmise() {
     OmiseCard.configure({
-      publicKey: 'pkey_67de9nyxmv7f1deq1h8',   // ← Make sure it has "pkey_" 
+      publicKey: 'pkey_67de9nyxmv7f1deq1h8',
       defaultPaymentMethod: 'promptpay',
       otherPaymentMethods: ['credit_card']
     });
 
-    // Attach to all purple buttons
     document.querySelectorAll('.opn-button').forEach(button => {
       button.addEventListener('click', function(e) {
         e.preventDefault();
@@ -477,13 +475,8 @@
           currency: 'THB',
           label: label,
 
-          onCreateTokenSuccess: function(token) {
-            submitToBackend(token, amount, label);
-          },
-
-          onCreateSourceSuccess: function(source) {
-            submitToBackend(source.id, amount, label);
-          }
+          onCreateTokenSuccess: (token) => submitToBackend(token, amount, label),
+          onCreateSourceSuccess: (source) => submitToBackend(source.id, amount, label)
         });
       });
     });
@@ -502,22 +495,24 @@
         })
       });
 
+      if (response.redirected) {
+        window.location.href = response.url;
+        return;
+      }
+
       const data = await response.json();
 
-      if (data.status === 'successful' || response.ok) {
-        alert("✅ PAYMENT SUCCESSFUL! Your Thunder Mule Coffee is on the way!");
-      } else if (data.authorize_uri) {
-        window.location.href = data.authorize_uri;
+      if (data.status === 'successful') {
+        alert("✅ PAYMENT SUCCESSFUL! Your Thunder Mule is on the way!");
       } else {
-        alert("Payment failed: " + (data.error || "Please try again"));
+        alert("Payment failed: " + (data.error || "Please try again or use card"));
       }
     } catch (err) {
       console.error(err);
-      alert("Payment failed: " + err.message);
+      alert("Connection error. Please try again.");
     }
   }
 
-  // Run when page is ready
   window.addEventListener('load', setupOmise);
 </script>
 
