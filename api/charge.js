@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
 
   } catch (error) {
     console.error('Omise Charge Error:', error.message);
-    // Failed payment → go back to home with a clear query parameter
+    // Failed payment
     res.writeHead(302, { Location: '/?payment=failed' });
     return res.end();
   }
