@@ -1,6 +1,7 @@
 const Omise = require('omise');
 
 module.exports = async (req, res) => {
+  // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -13,24 +14,17 @@ module.exports = async (req, res) => {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  let body;
   try {
-    body = req.body;   // Vercel/Node now parses JSON automatically in most cases
-  } catch (e) {
-    body = {};
-  }
+    const { omise_token, omise_source, amount, description } = req.body || {};
 
-  const { omise_token, omise_source, amount, description } = body;
+    if (!amount || (!omise_token && !omise_source)) {
+      return res.status(400).json({ error: 'Missing amount or payment ID' });
+    }
 
-  if (!amount || (!omise_token && !omise_source)) {
-    return res.status(400).json({ error: 'Missing amount or payment ID' });
-  }
+    const omise = Omise({
+      secretKey: process.env.OMISE_SECRET_KEY
+    });
 
-  const omise = Omise({
-    secretKey: process.env.OMISE_SECRET_KEY
-  });
-
-  try {
     const charge = await omise.charges.create({
       amount: parseInt(amount),
       currency: 'THB',
@@ -48,7 +42,7 @@ module.exports = async (req, res) => {
     res.status(200).json({ status: 'successful', chargeId: charge.id });
 
   } catch (error) {
-    console.error('Omise Charge Error:', error.message);
+    console.error('Omise Error:', error.message);
     res.status(500).json({ error: error.message });
   }
 };
