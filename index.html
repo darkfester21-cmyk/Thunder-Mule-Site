@@ -473,30 +473,42 @@
           currency: 'THB',
           label: label,
 
-          onCreateTokenSuccess: function(token) {
-            submitPayment(token, amount, label);
-          },
-
-          onCreateSourceSuccess: function(source) {
-            submitPayment(source.id, amount, label);
-          }
+          onCreateTokenSuccess: (token) => submitPayment(token, amount, label),
+          onCreateSourceSuccess: (source) => submitPayment(source.id, amount, label)
         });
       });
     });
   }
 
-  function submitPayment(paymentId, amount, label) {
-    const isSource = paymentId.startsWith('src_');
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = '/api/charge';
-    form.innerHTML = `
-      <input type="hidden" name="${isSource ? 'omise_source' : 'omise_token'}" value="${paymentId}">
-      <input type="hidden" name="amount" value="${amount}">
-      <input type="hidden" name="description" value="${label}">
-    `;
-    document.body.appendChild(form);
-    form.submit();   // This lets the browser follow redirects naturally
+  async function submitPayment(paymentId, amount, label) {
+    try {
+      const isSource = paymentId.startsWith('src_');
+      const response = await fetch('/api/charge', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          [isSource ? 'omise_source' : 'omise_token']: paymentId,
+          amount: amount,
+          description: label
+        })
+      });
+
+      if (response.redirected) {
+        window.location.href = response.url;
+        return;
+      }
+
+      const data = await response.json();
+
+      if (data.status === 'successful') {
+        alert("✅ PAYMENT SUCCESSFUL!\n\nThank you! Your Thunder Mule Coffee is on the way.");
+      } else {
+        alert("Payment failed: " + (data.error || "Please try again."));
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Connection error. Please try again or contact us.");
+    }
   }
 
   window.addEventListener('load', setupOmise);
