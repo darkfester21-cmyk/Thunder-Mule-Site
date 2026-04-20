@@ -493,22 +493,20 @@
     document.body.appendChild(form);
     form.submit();
   }
-  // Check for failed payment message when page loads
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.get('payment') === 'failed') {
-    alert("❌ Payment Failed. Please try again or use a different payment method.");
-    // Clean the URL
-    window.history.replaceState({}, document.title, window.location.pathname);
-  }
-  // This runs when the page comes back after redirect (for card payments)
+
+  // Show message when page loads (after redirect)
   window.addEventListener('load', function() {
     setupOmise();
 
-    // Simple check if we came back from a successful payment
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has('success') || document.referrer.includes('omise')) {
+    const paymentStatus = urlParams.get('payment');
+
+    if (paymentStatus === 'failed') {
+      alert("❌ Payment Failed\n\nPlease try again or use a different card.");
+      // Clean the URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+    } else if (paymentStatus === 'success') {
       alert("✅ PAYMENT SUCCESSFUL!\n\nThank you! Your Thunder Mule Coffee is on the way.");
-      // Optional: clean the URL
       window.history.replaceState({}, document.title, window.location.pathname);
     }
   });
