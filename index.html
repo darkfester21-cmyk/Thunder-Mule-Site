@@ -452,7 +452,6 @@
       <p>— Jarrad, Hua Thong Brand</p>
     </article>
   </section>
-<!-- Omise Payment - Simple & Reliable Version -->
 <script src="https://cdn.omise.co/omise.js"></script>
 <script>
   function setupOmise() {
@@ -492,12 +491,22 @@
       <input type="hidden" name="description" value="${label}">
     `;
     document.body.appendChild(form);
-    form.submit();   // This handles redirect naturally
+    form.submit();
   }
 
-  window.addEventListener('load', setupOmise);
-</script>
+  // This runs when the page comes back after redirect (for card payments)
+  window.addEventListener('load', function() {
+    setupOmise();
 
+    // Simple check if we came back from a successful payment
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('success') || document.referrer.includes('omise')) {
+      alert("✅ PAYMENT SUCCESSFUL!\n\nThank you! Your Thunder Mule Coffee is on the way.");
+      // Optional: clean the URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  });
+</script>
 
 
 
