@@ -452,8 +452,6 @@
       <p>— Jarrad, Hua Thong Brand</p>
     </article>
   </section>
-<script src="https://omise.co"></script>
-
 <script src="https://cdn.omise.co/omise.js"></script>
 <script>
   function setupOmise() {
@@ -475,42 +473,30 @@
           currency: 'THB',
           label: label,
 
-          onCreateTokenSuccess: (token) => submitToBackend(token, amount, label),
-          onCreateSourceSuccess: (source) => submitToBackend(source.id, amount, label)
+          onCreateTokenSuccess: function(token) {
+            submitPayment(token, amount, label);
+          },
+
+          onCreateSourceSuccess: function(source) {
+            submitPayment(source.id, amount, label);
+          }
         });
       });
     });
   }
 
-  async function submitToBackend(paymentId, amount, label) {
-    try {
-      const isSource = paymentId.startsWith('src_');
-      const response = await fetch('/api/charge', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          [isSource ? 'omise_source' : 'omise_token']: paymentId,
-          amount: amount,
-          description: label
-        })
-      });
-
-      if (response.redirected) {
-        window.location.href = response.url;
-        return;
-      }
-
-      const data = await response.json();
-
-      if (data.status === 'successful') {
-        alert("✅ PAYMENT SUCCESSFUL! Your Thunder Mule is on the way!");
-      } else {
-        alert("Payment failed: " + (data.error || "Please try again or use card"));
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Connection error. Please try again.");
-    }
+  function submitPayment(paymentId, amount, label) {
+    const isSource = paymentId.startsWith('src_');
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/api/charge';
+    form.innerHTML = `
+      <input type="hidden" name="${isSource ? 'omise_source' : 'omise_token'}" value="${paymentId}">
+      <input type="hidden" name="amount" value="${amount}">
+      <input type="hidden" name="description" value="${label}">
+    `;
+    document.body.appendChild(form);
+    form.submit();   // This lets the browser follow redirects naturally
   }
 
   window.addEventListener('load', setupOmise);
