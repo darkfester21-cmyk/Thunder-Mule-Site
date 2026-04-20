@@ -454,6 +454,7 @@
   </section>
 <script src="https://cdn.omise.co/omise.js"></script>
 <script>
+  // Setup Omise payment
   function setupOmise() {
     OmiseCard.configure({
       publicKey: 'pkey_67de9nyxmv7f1deq1h8',
@@ -494,14 +495,8 @@
     form.submit();
   }
 
-  // Show message when page loads (after redirect)
-  window.addEventListener('load', function() {
-    setupOmise();
-
-  // Strong message checker after redirect
-  window.addEventListener('load', function() {
-    setupOmise();
-
+  // Message checker - runs on every page load
+  function checkPaymentStatus() {
     const urlParams = new URLSearchParams(window.location.search);
     const status = urlParams.get('status');
 
@@ -513,9 +508,14 @@
       alert("❌ Payment Failed\n\nPlease try again or use a different payment method.");
       window.history.replaceState({}, document.title, window.location.pathname);
     }
+  }
+
+  // Run both when page loads
+  window.addEventListener('load', function() {
+    setupOmise();
+    checkPaymentStatus();
   });
 </script>
-
 
 
 
