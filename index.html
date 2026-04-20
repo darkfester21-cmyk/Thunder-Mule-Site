@@ -454,91 +454,71 @@
   </section>
 <script src="https://omise.co"></script>
 
+<!-- Omise Payment Script - Clean Version -->
+<script src="https://cdn.omise.co/omise.js"></script>
 <script>
-  window.onload = function() {
-    if (typeof OmiseCard !== 'undefined') {
-      OmiseCard.configure({
-        publicKey: '67de9nyxmv7f1deq1h8'
-      });
+  function setupOmise() {
+    OmiseCard.configure({
+      publicKey: 'pkey_67de9nyxmv7f1deq1h8',   // ← Make sure it has "pkey_" 
+      defaultPaymentMethod: 'promptpay',
+      otherPaymentMethods: ['credit_card']
+    });
 
-      var btns = document.querySelectorAll('.opn-button');
-      for (var i = 0; i < btns.length; i++) {
-        btns[i].onclick = function(e) {
-          e.preventDefault();
-          var amt = this.getAttribute('data-amount');
-          var lbl = this.getAttribute('data-label');
+    // Attach to all purple buttons
+    document.querySelectorAll('.opn-button').forEach(button => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
 
-          OmiseCard.open({
-            amount: amt,
-            currency: 'THB',
-            onCreateTokenSuccess: function(id) {
-              var form = document.createElement('form');
-              form.method = 'POST';
-              form.action = '/api/charge';
-              var name = id.startsWith('src') ? 'omise_source' : 'omise_token';
-              form.innerHTML = '<input type="hidden" name="'+name+'" value="'+id+'">' +
-                               '<input type="hidden" name="amount" value="'+amt+'">' +
-                               '<input type="hidden" name="description" value="'+lbl+'">';
-              document.body.appendChild(form);
-              form.submit();
-            }
-          });
-        };
-      }
-    }
-  };
-</script>
-</body>
-</html>
+        const amount = parseInt(this.getAttribute('data-amount'));
+        const label = this.getAttribute('data-label') || 'Thunder Mule Coffee';
 
+        OmiseCard.open({
+          amount: amount,
+          currency: 'THB',
+          label: label,
 
+          onCreateTokenSuccess: function(token) {
+            submitToBackend(token, amount, label);
+          },
 
-
-
-
-
-document.addEventListener('DOMContentLoaded', () => {
-  // 1. Initialize Omise (Ensure your public key is 100% correct here)
-  OmiseCard.configure({
-publicKey: 'pkey_live_67de9nyxmv7f1deq1h8',
-    currency: 'THB'
-  });
-
-  // 2. Attach click events to your 3 purple buttons
-  document.querySelectorAll('.opn-button').forEach(button => {
-    button.addEventListener('click', (e) => {
-      e.preventDefault();
-      
-      const amount = button.getAttribute('data-amount');
-      const label = button.getAttribute('data-label');
-
-      // 3. Open the popup without a default method to show the MENU
-            OmiseCard.open({
-        amount: amount,
-        currency: 'THB',
-        otherPaymentMethods: ['promptpay'], // Add this line
-        onCreateTokenSuccess: (id) => {
-
-          // Identify if the user picked a Card (tok_) or PromptPay (src_)
-          const inputName = id.startsWith('src') ? 'omise_source' : 'omise_token';
-          
-          const form = document.createElement('form');
-          form.method = 'POST';
-          form.action = '/api/charge'; 
-          
-          form.innerHTML = `
-            <input type="hidden" name="${inputName}" value="${id}">
-            <input type="hidden" name="amount" value="${amount}">
-            <input type="hidden" name="description" value="${label}">
-          `;
-          
-          document.body.appendChild(form);
-          form.submit();
-        }
+          onCreateSourceSuccess: function(source) {
+            submitToBackend(source.id, amount, label);
+          }
+        });
       });
     });
-  });
-});
+  }
+
+  async function submitToBackend(paymentId, amount, label) {
+    try {
+      const isSource = paymentId.startsWith('src_');
+      const response = await fetch('/api/charge', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          [isSource ? 'omise_source' : 'omise_token']: paymentId,
+          amount: amount,
+          description: label
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.status === 'successful' || response.ok) {
+        alert("✅ PAYMENT SUCCESSFUL! Your Thunder Mule Coffee is on the way!");
+      } else if (data.authorize_uri) {
+        window.location.href = data.authorize_uri;
+      } else {
+        alert("Payment failed: " + (data.error || "Please try again"));
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Payment failed: " + err.message);
+    }
+  }
+
+  // Run when page is ready
+  window.addEventListener('load', setupOmise);
 </script>
 
 
