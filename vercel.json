@@ -3,10 +3,12 @@
   "builds": [
     { "src": "index.html", "use": "@vercel/static" },
     { "src": "index-th.html", "use": "@vercel/static" },
+    { "src": "thank-you.html", "use": "@vercel/static" },
     { "src": "api/charge.js", "use": "@vercel/node" }
   ],
   "routes": [
     { "src": "/api/charge", "dest": "/api/charge.js" },
+    { "src": "/thank-you.html", "dest": "/thank-you.html" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
