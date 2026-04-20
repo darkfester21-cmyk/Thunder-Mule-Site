@@ -26,20 +26,20 @@ module.exports = async (req, res) => {
       return_uri: 'https://thundermulecoffee.com/thank-you.html'
     });
 
-    // PromptPay → redirect to QR code page
     if (charge.authorize_uri) {
+      // PromptPay - redirect to QR page
       res.writeHead(302, { Location: charge.authorize_uri });
       return res.end();
     }
 
-    // Successful card payment → thank you page
-    res.writeHead(302, { Location: '/thank-you.html' });
+    // Successful card payment
+    res.writeHead(302, { Location: '/thank-you.html?status=success' });
     return res.end();
 
   } catch (error) {
-    console.error('Omise Charge Error:', error.message);
+    console.error('Omise Error:', error.message);
     // Failed payment
-    res.writeHead(302, { Location: '/?payment=failed' });
+    res.writeHead(302, { Location: '/?status=failed' });
     return res.end();
   }
 };
