@@ -23,22 +23,34 @@ module.exports = async (req, res) => {
       card: omise_token || undefined,
       source: omise_source || undefined,
       description: description || 'Thunder Mule Coffee Order',
-      return_uri: 'https://thundermulecoffee.com/thank-you.html'
+      return_uri: 'https://thundermulecoffee.com/thank-you.html'   // keep for future redirect flows
     });
 
-    if (charge.authorize_uri) {
-      // PromptPay - redirect to QR page
+    // === NEW LOGIC ===
+    if (charge.status === 'successful' || charge.paid === true) {
+      // Real success
+      res.writeHead(302, { Location: '/thank-you.html?status=success' });
+      return res.end();
+    } 
+    else if (charge.status === 'failed') {
+      // Failed card payment (or other failure)
+      console.error('Omise charge failed:', charge.failure_code, charge.failure_message);
+      res.writeHead(302, { Location: '/?status=failed' });
+      return res.end();
+    } 
+    else if (charge.authorize_uri) {
+      // PromptPay / redirect-based payments (QR, internet banking, etc.)
       res.writeHead(302, { Location: charge.authorize_uri });
+      return res.end();
+    } 
+    else {
+      // Pending or unknown status
+      res.writeHead(302, { Location: '/?status=failed' });
       return res.end();
     }
 
-    // Successful card payment
-    res.writeHead(302, { Location: '/thank-you.html?status=success' });
-    return res.end();
-
   } catch (error) {
     console.error('Omise Error:', error.message);
-    // Failed payment
     res.writeHead(302, { Location: '/?status=failed' });
     return res.end();
   }
