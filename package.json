@@ -1,1 +1,1 @@
-{"name":"thunder-mule-site","version":"1.0.0","dependencies":{"omise":"^1.1.0"}}
+{"name":"thunder-mule-site","version":"1.0.0","dependencies":{"omise":"^1.1.0","resend":"^6.12.0"}}
