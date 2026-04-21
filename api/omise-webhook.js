@@ -3,7 +3,7 @@ const { Resend } = require('resend');
 
 const OMISE_WEBHOOK_SECRET = process.env.OMISE_WEBHOOK_SECRET;
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
-const YOUR_EMAIL = 'huathongbrand@gmail.com';   // ← Change this if you want notifications to a different email
+const YOUR_EMAIL = 'huathongbrand@gmail.com';
 
 const resend = new Resend(RESEND_API_KEY);
 
@@ -40,7 +40,6 @@ module.exports = async (req, res) => {
   const rawBody = req.body ? JSON.stringify(req.body) : '';
   const signature = req.headers['omise-signature'];
 
-  // Signature verification
   if (signature && OMISE_WEBHOOK_SECRET) {
     const expectedSignature = crypto
       .createHmac('sha256', OMISE_WEBHOOK_SECRET)
@@ -96,7 +95,6 @@ module.exports = async (req, res) => {
       }
     }
 
-    // Always return 200 to Omise
     res.status(200).end();
   } catch (err) {
     console.error('Webhook error:', err);
